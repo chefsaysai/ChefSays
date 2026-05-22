@@ -21,7 +21,7 @@ exports.handler = async function(event) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': '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',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01',
         'Content-Length': Buffer.byteLength(data)
       }
@@ -46,11 +46,4 @@ exports.handler = async function(event) {
       resolve({
         statusCode: 500,
         headers: { 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: e.message })
-      });
-    });
-
-    req.write(data);
-    req.end();
-  });
-};
+        body: JSON.stringify({ error: e.mes
