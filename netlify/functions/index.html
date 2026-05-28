@@ -1,40 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChefSays.ai — Your AI Food Expert</title>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fffbf5; min-height: 100vh; display: flex; flex-direction: column; }
-:root {
-  --orange: #ff8c00; --orange-dark: #e67e00; --yellow: #ffc107;
-  --green: #2e7d32; --green-light: #4caf50;
-  --dark: #1a1a1a; --bg: #fffbf5; --white: #ffffff;
-  --border: #ffe0b2; --gray: #6b7280; --light: #9ca3af;
-  --success: #2e7d32; --danger: #e53935;
-}
-.header { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.4); flex-shrink: 0; }
-.logo-img { height: 80px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(255,140,0,0.5)); }
-.header-right { display: flex; gap: 8px; align-items: center; }
-.online-pill { background: rgba(76,175,80,0.15); border: 1px solid rgba(76,175,80,0.3); color: var(--green-light); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
-.pulse { width: 6px; height: 6px; background: var(--green-light); border-radius: 50%; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.hbtn { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: var(--orange); padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; }
-.hbtn:hover { background: rgba(255,140,0,0.3); }
-.tabs { display: flex; background: #111; border-bottom: 2px solid #2d2d2d; flex-shrink: 0; overflow-x: auto; }
-.tab { flex: 1; padding: 12px 8px; background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; white-space: nowrap; min-width: 72px; border-bottom: 3px solid transparent; }
-.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
-.main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
-.panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
-.panel.active { display: flex; }
-.chat-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-.welcome-card { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius: 20px; padding: 32px 20px; color: white; text-align: center; border: 2px solid rgba(255,140,0,0.4); box-shadow: 0 8px 40px rgba(255,140,0,0.25); }
-.welcome-logo-img { height: 160px; width: auto; margin-bottom: 16px; filter: drop-shadow(0 8px 28px rgba(255,140,0,0.7)); animation: glow 3s ease-in-out infinite; }
-@keyframes glow { 0%,100%{filter:drop-shadow(0 8px 28px rgba(255,140,0,0.7))} 50%{filter:drop-shadow(0 8px 40px rgba(255,210,0,1))} }
-.welcome-sub { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-top: 8px; }
-.msg { display: flex; gap: 10px; align-items: flex-end; }
-.msg.user { flex-direction: row-reverse; align-self: flex-end; max-width: 85%; }
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const OPENAI_KEY = process.env.OPENAI_API_KEY;
+
+const SYSTEM = `You are ChefSays, a warm friendly AI kitchen buddy. CRITICAL: Always respond with ONLY valid JSON, nothing else.
+
+When someone mentions food, ingredients, a meal, or a drink:
+{"message":"1-2 warm fun sentences","recipe":{"name":"Recipe Name","emoji":"one food emoji","description":"one sentence","homeCost":8.50,"restaurantCost":22.00,"ingredients":[{"name":"Chicken breast","quantity":"1 lb","cost":4.00}],"steps":["Step 1. Do this.","Step 2. Do that.","Step 3. Continue.","Step 4. Serve and enjoy."],"tip":"One helpful pro tip."}}
+
+For greetings with no food mention:
+{"message":"warm friendly response","recipe":null}
+
+Rules:
+- homeCost = realistic total grocery cost
+- restaurantCost = what a real restaurant charges
+- Always 4-6 ingredients with real costs
+- Always 4-6 clear steps
+- Be warm and encouraging
+- ONLY JSON. NOTHING ELSE.`;
+
+app.post('/chat', async (req, res) => {
+  try {
+    const { messages } = req.body;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        max_tokens: 1500,
+        messages: [{ role: 'system', content: SYSTEM }, ...messages]
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      return res.status(400).json({ error: data.error.message });
+    }
+
+    const text = data.choices[0].message.content;
+    res.json({ text });
+
+  } catch (err) {
+    res.status(500).json({ error: 'Server error: ' + err.message });
+  }
+});
+
+app.get('/', (req, res) => {
+  res.json({ status: 'ChefSays API is running!' });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`ChefSays server running on port ${PORT}`);
+});.msg.user { flex-direction: row-reverse; align-self: flex-end; max-width: 85%; }
 .msg.ai { align-self: flex-start; max-width: 96%; width: 100%; }
 .av { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
 .av.ai { background: linear-gradient(135deg, var(--orange), var(--yellow)); }
