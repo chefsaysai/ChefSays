@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>ChefSays.ai</title>
+<style>
+html{height:-webkit-fill-available}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FFFAF6;max-width:430px;margin:0 auto;height:100vh;height:-webkit-fill-available;display:flex;flex-direction:column;overflow:hidden}
+button{cursor:pointer;border:none;font-family:inherit}
+::-webkit-scrollbar{width:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.tabbar{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;flex-shrink:0}
+.tb{flex:1;padding:12px 4px 10px;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#C4956A;border-bottom:2.5px solid transparent}
+.tb.on{color:#FF6B35;border-bottom-color:#FF6B35}
+.page{display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden}
+.page.on{display:flex}
+.scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px}
+#msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ai-row{display:flex;gap:10px;align-items:flex-end;animation:fadein .3s ease}
+.user-row{display:flex;justify-content:flex-end;animation:fadein .3s ease}
+.av{width:32px;height:32px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#FFF;flex-shrink:0}
+.bub-ai{background:#FFF;border:1.5px solid #FFE0CC;border-radius:6px 18px 18px 18px;padding:12px 15px;font-size:14px;color:#2D1810;line-height:1.7;max-width:86%;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bub-user{background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 6px 18px 18px;padding:12px 15px;font-size:14px;color:#FFF;font-weight:600;max-width:76%}
+.dots{background:#FFF;border:1.5px solid #FFE0CC;border-radius:6px 18px 18px 18px;padding:12px 15px;display:flex;gap:5px;align-items:center}
+.dot{width:7px;height:7px;background:#FFD4B8;border-radius:50%;animation:pulse .8s ease infinite}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
+.ibar{background:#FFF;border-top:1.5px solid #FFE0CC;padding:10px 12px;padding-bottom:max(10px,env(safe-area-inset-bottom));display:flex;gap:10px;align-items:center;flex-shrink:0}
+#inp{flex:1;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:22px;padding:11px 16px;font-size:14px;color:#2D1810;outline:none;resize:none;max-height:80px;line-height:1.4;font-family:inherit}
+#inp:focus{border-color:#FF6B35}
+#send-btn{width:44px;height:44px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:50%;color:#FFF;font-size:22px;flex-shrink:0}
+#send-btn:disabled{opacity:.45}
+.sav-hero{margin:16px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:22px;padding:28px 20px;text-align:center;color:#FFF}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 16px 14px}
+.sbox{background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;text-align:center}
+.logsheet{display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.4);z-index:200;align-items:flex-end}
+.logsheet.on{display:flex}
+#toast{display:none;position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:#2D1810;color:#FFF;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:300;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <button class="tb on" id="tb-chat" onclick="goTab('chat')"><span style="font-size:20px">&#x1F4AC;</span>Chat</button>
+  <button class="tb" id="tb-savings" onclick="goTab('savings')"><span style="font-size:20px">&#x1F4B0;</span>Savings</button>
+  <button class="tb" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">&#x1F4C5;</span>Meal Prep</button>
+  <button class="tb" id="tb-catering" onclick="goTab('catering')"><span style="font-size:20px">&#x1F373;</span>Catering</button>
+</div>
+
+<!-- CHAT PAGE -->
+<div id="pg-chat" class="page on">
+  <div id="msgs"></div>
+  <div class="ibar">
+    <textarea id="inp" rows="1" placeholder="Tell me what you have or what you want to make..."></textarea>
+    <button id="send-btn" onclick="send()">&#x2192;</button>
+  </div>
+</div>
+
+<!-- SAVINGS PAGE -->
+<div id="pg-savings" class="page">
+  <div class="scr">
+    <div class="sav-hero">
+      <div style="font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:8px">Total Saved Cooking at Home</div>
+      <div id="sav-total" style="font-size:54px;font-weight:800;font-family:Georgia,serif;letter-spacing:-2px;line-height:1">$0.00</div>
+      <div id="sav-sub" style="font-size:13px;opacity:.8;margin-top:8px">Start cooking to grow your savings!</div>
+    </div>
+    <div class="stat-grid">
+      <div class="sbox"><div id="sav-meals" style="font-size:22px;font-weight:800;color:#FF6B35;margin-bottom:3px">0</div><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600">Meals</div></div>
+      <div class="sbox"><div id="sav-streak" style="font-size:22px;font-weight:800;color:#FF6B35;margin-bottom:3px">0</div><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600">Streak</div></div>
+      <div class="sbox"><div id="sav-avg" style="font-size:22px;font-weight:800;color:#FF6B35;margin-bottom:3px">$0</div><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600">Avg Save</div></div>
+    </div>
+    <div style="margin:0 16px 14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;text-align:center;font-size:13px;color:#9B7B6E;line-height:1.6">Your savings are completely private. Only you can see them.</div>
+    <div id="sav-list"></div>
+  </div>
+</div>
+
+<!-- MEAL PREP PAGE -->
+<div id="pg-prep" class="page">
+  <div class="scr">
+    <div style="margin:16px;background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:20px;padding:20px;color:#FFF">
+      <div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Weekly Meal Prep</div>
+      <div style="font-size:14px;opacity:.85">Plan your whole week. Save time and money.</div>
+    </div>
+    <div style="display:flex;gap:8px;margin:0 16px 14px" id="plan-tabs">
+      <button onclick="showPlan('family',this)" style="flex:1;background:#FF6B35;border:1.5px solid #FF6B35;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#FFF;cursor:pointer">Family</button>
+      <button onclick="showPlan('fitness',this)" style="flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer">Fitness</button>
+      <button onclick="showPlan('budget',this)" style="flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer">Budget</button>
+    </div>
+    <div id="mp-days"></div>
+  </div>
+</div>
+
+<!-- CATERING PAGE -->
+<div id="pg-catering" class="page">
+  <div class="scr">
+    <div style="margin:16px;background:linear-gradient(135deg,#A855F7,#7C3AED);border-radius:22px;padding:24px 20px;color:#FFF">
+      <div style="font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-weight:700">Catering Tools</div>
+      <div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:6px">Know your profit before you say yes</div>
+      <div style="font-size:13px;opacity:.85;line-height:1.6">Know your exact cost per head before you quote any client.</div>
+    </div>
+    <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:20px;margin:0 16px 14px">
+      <label style="font-size:12px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:block">Number of guests</label>
+      <input id="cat-g" type="number" placeholder="e.g. 50" oninput="calcCat()" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 14px;font-size:16px;color:#2D1810;outline:none;font-weight:700;margin-bottom:14px;font-family:inherit"/>
+      <label style="font-size:12px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:block">Your price per head ($)</label>
+      <input id="cat-p" type="number" placeholder="e.g. 35" oninput="calcCat()" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 14px;font-size:16px;color:#2D1810;outline:none;font-weight:700;font-family:inherit"/>
+      <div id="cat-result" style="display:none;margin-top:16px;background:rgba(168,85,247,.06);border:1.5px solid rgba(168,85,247,.2);border-radius:16px;padding:16px;text-align:center">
+        <div style="font-size:13px;font-weight:700;color:#A855F7;margin-bottom:10px">Your Event Breakdown</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="background:#FFF;border:1px solid #FFE0CC;border-radius:12px;padding:12px"><div style="font-size:10px;color:#C4956A;font-weight:600;text-transform:uppercase;margin-bottom:4px">Food Cost</div><div id="cr-food" style="font-size:18px;font-weight:800;color:#2D1810">$0</div></div>
+          <div style="background:#FFF;border:1px solid #FFE0CC;border-radius:12px;padding:12px"><div style="font-size:10px;color:#C4956A;font-weight:600;text-transform:uppercase;margin-bottom:4px">Revenue</div><div id="cr-rev" style="font-size:18px;font-weight:800;color:#FF6B35">$0</div></div>
+          <div style="background:#FFF;border:1px solid #FFE0CC;border-radius:12px;padding:12px"><div style="font-size:10px;color:#C4956A;font-weight:600;text-transform:uppercase;margin-bottom:4px">Profit</div><div id="cr-profit" style="font-size:18px;font-weight:800;color:#22C55E">$0</div></div>
+        </div>
+        <div id="cr-note" style="font-size:12px;color:#9B7B6E;margin-top:10px"></div>
+      </div>
+    </div>
+    <div style="margin:0 16px 20px;background:rgba(168,85,247,.06);border:1.5px solid rgba(168,85,247,.2);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:14px;font-weight:700;color:#7C3AED;margin-bottom:4px">Catering Plan - $19.99/month</div>
+      <div style="font-size:13px;color:#9B7B6E">Full P&amp;L tools, live pricing, event management, client quotes.</div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG SHEET -->
+<div id="logsheet" class="logsheet">
+  <div style="background:#FFF;border-radius:24px 24px 0 0;padding:28px 20px 44px;width:100%">
+    <div style="text-align:center;font-size:44px;margin-bottom:8px">&#x1F389;</div>
+    <div style="font-weight:800;font-size:22px;color:#2D1810;font-family:Georgia,serif;text-align:center;margin-bottom:14px">Nice work, Chef!</div>
+    <div style="background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:18px;padding:20px;text-align:center;margin-bottom:20px">
+      <div style="font-size:11px;color:#C4956A;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-weight:600">You just saved</div>
+      <div id="ls-val" style="font-size:52px;font-weight:800;color:#22C55E;font-family:Georgia,serif;letter-spacing:-2px">$0</div>
+      <div id="ls-eq" style="font-size:13px;color:#9B7B6E;margin-top:6px"></div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="doLog()" style="flex:1;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border-radius:14px;padding:16px;font-weight:700;font-size:15px;cursor:pointer;border:none">Log It!</button>
+      <button onclick="closeLog()" style="flex:1;background:#FFF8F0;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:14px;padding:16px;font-weight:600;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+var history=[],log=JSON.parse(localStorage.getItem('cs')||'[]'),ps=0,pn='';
+var PLANS={
+  family:[{d:'Monday',b:'Overnight Oats',l:'Chicken Caesar Wrap',dn:'Butter Chicken'},{d:'Tuesday',b:'Banana Pancakes',l:'Grilled Cheese + Soup',dn:'Pan Seared Salmon'},{d:'Wednesday',b:'Avocado Toast',l:'Chicken Quesadilla',dn:'Street Tacos'},{d:'Thursday',b:'Scrambled Eggs',l:'Pasta Salad',dn:'Chicken Stir Fry'},{d:'Friday',b:'Latte at Home',l:'Flatbread Pizza',dn:'Pasta Carbonara'},{d:'Saturday',b:'French Toast',l:'BLT Sandwich',dn:'Smash Burgers'},{d:'Sunday',b:'Shakshuka',l:'Leftovers Remix',dn:'Slow Cooked Brisket'}],
+  fitness:[{d:'Monday',b:'Egg White Scramble',l:'Salmon Power Bowl',dn:'Chicken Stir Fry'},{d:'Tuesday',b:'Green Smoothie',l:'Chicken Caesar Wrap',dn:'Pan Seared Salmon'},{d:'Wednesday',b:'Avocado Toast',l:'Protein Bowl',dn:'Shrimp and Asparagus'},{d:'Thursday',b:'Overnight Oats',l:'Lettuce Wrap',dn:'Grilled Steak'},{d:'Friday',b:'Banana Pancakes',l:'Salmon Salad',dn:'Street Tacos'},{d:'Saturday',b:'Shakshuka',l:'Chicken Quesadilla',dn:'Butter Chicken'},{d:'Sunday',b:'Scrambled Eggs',l:'Burrito Bowl',dn:'Lentil Soup'}],
+  budget:[{d:'Monday',b:'Overnight Oats',l:'Grilled Cheese + Soup',dn:'Lentil Soup'},{d:'Tuesday',b:'Eggs on Toast',l:'Pizza Toast',dn:'Pasta Carbonara'},{d:'Wednesday',b:'Banana Pancakes',l:'Chicken Quesadilla',dn:'Street Tacos'},{d:'Thursday',b:'Green Smoothie',l:'Pasta Salad',dn:'Marinara Pasta'},{d:'Friday',b:'Avocado Toast',l:'BLT Sandwich',dn:'Smash Burger'},{d:'Saturday',b:'French Toast',l:'Flatbread Pizza',dn:'Chicken Stir Fry'},{d:'Sunday',b:'Shakshuka',l:'Leftover Remix',dn:'Bean Soup'}]
+};
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window._t);window._t=setTimeout(function(){t.style.display='none';},2600);}
+function bot(){setTimeout(function(){var e=document.getElementById('msgs');if(e)e.scrollTop=e.scrollHeight;},80);}
+function eq(n){return n>=30?'That is a tank of gas!':n>=20?'That is 4 Starbucks!':'Every dollar adds up!';}
+function goTab(t){
+  ['chat','savings','prep','catering'].forEach(function(x){
+    var p=document.getElementById('pg-'+x);if(p)p.className='page';
+    var b=document.getElementById('tb-'+x);if(b)b.className='tb';
+  });
+  var p=document.getElementById('pg-'+t);if(p)p.className='page on';
+  var b=document.getElementById('tb-'+t);if(b)b.className='tb on';
+  if(t==='savings')renderSav();
+}
+function av(){var a=document.createElement('div');a.className='av';a.textContent='C';return a;}
+function aiMsg(text){
+  if(!text)return;
+  var msgs=document.getElementById('msgs');
+  var row=document.createElement('div');row.className='ai-row';
+  var bub=document.createElement('div');bub.className='bub-ai';
+  bub.innerHTML=text.replace(/\n/g,'<br>');
+  row.appendChild(av());row.appendChild(bub);
+  msgs.appendChild(row);bot();
+}
+function userMsg(text){
+  var msgs=document.getElementById('msgs');
+  var row=document.createElement('div');row.className='user-row';
+  var bub=document.createElement('div');bub.className='bub-user';bub.textContent=text;
+  row.appendChild(bub);msgs.appendChild(row);bot();
+}
+function showDots(){
+  var msgs=document.getElementById('msgs');
+  var row=document.createElement('div');row.className='ai-row';
+  var dots=document.createElement('div');dots.className='dots';
+  for(var i=0;i<3;i++){var d=document.createElement('div');d.className='dot';dots.appendChild(d);}
+  row.appendChild(av());row.appendChild(dots);msgs.appendChild(row);bot();return row;
+}
+function addCard(recipe){
+  var name=String(recipe.name||recipe.title||'Recipe');
+  var desc=String(recipe.description||recipe.desc||'');
+  var hc=parseFloat(recipe.homeCost||recipe.home_cost||0)||0;
+  var rc=parseFloat(recipe.restaurantCost||recipe.restaurant_cost||0)||0;
+  if(rc<=hc)rc=+(hc*2.5).toFixed(2);
+  var sv=Math.max(0,+(rc-hc).toFixed(2));
+  var ings=Array.isArray(recipe.ingredients)?recipe.ingredients:[];
+  var steps=Array.isArray(recipe.steps)?recipe.steps:Array.isArray(recipe.instructions)?recipe.instructions:[];
+  var tip=String(recipe.tip||recipe.pro_tip||'');
+
+  var html='<div style="background:linear-gradient(135deg,#FF6B35,#FF8C42);padding:16px 18px">'
+    +'<div style="font-size:18px;font-weight:800;color:#FFF;font-family:Georgia,serif;margin-bottom:4px">'+name+'</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.45">'+desc+'</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr">'
+    +'<div style="padding:14px;text-align:center;border-right:1px solid #FFE0CC">'
+    +'<div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600;letter-spacing:.8px;margin-bottom:4px">Cook at Home</div>'
+    +'<div style="font-size:28px;font-weight:800;color:#FF6B35">$'+hc.toFixed(2)+'</div>'
+    +'</div>'
+    +'<div style="padding:14px;text-align:center">'
+    +'<div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600;letter-spacing:.8px;margin-bottom:4px">At a Restaurant</div>'
+    +'<div style="font-size:28px;font-weight:800;color:#C4956A">$'+rc.toFixed(2)+'</div>'
+    +'</div></div>'
+    +'<div style="background:linear-gradient(135deg,#22C55E,#16A34A);padding:12px 16px;display:flex;justify-content:space-between;align-items:center">'
+    +'<div style="color:#FFF;font-size:13px;font-weight:700">You save cooking at home</div>'
+    +'<div style="color:#FFF;font-size:26px;font-weight:800;letter-spacing:-1px">$'+sv.toFixed(2)+'</div>'
+    +'</div>';
+
+  if(ings.length){
+    html+='<div style="padding:14px 16px;border-top:1px solid #FFE0CC">'
+      +'<div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Ingredients and Cost</div>';
+    for(var i=0;i<ings.length;i++){
+      var ig=ings[i];
+      var iname=String(ig.name||ig.ingredient||'');
+      var iqty=String(ig.quantity||ig.amount||'');
+      var ic=parseFloat(ig.cost||ig.price||0)||0;
+      html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #FFF5F0;font-size:13px">'
+        +'<span style="color:#2D1810">'+iname+(iqty?' ('+iqty+')':'')+'</span>'
+        +'<span style="color:#FF6B35;font-weight:700">$'+ic.toFixed(2)+'</span>'
+        +'</div>';
+    }
+    html+='</div>';
+  }
+
+  if(steps.length){
+    html+='<div style="padding:14px 16px;border-top:1px solid #FFE0CC">'
+      +'<div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">How to Make It</div>';
+    for(var j=0;j<steps.length;j++){
+      var st=typeof steps[j]==='string'?steps[j]:String(steps[j].step||steps[j].text||steps[j]);
+      html+='<div style="display:flex;gap:10px;margin-bottom:10px">'
+        +'<div style="min-width:24px;height:24px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#FFF;flex-shrink:0">'+(j+1)+'</div>'
+        +'<div style="font-size:13px;color:#2D1810;line-height:1.55;padding-top:3px">'+st+'</div>'
+        +'</div>';
+    }
+    html+='</div>';
+  }
+
+  if(tip){
+    html+='<div style="margin:0 16px 12px;background:#FFF8F0;border-left:3px solid #FF6B35;border-radius:0 10px 10px 0;padding:11px 13px">'
+      +'<div style="font-size:10px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">Pro Tip</div>'
+      +'<div style="font-size:12px;color:#9B7B6E;line-height:1.5">'+tip+'</div>'
+      +'</div>';
+  }
+
+  var card=document.createElement('div');
+  card.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-bottom:12px;animation:fadein .3s ease';
+  card.innerHTML=html;
+
+  var lb=document.createElement('button');
+  lb.style.cssText='width:calc(100% - 32px);margin:0 16px 16px;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border-radius:14px;padding:14px;font-weight:700;font-size:14px;border:none;cursor:pointer;display:block';
+  lb.textContent='I Made This! Log My $'+sv.toFixed(2)+' Savings';
+  (function(s,n){lb.onclick=function(){ps=s;pn=n;document.getElementById('ls-val').textContent='$'+s.toFixed(2);document.getElementById('ls-eq').textContent=eq(s);document.getElementById('logsheet').className='logsheet on';};})(sv,name);
+  card.appendChild(lb);
+
+  document.getElementById('msgs').appendChild(card);
+  bot();
+}
+function moreBtn(){
+  var b=document.createElement('button');
+  b.style.cssText='display:block;width:calc(100% - 28px);margin:4px 14px 8px;background:#FFF;border:1.5px solid #FFD4B8;color:#FF6B35;border-radius:14px;padding:13px;font-weight:700;font-size:14px;cursor:pointer;text-align:center';
+  b.textContent='None of these? Show me 3 more options';
+  b.onclick=function(){b.remove();document.getElementById('inp').value='Show me 3 different recipe options';send();};
+  document.getElementById('msgs').appendChild(b);
+  bot();
+}
+async function send(){
+  var inp=document.getElementById('inp');
+  var text=inp.value.trim();if(!text)return;
+  inp.value='';inp.style.height='auto';
+  userMsg(text);
+  history.push({role:'user',content:text});
+  var btn=document.getElementById('send-btn');btn.disabled=true;
+  var dots=showDots();
+  try{
+    var res=await fetch('https://chefsays.onrender.com/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
+    var data=await res.json();
+    dots.remove();
+    if(data.error){
+      aiMsg('API Error: ' + (data.error || JSON.stringify(data)));
+    } else {
+      var raw=data.text;
+      history.push({role:'assistant',content:raw});
+      try{
+        var clean=raw.replace(/```json/g,'').replace(/```/g,'').trim();
+        var s=clean.indexOf('{'),e=clean.lastIndexOf('}');
+        var parsed=JSON.parse(s>=0?clean.substring(s,e+1):clean);
+        if(parsed.message)aiMsg(parsed.message);
+        var recipes=parsed.recipes||[];
+        if(recipes.length){
+          recipes.forEach(function(r){addCard(r);});
+          moreBtn();
+        } else if(parsed.recipe){
+          addCard(parsed.recipe);
+          moreBtn();
+        }
+      } catch(err){
+        aiMsg(raw);
+      }
+    }
+  } catch(err){
+    dots.remove();
+    aiMsg('ERROR: ' + err.message + ' -- Please screenshot this and send to developer');
+  }
+  btn.disabled=false;
+}
+function closeLog(){document.getElementById('logsheet').className='logsheet';}
+function doLog(){
+  log.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps});
+  localStorage.setItem('cs',JSON.stringify(log));
+  closeLog();renderSav();
+  toast('Logged! You saved $'+ps.toFixed(2)+'!');
+  aiMsg('You saved $'+ps.toFixed(2)+' on '+pn+'! Every meal at home adds up. What do you want to make next?');
+}
+function renderSav(){
+  var total=log.reduce(function(s,l){return s+l.saved;},0);
+  document.getElementById('sav-total').textContent='$'+total.toFixed(2);
+  document.getElementById('sav-meals').textContent=log.length;
+  document.getElementById('sav-streak').textContent=Math.min(log.length,7);
+  document.getElementById('sav-avg').textContent=log.length?'$'+(total/log.length).toFixed(0):'$0';
+  document.getElementById('sav-sub').textContent=total>0?eq(total):'Start cooking to grow your savings!';
+  var list=document.getElementById('sav-list');while(list.firstChild)list.removeChild(list.firstChild);
+  if(!log.length){
+    var e=document.createElement('div');e.style.cssText='text-align:center;padding:40px 20px;font-size:13px;color:#C4956A;line-height:1.7';
+    e.textContent='No meals logged yet. Cook something and tap I Made This to start!';list.appendChild(e);
+  } else {
+    log.forEach(function(l){
+      var row=document.createElement('div');
+      row.style.cssText='margin:0 16px 10px;background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center';
+      row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';
+      list.appendChild(row);
+    });
+  }
+}
+function showPlan(key,el){
+  document.querySelectorAll('#plan-tabs button').forEach(function(b){b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';});
+  if(el){el.style.background='#FF6B35';el.style.color='#FFF';el.style.borderColor='#FF6B35';}
+  var plan=PLANS[key];var c=document.getElementById('mp-days');if(!c)return;
+  while(c.firstChild)c.removeChild(c.firstChild);
+  plan.forEach(function(d){
+    var card=document.createElement('div');
+    card.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin:0 16px 11px';
+    card.innerHTML='<div style="font-weight:700;font-size:16px;color:#2D1810;font-family:Georgia,serif;margin-bottom:12px">'+d.d+'</div>'
+      +'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px 12px;margin-bottom:8px"><div style="font-size:10px;color:#FF6B35;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Breakfast</div><div style="font-size:14px;font-weight:600;color:#2D1810">'+d.b+'</div></div>'
+      +'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px 12px;margin-bottom:8px"><div style="font-size:10px;color:#FF6B35;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Lunch</div><div style="font-size:14px;font-weight:600;color:#2D1810">'+d.l+'</div></div>'
+      +'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px 12px"><div style="font-size:10px;color:#FF6B35;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Dinner</div><div style="font-size:14px;font-weight:600;color:#2D1810">'+d.dn+'</div></div>';
+    c.appendChild(card);
+  });
+}
+function calcCat(){
+  var g=parseInt(document.getElementById('cat-g').value)||0;
+  var p=parseFloat(document.getElementById('cat-p').value)||0;
+  var r=document.getElementById('cat-result');
+  if(g>0&&p>0){
+    var food=+(p*0.35*g).toFixed(0),rev=+(p*g).toFixed(0),profit=rev-food,margin=Math.round(profit/rev*100);
+    document.getElementById('cr-food').textContent='$'+food;
+    document.getElementById('cr-rev').textContent='$'+rev;
+    document.getElementById('cr-profit').textContent='$'+profit;
+    document.getElementById('cr-note').textContent='Profit margin: '+margin+'%. '+(margin>=50?'Excellent!':margin>=30?'Good margin.':'Consider raising your price.');
+    r.style.display='block';
+  } else r.style.display='none';
+}
+document.getElementById('inp').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
+document.getElementById('logsheet').addEventListener('click',function(e){if(e.target===this)closeLog();});
+document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+
+// Welcome message
+(function(){
+  var h=new Date().getHours();
+  var g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  aiMsg(g+'! I am your kitchen buddy. Tell me what you have in your fridge and I will build you 3 complete custom recipes with every ingredient priced out and show you exactly what you save versus eating out. What are we making?');
+  showPlan('family',document.querySelector('#plan-tabs button'));
+  renderSav();
+})();
+</script>
+</body>
+</html>
