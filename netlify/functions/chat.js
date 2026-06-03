@@ -31,12 +31,12 @@ exports.handler = async function(event) {
       + '"steps":["Step 1","Step 2","Step 3","Step 4"],'
       + '"tip":"One helpful pro tip"'
       + '}]} '
-      + 'If an image is provided: scan it for all visible ingredients, then build a recipe using those ingredients. '
+      + 'If an image is provided: ONLY use ingredients you can CLEARLY and CONFIDENTLY see in the photo. Do NOT guess or add ingredients that are not visible. If you can only see 2-3 items, only use those. Start your message by listing exactly what you saw: I can see [only what is visible] in your photo. '
       + 'Start the message with what you detected: "I can see [ingredients] in your fridge! Here is what I can make..." '
       + 'Rules: homeCost = realistic grocery cost. restaurantCost = restaurant price. '
       + 'calories = realistic per serving. difficulty = Easy Medium or Hard. '
       + 'Always 4+ ingredients with costs. Always 4+ steps. '
-      + 'Works for food AND cocktails. '
+      + 'Works for food AND cocktails. ' + 'If the user mentions minutes or time (like 10 minutes, 20 minutes), build recipes that can be made in that time or less. Show prep time prominently. Give speed hacks. ' + 'If the user asks for meal prep, give recipes that can be batch cooked on Sunday and stored for the whole week. Include storage tips and how many days each lasts. '
       + 'For greetings only: {"message":"warm response","recipes":[]}. '
       + 'ONLY JSON. ALWAYS.';
 
@@ -61,7 +61,7 @@ exports.handler = async function(event) {
           },
           {
             type: 'text',
-            text: 'Please scan this fridge photo, identify all the ingredients you can see, and build me a recipe using what I have. Show me the savings vs eating out.'
+            text: 'Please scan this '+( image.photoType || 'fridge')+' photo. Only list ingredients you can CLEARLY see. Do not add ingredients not visible. Build a recipe using only what you see and show me my savings vs eating out.'
           }
         ]
       });
