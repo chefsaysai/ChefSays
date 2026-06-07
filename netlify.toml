@@ -1,0 +1,10 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[functions]
+  node_bundler = "esbuild"
+
+[build.environment]
+  NODE_VERSION = "18"
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
