@@ -1,5 +1,10 @@
 # This file configures the build and deployment settings for Netlify.
 
+[build]
+  command = "npm run build"
+  publish = "."
+  functions = "netlify/functions"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
