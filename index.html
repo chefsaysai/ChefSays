@@ -180,7 +180,7 @@ button{cursor:pointer;border:none;font-family:inherit}
   <div class="tabs">
     <button class="tab on" id="tb-chat" onclick="goTab('chat')"><span style="font-size:20px">💬</span>Chat</button>
     <button class="tab" id="tb-sav" onclick="goTab('sav')"><span style="font-size:20px">💰</span>Savings</button>
-    <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Meal Prep</button>
+    <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Plans</button>
     <button class="tab" id="tb-cat" onclick="goTab('cat')"><span style="font-size:20px">🍳</span>Catering</button>
     <button class="tab" id="tb-acct" onclick="showAuthModal()" style="flex:none;padding:12px 10px"><span style="font-size:20px">👤</span></button>
   </div>
@@ -362,7 +362,7 @@ button{cursor:pointer;border:none;font-family:inherit}
   <!-- MEAL PREP PAGE -->
   <div id="pg-prep" class="page">
     <div class="scr">
-      <div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:20px;padding:20px;color:#FFF;margin-bottom:14px"><div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Weekly Meal Prep</div><div style="font-size:14px;opacity:.85">Plan your whole week. Save time and money.</div></div>
+      <div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:20px;padding:20px;color:#FFF;margin-bottom:14px"><div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Weekly Meal Plans</div><div style="font-size:14px;opacity:.85">Plan your whole week. Save time and money.</div></div>
       <div style="display:flex;gap:8px;margin-bottom:14px">
         <button class="ptab on" id="pt-fam" onclick="showPlan('family',this)" style="flex:1;background:#FF6B35;border:1.5px solid #FF6B35;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#FFF;cursor:pointer">Family</button>
         <button class="ptab" id="pt-fit" onclick="showPlan('fitness',this)" style="flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer">Fitness</button>
@@ -462,8 +462,8 @@ button{cursor:pointer;border:none;font-family:inherit}
 </div>
 
 <!-- AUTH MODAL -->
-<div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#FFF;border-radius:24px;padding:28px 22px;width:100%">
+<div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div id="auth-view" style="background:#FFF;border-radius:24px;padding:28px 22px;width:100%">
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:32px;margin-bottom:8px">👨‍🍳</div>
       <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Welcome to ChefSays</div>
@@ -472,16 +472,26 @@ button{cursor:pointer;border:none;font-family:inherit}
     <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
     <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:16px;font-family:inherit"/>
-    <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
-    <button onclick="doAuth('login')" id="auth-login-btn" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Already have an account? Sign In</button>
+    <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Create Free Account →</button><button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Sign In →</button>
+    <button onclick="setAuthMode('login')" id="auth-signin-link" style="display:block;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:14px;padding: 8px;">Already have an account? Sign In</button>
+    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:14px;padding: 8px;">New here? Create a free account</button>
     <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
+  </div>
+  <div id="profile-view" style="display:none; background:#FFF;border-radius:24px;padding:28px 22px;width:100%">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:32px;margin-bottom:8px">👤</div>
+      <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Your Account</div>
+      <div id="profile-email" style="font-size:13px;color:#9B7B6E"></div>
+    </div>
+    <button onclick="logout()" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Sign Out</button>
+    <button onclick="document.getElementById('auth-modal').style.display='none'" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Close</button>
   </div>
 </div>
 
 <!-- PAYWALL -->
-<div id="paywall" class="paywall">
-  <div style="background:#FFF;border-radius:24px;padding:28px 20px;width:100%;text-align:center">
+<div id="paywall" class="paywall" onclick="this.className='paywall'">
+  <div style="background:#FFF;border-radius:24px;padding:28px 20px;width:100%;text-align:center" onclick="event.stopPropagation()">
     <div style="font-size:44px;margin-bottom:12px">🔒</div>
     <div style="font-size:22px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:6px">Your free trial has ended</div>
     <div style="font-size:14px;color:#9B7B6E;margin-bottom:20px;line-height:1.6">Upgrade to keep cooking and saving money every day.</div>
@@ -522,12 +532,14 @@ async function initAuth(){
     _user = session.user;
     _token = session.access_token;
     await loadProfile();
+    updateAcctButton(true);
   }
   _sb.auth.onAuthStateChange(function(event, session){
     if(session){
       _user = session.user;
       _token = session.access_token;
       loadProfile();
+      updateAcctButton(true);
     } else {
       _user = null;
       _token = null;
@@ -535,6 +547,12 @@ async function initAuth(){
     }
   });
   }catch(e){ console.log('Auth init error:', e.message); }
+}
+
+function updateAcctButton(isLoggedIn){
+  const acctBtn = document.getElementById('tb-acct');
+  if(!acctBtn) return;
+  acctBtn.style.borderColor = isLoggedIn ? '#22C55E' : 'transparent';
 }
 
 async function loadProfile(){
@@ -549,6 +567,30 @@ async function loadProfile(){
   }catch(e){}
 }
 
+var _authMode = 'signup';
+function setAuthMode(mode) {
+  _authMode = mode;
+  const signupBtn = document.getElementById('auth-signup-btn');
+  const loginBtn = document.getElementById('auth-login-btn');
+  const signinLink = document.getElementById('auth-signin-link');
+  const signupLink = document.getElementById('auth-signup-link');
+  const subtitle = document.getElementById('auth-subtitle');
+
+  if (mode === 'login') {
+    if(subtitle) subtitle.textContent = 'Welcome back — sign in to your account';
+    if(signupBtn) signupBtn.style.display = 'none';
+    if(loginBtn) loginBtn.style.display = 'block';
+    if(signinLink) signinLink.style.display = 'none';
+    if(signupLink) signupLink.style.display = 'block';
+  } else { // signup
+    if(subtitle) subtitle.textContent = 'Sign up to save your recipes, savings and chat history';
+    if(signupBtn) signupBtn.style.display = 'block';
+    if(loginBtn) loginBtn.style.display = 'none';
+    if(signinLink) signinLink.style.display = 'block';
+    if(signupLink) signupLink.style.display = 'none';
+  }
+}
+
 async function doAuth(type){
   if(!_sb){ toast('Account system loading... try again'); return; }
   var email = document.getElementById('auth-email').value.trim();
@@ -558,7 +600,7 @@ async function doAuth(type){
   if(password.length<6){ errEl.style.display='block'; errEl.textContent='Password must be at least 6 characters'; return; }
   errEl.style.display='none';
   var btn = document.getElementById(type==='signup'?'auth-signup-btn':'auth-login-btn');
-  btn.textContent = 'Please wait...'; btn.disabled=true;
+  if(btn) { btn.textContent = 'Please wait...'; btn.disabled=true; }
   try{
     var result = type==='signup'
       ? await _sb.auth.signUp({email, password})
@@ -566,8 +608,7 @@ async function doAuth(type){
     if(result.error){
       errEl.style.display='block';
       errEl.textContent = result.error.message;
-      btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
-      btn.disabled=false;
+      if(btn) { btn.textContent = type==='signup'?'Create Free Account →':'Sign In →'; btn.disabled=false; }
     } else {
       document.getElementById('auth-modal').style.display='none';
       if(type==='signup') toast('Welcome to ChefSays! 🎉');
@@ -575,8 +616,7 @@ async function doAuth(type){
     }
   }catch(e){
     errEl.style.display='block'; errEl.textContent='Something went wrong. Try again.';
-    btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
-    btn.disabled=false;
+    if(btn) { btn.textContent = type==='signup'?'Create Free Account →':'Sign In →'; btn.disabled=false; }
   }
 }
 
@@ -587,7 +627,27 @@ function continueAsGuest(){
 
 function showAuthModal(){
   if(!_sb){ toast('Sign-in coming soon!'); return; }
+  const authModal = document.getElementById('auth-modal');
+  const authView = document.getElementById('auth-view');
+  const profileView = document.getElementById('profile-view');
+  if (_user) {
+    authView.style.display = 'none';
+    profileView.style.display = 'block';
+    document.getElementById('profile-email').textContent = _user.email;
+  } else {
+    authView.style.display = 'block';
+    profileView.style.display = 'none';
+  }
+  setAuthMode('signup'); // Reset to signup view every time it's opened
   document.getElementById('auth-modal').style.display='flex';
+}
+
+async function logout() {
+  if (!_sb) return;
+  await _sb.auth.signOut();
+  document.getElementById('auth-modal').style.display = 'none';
+  updateAcctButton(false);
+  toast('You have been signed out.');
 }
 
 async function saveConversation(question, response, type, cuisine, mealType){
@@ -741,6 +801,7 @@ function launch(){
   showView('home');
   showPlan('family',document.getElementById('pt-fam'));
   renderSav();
+  updateAcctButton(!!_user);
 }
 
 function goTab(t){
@@ -840,7 +901,8 @@ function callAI(){
   fetch('/.netlify/functions/chat',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
+    body:JSON.stringify(body),
+    signal: AbortSignal.timeout(30000) // 30 second timeout
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     if(data.error){
@@ -860,15 +922,18 @@ function callAI(){
       var recipes=parsed.recipes||[];
       if(parsed.recipe)recipes=[parsed.recipe];
       if(recipes.length>0){
+        saveConversation(messages[0].content, data.text, _hasPhoto ? 'photo' : 'chat', _cuisine, _meal);
         showRecipeOptions(recipes,content);
       } else {
         showError(content,'No recipes found. Try again.');
       }
     }catch(err){
+      console.error("AI parse failed:", err);
       showError(content,'Something went wrong. Please try again.');
     }
     bot();
-  }).catch(function(){
+  }).catch(function(err){
+    console.error("AI Call failed:", err);
     loading.remove();
     showError(content,'Connection error. Please try again.');
   });
@@ -933,7 +998,7 @@ function showFullCard(r,container){
   var hc=parseFloat(r.homeCost||0)||0;
   var rc=parseFloat(r.restaurantCost||0)||0;
   if(rc<=hc)rc=+(hc*2.5).toFixed(2);
-  var sv=Math.max(0,+(rc-hc).toFixed(2));
+  var sv=Math.max(0,+(rc-hc));
   var ings=Array.isArray(r.ingredients)?r.ingredients:[];
   var steps=Array.isArray(r.steps)?r.steps:[];
   var tip=String(r.tip||r.pro_tip||'');
@@ -1081,7 +1146,7 @@ function showFullCard(r,container){
   // Log button
   var lb=document.createElement('button');
   lb.style.cssText='display:block;width:calc(100% - 32px);margin:0 16px 16px;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 4px 16px rgba(34,197,94,.3)';
-  lb.textContent=(isDrinkCard?'I Made This! Log My $':'I Made This! Log My $')+sv.toFixed(2)+(isDrinkCard?' Bar Savings':' Savings');
+  lb.textContent=(isDrink?'I Made This! Log My $':'I Made This! Log My $')+sv.toFixed(2)+(isDrink?' Bar Savings':' Savings');
   (function(s,n){lb.onclick=function(){ps=s;pn=n;document.getElementById('ls-val').textContent='$'+s.toFixed(2);document.getElementById('ls-eq').textContent=eq(s);document.getElementById('logsheet').className='logsheet on';};})(sv,name);
   card.appendChild(lb);
   container.appendChild(card);
@@ -1099,7 +1164,7 @@ function showFullCard(r,container){
 function doLog(){
   savLog.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps});
   localStorage.setItem('cs',JSON.stringify(savLog));
-  saveSavingsToCloud(pn,ps,0,0);
+  saveSavingsToCloud(pn, ps, 0, 0);
   document.getElementById('logsheet').className='logsheet';
   renderSav();
   toast('Logged! You saved $'+ps.toFixed(2)+'!');
@@ -1197,7 +1262,8 @@ function sendHomeChat(){
   bot();
   fetch('/.netlify/functions/chat',{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:text}]})
+    body:JSON.stringify({messages:[{role:'user',content:text}]}),
+    signal: AbortSignal.timeout(30000) // 30 second timeout
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
@@ -1212,6 +1278,7 @@ function sendHomeChat(){
         msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';
         msg.textContent=parsed.message;
         content.appendChild(msg);
+        saveConversation(text, data.text, 'chat');
       }
 
       // MENU response — show beautiful menu cards
@@ -1271,10 +1338,12 @@ function sendHomeChat(){
       // Regular recipes
       var recipes=parsed.recipes||[];
       if(parsed.recipe) recipes=[parsed.recipe];
-      if(recipes.length>0 && !parsed.menu) showRecipeOptions(recipes,content);
-
+      if (recipes.length > 0 && !parsed.menu) {
+        saveConversation(text, data.text, 'chat');
+        showRecipeOptions(recipes, content);
+      }
     }catch(err){
-      // Try to detect if it's a plain text menu response and parse it
+      console.error("AI parse failed (home chat):", err);
       var rawText = data.text||'';
       var menuItems = [];
       // Pattern: lines with Item Cost, Sell Price, Profit Margin
@@ -1342,6 +1411,7 @@ function sendHomeChat(){
         msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.7;white-space:pre-wrap';
         msg.textContent=rawText.replace(/\*\*/g,'').replace(/\*/g,'');
         content.appendChild(msg);
+        saveConversation(text, rawText, 'chat');
       }
     }
     // Show back + new question bar
@@ -1365,7 +1435,7 @@ function sendHomeChat(){
       var fl=document.createElement('div');
       fl.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';
       fl.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
-      content.appendChild(fl);bot();
+      content.appendChild(fl); bot();
       fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt}]})}).then(function(r){return r.json();}).then(function(d2){
         fl.remove();
         try{
@@ -1373,7 +1443,7 @@ function sendHomeChat(){
           var s2=raw2.indexOf('{'),e2=raw2.lastIndexOf('}');
           var p2=JSON.parse(s2>=0?raw2.substring(s2,e2+1):raw2);
           if(p2.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=p2.message;content.appendChild(mm);}
-          if(p2.menu&&p2.menu.length>=1){
+          if(p2.menu && p2.menu.length >= 1){
             var mw2=document.createElement('div');
             var mh2=document.createElement('div');mh2.style.cssText='background:linear-gradient(135deg,#2D1810,#4A2418);border-radius:18px;padding:16px;margin-bottom:10px;color:#FFF';
             mh2.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">ChefSays Menu</div><div style="font-size:18px;font-weight:800;font-family:Georgia,serif">Your Items</div>';
@@ -1397,10 +1467,10 @@ function sendHomeChat(){
             var tw2=p2.menu.reduce(function(s,i){var pr=i.profit_margin||i.profit||0;return s+(parseFloat(String(pr).replace('$',''))||0)*50;},0);
             if(tw2>0){var pc2=document.createElement('div');pc2.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center';pc2.innerHTML='<div><div style="font-size:12px;color:rgba(255,255,255,.9);font-weight:700">Sell 50/week each</div><div style="font-size:11px;color:rgba(255,255,255,.6)">conservative</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+tw2.toFixed(0)+'</div><div style="font-size:10px;color:rgba(255,255,255,.7)">weekly profit</div></div>';mw2.appendChild(pc2);}
             content.appendChild(mw2);
-          } else if(p2.recipes&&p2.recipes.length>0){
+          } else if(p2.recipes && p2.recipes.length > 0){
             showRecipeOptions(p2.recipes,content);
           } else if(!p2.menu){
-            var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);
+            var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);saveConversation(rt, d2.text, 'chat');
           }
         }catch(e2){
           var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);
@@ -1412,12 +1482,12 @@ function sendHomeChat(){
         rb2btn.onclick=function(){var t3=ri2.value.trim();if(!t3)return;rb2.remove();var fu3=document.createElement('div');fu3.style.cssText='background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;margin-left:auto;max-width:85%';fu3.textContent=t3;content.appendChild(fu3);var fl3=document.createElement('div');fl3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';fl3.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';content.appendChild(fl3);bot();fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt},{role:'assistant',content:d2.text},{role:'user',content:t3}]})}).then(function(r){return r.json();}).then(function(d3){fl3.remove();var rm3=document.createElement('div');rm3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm3.textContent=d3.text||'';content.appendChild(rm3);bot();}).catch(function(){fl3.remove();});};
         rb2.appendChild(ri2);rb2.appendChild(rb2btn);content.appendChild(rb2);
         bot();
-      }).catch(function(){fl.remove();});
+      }).catch(function(err){console.error("Follow-up failed:", err); fl.remove();});
     };
     replyBar.appendChild(replyInp);replyBar.appendChild(replyBtn);
     content.appendChild(replyBar);
     bot();
-  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+  }).catch(function(err){console.error("Home chat failed:", err); loading.remove();showError(content,'Connection error. Please try again.');});
 }
 
 function startDrinks(){
@@ -1466,7 +1536,7 @@ function pickDrinkBase(base){
       if(parsed.message){var msg2=document.createElement('div');msg2.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';msg2.textContent=parsed.message;content.appendChild(msg2);}
       var recipes=parsed.recipes||[];
       if(parsed.recipe)recipes=[parsed.recipe];
-      if(recipes.length>0){showRecipeOptions(recipes,content);}
+      if(recipes.length>0){saveConversation(msg, data.text, 'drinks', _drinkBase, 'Drinks'); showRecipeOptions(recipes,content);}
       else{showError(content,'No recipes found. Try again.');}
     }catch(err){showError(content,'Something went wrong. Please try again.');}
     bot();

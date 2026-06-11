@@ -55,6 +55,7 @@ exports.handler = async function(event) {
       });
       if (error) throw error;
       // Update total
+      await supabase.from('profiles').update({ meals_cooked: supabase.raw('meals_cooked + 1') }).eq('id', user.id);
       await supabase.rpc('increment_savings', { uid: user.id, amount: amount_saved });
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
@@ -109,6 +110,6 @@ async function updateHabits(userId, cuisine, mealType) {
     if (mealType) {
       await supabase.rpc('add_to_array', { uid: userId, field: 'favorite_meals', val: mealType });
     }
-    await supabase.from('profiles').update({ last_seen: new Date().toISOString(), meals_cooked: supabase.raw('meals_cooked + 1') }).eq('id', userId);
+    await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', userId);
   } catch(e) { /* silent */ }
 }
