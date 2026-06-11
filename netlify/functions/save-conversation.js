@@ -8,6 +8,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
+console.log('SUPABASE_URL:', process.env.SUPABASE_URL);
+
 exports.handler = async function(event) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
