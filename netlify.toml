@@ -1,10 +1,6 @@
-[build]
-  functions = "netlify/functions"
-  publish = "."
+# This file configures the build and deployment settings for Netlify.
 
-[functions]
-  node_bundler = "esbuild"
-
-[build.environment]
-  NODE_VERSION = "18"
-  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

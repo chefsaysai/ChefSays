@@ -575,6 +575,10 @@ function setAuthMode(mode) {
   const signinLink = document.getElementById('auth-signin-link');
   const signupLink = document.getElementById('auth-signup-link');
   const subtitle = document.getElementById('auth-subtitle');
+  const errEl = document.getElementById('auth-error');
+
+  // Reset error message
+  if (errEl) errEl.style.display = 'none';
 
   if (mode === 'login') {
     if(subtitle) subtitle.textContent = 'Welcome back — sign in to your account';
@@ -582,12 +586,16 @@ function setAuthMode(mode) {
     if(loginBtn) loginBtn.style.display = 'block';
     if(signinLink) signinLink.style.display = 'none';
     if(signupLink) signupLink.style.display = 'block';
+    // Reset login button state
+    if(loginBtn) { loginBtn.textContent = 'Sign In →'; loginBtn.disabled = false; }
   } else { // signup
     if(subtitle) subtitle.textContent = 'Sign up to save your recipes, savings and chat history';
     if(signupBtn) signupBtn.style.display = 'block';
     if(loginBtn) loginBtn.style.display = 'none';
     if(signinLink) signinLink.style.display = 'block';
     if(signupLink) signupLink.style.display = 'none';
+    // Reset signup button state
+    if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; }
   }
 }
 
