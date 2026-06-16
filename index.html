@@ -810,13 +810,37 @@ async function loadProfile(){
   }catch(e){}
 }
 
-function setAuthSignup(){
-  _authMode='signup';
-  var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='block';
-  var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='block';
-  var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Already have an account? Sign In';
-  var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Sign up to save your recipes, savings and chat history';
-  var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='none';
+var _authMode = 'signup';
+function setAuthMode(mode) {
+  _authMode = mode;
+  const signupBtn = document.getElementById('auth-signup-btn');
+  const loginBtn = document.getElementById('auth-login-btn');
+  const signinLink = document.getElementById('auth-signin-link');
+  const signupLink = document.getElementById('auth-signup-link');
+  const subtitle = document.getElementById('auth-subtitle');
+  const extraFields = document.getElementById('auth-extra-fields');
+  const errEl = document.getElementById('auth-error');
+
+  // Reset error message
+  if (errEl) errEl.style.display = 'none';
+
+  if (mode === 'login') {
+    if(subtitle) subtitle.textContent = 'Welcome back — sign in to your account';
+    if(signupBtn) signupBtn.style.display = 'none';
+    if(loginBtn) loginBtn.style.display = 'block';
+    if(signinLink) signinLink.style.display = 'none';
+    if(signupLink) signupLink.style.display = 'block';
+    if(extraFields) extraFields.style.display = 'none';
+    if(loginBtn) { loginBtn.textContent = 'Sign In →'; loginBtn.disabled = false; }
+  } else { // signup
+    if(subtitle) subtitle.textContent = 'Sign up to save your recipes, savings and chat history';
+    if(signupBtn) signupBtn.style.display = 'block';
+    if(loginBtn) loginBtn.style.display = 'none';
+    if(signinLink) signinLink.style.display = 'block';
+    if(signupLink) signupLink.style.display = 'none';
+    if(extraFields) extraFields.style.display = 'block';
+    if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; }
+  }
 }
 function getAge(dobStr){
   if(!dobStr) return 0;
