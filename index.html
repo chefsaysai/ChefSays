@@ -83,19 +83,6 @@ button{cursor:pointer;border:none;font-family:inherit}
   </div>
 </div>
 
-
-<!-- CLEAN OPENING LOGO SPLASH -->
-<div id="brand-loader">
-  <div class="brand-loader-inner">
-    <svg class="cs-mark" width="122" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon mark">
-      <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
-    </svg>
-    <div class="brand-loader-word">Chef<span>Says</span></div>
-    <div class="brand-loader-sub">Your AI kitchen buddy</div>
-  </div>
-</div>
-
 <!-- ═══════════════════ SPLASH ═══════════════════ -->
 <div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto;padding-bottom:90px">
 
@@ -818,11 +805,6 @@ async function loadProfile(){
       renderSav();
     }
 
-    if (document.getElementById('pg-sav').classList.contains('on')) {
-      if (document.getElementById('pg-sav').classList.contains('on')) {
-        renderSav();
-      }
-    }
   }catch(e){}
 }
 
@@ -869,15 +851,6 @@ function setAuthSignup(){
   var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Sign up to save your recipes, savings and chat history';
   var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='none';
 }
-function getAge(dobStr){
-  if(!dobStr) return 0;
-  var dob=new Date(dobStr); var now=new Date();
-  var age=now.getFullYear()-dob.getFullYear();
-  var m=now.getMonth()-dob.getMonth();
-  if(m<0||(m===0&&now.getDate()<dob.getDate()))age--;
-  return age;
-}
-
 function getAge(dobStr){
   if(!dobStr) return 0;
   var dob=new Date(dobStr); var now=new Date();
