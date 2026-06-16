@@ -736,13 +736,7 @@ try {
 async function initAuth(){
   if(!_sb){ console.log('Supabase not available'); return; }
   try{
-  const { data: { session } } = await _sb.auth.getSession();
-  if(session){
-    _user = session.user;
-    _token = session.access_token;
-    await loadProfile();
-  }
-  _sb.auth.onAuthStateChange(function(event, session){
+  _sb.auth.onAuthStateChange(async function(event, session){
     if(session){
       _user = session.user;
       _token = session.access_token;
@@ -768,7 +762,7 @@ async function initAuth(){
 }
 
 async function loadProfile(){
-  if(!_token) return;
+  if(!_token || !_user) return;
   try{
     // Fetch profile, savings, and chat history in parallel
     const [profileResp, savingsResp, chatHistoryResp] = await Promise.all([
