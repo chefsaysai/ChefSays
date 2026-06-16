@@ -25,26 +25,26 @@ exports.handler = async function(event) {
     if (authError || !user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
 
     // Once user is verified, create a client with the service_role key to perform admin operations
-    const supabase = createClient(
+    const supabaseAdmin = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_KEY
     );
 
     if (action === 'save_conversation') {
       const { question, response, type, cuisine, meal_type, tags } = data;
-      const { error } = await supabase.from('conversations').insert({
+      const { error } = await authClient.from('conversations').insert({
         user_id: user.id, question, response, type: type||'chat', cuisine, meal_type, tags: tags||[]
       });
       if (error) throw error;
       // Update habits
-      await updateHabits(supabase, user.id, cuisine, meal_type);
+      await updateHabits(supabaseAdmin, user.id, cuisine, meal_type);
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
     if (action === 'get_history') {
       const type = data.type || 'conversation';
       if (type === 'savings') {
-        const { data: savings, error } = await supabase
+        const { data: savings, error } = await authClient
           .from('savings')
           .select('dish_name, amount_saved, created_at')
           .eq('user_id', user.id)
@@ -54,7 +54,7 @@ exports.handler = async function(event) {
         const formattedSavings = savings.map(s => ({ name: s.dish_name, saved: s.amount_saved, date: new Date(s.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}) }));
         return { statusCode: 200, headers, body: JSON.stringify({ savings: formattedSavings }) };
       } else {
-        const { data: convos, error } = await supabase.from('conversations').select('question, response, type, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10);
+        const { data: convos, error } = await authClient.from('conversations').select('question, response, type, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10);
         if (error) throw error;
         return { statusCode: 200, headers, body: JSON.stringify({ conversations: convos }) };
       }
@@ -62,17 +62,16 @@ exports.handler = async function(event) {
 
     if (action === 'save_savings') {
       const { dish_name, amount_saved, home_cost, restaurant_cost, cuisine, meal_type } = data;
-      const { error } = await supabase.from('savings').insert({
+      const { error } = await authClient.from('savings').insert({
         user_id: user.id, dish_name, amount_saved, home_cost, restaurant_cost, cuisine, meal_type
       });
       if (error) throw error;
       // Update total
       // Use a separate client with the service key for admin-level operations like RPC calls if needed,
       // but for user-specific updates, the user's client is fine if RLS is set up.
-      // For incrementing, it's safer to use an RPC function. Let's assume one exists or add it.
-      // For now, let's fix the direct update.
-      await supabase.rpc('increment_meals_cooked', { uid: user.id });
-      await supabase.rpc('increment_savings', { uid: user.id, amount: amount_saved });
+      // RPC calls that modify protected data should use the admin client.
+      await supabaseAdmin.rpc('increment_meals_cooked', { uid: user.id });
+      await supabaseAdmin.rpc('increment_savings', { uid: user.id, amount: amount_saved });
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
@@ -88,20 +87,20 @@ exports.handler = async function(event) {
         where_to_buy: item.where_to_buy||item.where||'',
         category: data.category||'dollar_menu'
       }));
-      const { error } = await supabase.from('menu_items').insert(rows);
+      const { error } = await authClient.from('menu_items').insert(rows);
       if (error) throw error;
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
     if (action === 'get_profile') {
-      const { data: profile, error } = await supabase
+      const { data: profile, error } = await authClient
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
       if (error) throw error;
       // Get recent convos for memory
-      const { data: recent } = await supabase
+      const { data: recent } = await authClient
         .from('conversations')
         .select('question, type, cuisine, meal_type, created_at')
         .eq('user_id', user.id)
