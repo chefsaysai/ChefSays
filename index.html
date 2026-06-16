@@ -640,6 +640,7 @@ button{cursor:pointer;border:none;font-family:inherit}
 <!-- AUTH MODAL -->
 <div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
   <div style="background:#FFF;border-radius:24px;padding:24px 22px;width:100%;max-height:88vh;overflow-y:auto">
+    <button onclick="document.getElementById('auth-modal').style.display='none'" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:24px;color:#C4956A;cursor:pointer;padding:8px">&times;</button>
     <div style="text-align:center;margin-bottom:20px">
       <svg width="56" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
       <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:6px 0 4px">Welcome to ChefSays</div>
@@ -661,8 +662,9 @@ button{cursor:pointer;border:none;font-family:inherit}
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
     <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
     <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
-    <button onclick="doAuth('login')" id="auth-login-btn" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Already have an account? Sign In</button>
-    <button id="auth-new-link" onclick="setAuthSignup()" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
+    <button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Sign In →</button>
+    <button id="auth-signin-link" onclick="setAuthMode('login')" style="width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">Already have an account? Sign In</button>
+    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
     <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
   </div>
