@@ -9,13 +9,14 @@
 
 # Caching policy to prevent stale files
 [[headers]]
+  for = "/index.html"
+  [headers.values]
+    # Never cache the main HTML file, always get the latest version.
+    # This rule MUST come before the general /* rule.
+    Cache-Control = "no-cache"
+
+[[headers]]
   for = "/*"
   [headers.values]
     # Cache all assets for 1 year, but use a unique hash to break the cache on change
     Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    # Never cache the main HTML file, always get the latest version
-    Cache-Control = "no-cache"
