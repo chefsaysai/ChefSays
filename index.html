@@ -71,6 +71,18 @@ button{cursor:pointer;border:none;font-family:inherit}
 </style>
 </head>
 <body>
+<!-- CLEAN OPENING LOGO SPLASH -->
+<div id="brand-loader">
+  <div class="brand-loader-inner">
+    <svg class="cs-mark" width="122" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon mark">
+      <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
+    </svg>
+    <div class="brand-loader-word">Chef<span>Says</span></div>
+    <div class="brand-loader-sub">Your AI kitchen buddy</div>
+  </div>
+</div>
+
 
 <!-- CLEAN OPENING LOGO SPLASH -->
 <div id="brand-loader">
@@ -85,7 +97,7 @@ button{cursor:pointer;border:none;font-family:inherit}
 </div>
 
 <!-- ═══════════════════ SPLASH ═══════════════════ -->
-<div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto">
+<div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto;padding-bottom:90px">
 
   <!-- HERO -->
   <div style="position:relative;background:linear-gradient(160deg,#0D0800,#1A0E00,#2D1500);padding:52px 22px 36px;overflow:hidden">
@@ -101,17 +113,18 @@ button{cursor:pointer;border:none;font-family:inherit}
     </div>
 
     <!-- Big savings number -->
-    <div style="margin-bottom:22px">
-      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">The average ChefSays user saves</div>
-      <div style="display:flex;align-items:flex-end;gap:6px;margin-bottom:8px">
-        <div id="splash-counter" style="font-size:78px;font-weight:900;color:#22C55E;line-height:1;letter-spacing:-3px">$0</div>
-        <div style="font-size:19px;font-weight:700;color:rgba(34,197,94,.55);margin-bottom:12px">/month</div>
+    <div style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:18px 18px 16px;margin-bottom:22px">
+      <div style="display:inline-block;background:#22C55E;color:#0A0A0A;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;padding:4px 10px;border-radius:8px;margin-bottom:12px">You save &middot; not what you pay</div>
+      <div style="font-size:12px;font-weight:700;color:rgba(34,197,94,.7);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">The average user keeps</div>
+      <div style="display:flex;align-items:flex-end;gap:8px;margin-bottom:8px">
+        <div id="splash-counter" style="font-size:80px;font-weight:900;color:#22C55E;line-height:1;letter-spacing:-3px">$0</div>
+        <div style="font-size:18px;font-weight:700;color:rgba(34,197,94,.6);margin-bottom:11px">/month in their pocket</div>
       </div>
-      <div style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.7">cooking at home instead of ordering out.<br/>Every dollar tracked automatically.</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6">by cooking at home instead of ordering out. ChefSays tracks every dollar for you.</div>
     </div>
 
     <!-- Rotating hook -->
-    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px;margin-bottom:24px;min-height:100px">
+    <div id="hook-card" style="position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 34px 18px 18px;margin-bottom:24px;min-height:100px;cursor:pointer"><div id="hook-prev" style="position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:22px;color:rgba(255,255,255,.35);padding:10px 6px">&#8249;</div><div id="hook-next" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:22px;color:rgba(255,255,255,.35);padding:10px 6px">&#8250;</div>>
       <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
         <div id="hook-emoji" style="font-size:34px;flex-shrink:0">💰</div>
         <div>
@@ -213,12 +226,22 @@ button{cursor:pointer;border:none;font-family:inherit}
 <!-- ═══════════════════ APP ═══════════════════ --><!-- ═══════════════════ APP ═══════════════════ -->
 <div id="app" style="display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden">
 
+  <div class="cs-app-header">
+    <div class="cs-brand">
+      <svg class="cs-mark" width="38" height="25" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon logo">
+        <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
+      </svg>
+      <div class="cs-word dark">Chef<span>Says</span></div>
+    </div>
+    <button onclick="showAuthModal()" class="cs-icon-btn" aria-label="Account">👤</button>
+  </div>
+
   <div class="tabs">
     <button class="tab on" id="tb-chat" onclick="goTab('chat')"><span style="font-size:20px">💬</span>Chat</button>
     <button class="tab" id="tb-sav" onclick="goTab('sav')"><span style="font-size:20px">💰</span>Savings</button>
-    <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Plans</button>
+    <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Meal Prep</button>
     <button class="tab" id="tb-cat" onclick="goTab('cat')"><span style="font-size:20px">🍳</span>Catering</button>
-    <button class="tab" id="tb-acct" onclick="showAuthModal()" style="flex:none;padding:12px 10px"><span style="font-size:20px">👤</span></button>
   </div>
 
   <!-- PROGRESS BAR -->
@@ -237,6 +260,11 @@ button{cursor:pointer;border:none;font-family:inherit}
       <!-- HOME VIEW -->
       <div id="home-view">
         <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
+        <button onclick="startDailyDish()" style="display:flex;width:100%;align-items:center;gap:12px;background:linear-gradient(135deg,#16A34A,#15803D);border:none;border-radius:16px;padding:13px 16px;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 14px rgba(22,163,74,.3);text-align:left">
+          <span style="font-size:26px">&#127919;</span>
+          <div style="flex:1"><div style="font-size:14px;font-weight:800;color:#FFF;line-height:1.2">Daily Dish &mdash; Guess the Cost</div><div id="dd-home-sub" style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px">Free to play &middot; No account needed &middot; New dish daily</div></div>
+          <div id="dd-streak-badge" style="background:rgba(255,255,255,.18);border-radius:14px;padding:4px 10px;font-size:11px;font-weight:800;color:#FFF;white-space:nowrap">&#128293; 0</div>
+        </button>
         <button onclick="showPhotoMenu()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:18px;padding:18px;cursor:pointer;margin-bottom:16px;box-shadow:0 4px 16px rgba(255,107,53,.3);text-align:left">
           <span style="font-size:36px">📷</span>
           <div>
@@ -249,6 +277,23 @@ button{cursor:pointer;border:none;font-family:inherit}
           <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">OR CHOOSE YOUR MEAL</div>
           <div style="flex:1;height:1px;background:#FFE0CC"></div>
         </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <button onclick="startCopycat()" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#EF4444,#DC2626);border:none;border-radius:14px;padding:14px;cursor:pointer;text-align:left;box-shadow:0 4px 14px rgba(239,68,68,.25)">
+            <span style="font-size:26px">🔴</span>
+            <div><div style="font-size:13px;font-weight:800;color:#FFF;line-height:1.2">Chef's Version</div><div style="font-size:10px;color:rgba(255,255,255,.8)">Restaurant quality at home</div></div>
+          </button>
+          <button onclick="startTimeAware()" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F59E0B,#D97706);border:none;border-radius:14px;padding:14px;cursor:pointer;text-align:left;box-shadow:0 4px 14px rgba(245,158,11,.25)">
+            <span style="font-size:26px">⏰</span>
+            <div><div style="font-size:13px;font-weight:800;color:#FFF;line-height:1.2">Plan My Meal</div><div style="font-size:10px;color:rgba(255,255,255,.8)">Pick a meal &amp; eat time</div></div>
+          </button>
+        </div>
+        <button onclick="startBuildOwn()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#0EA5E9,#0284C7);border:none;border-radius:14px;padding:14px;cursor:pointer;margin-bottom:12px;text-align:left;box-shadow:0 4px 14px rgba(14,165,233,.25)">
+          <span style="font-size:28px">🔨</span>
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#FFF;line-height:1.2">Build My Own</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:2px">Get full costing · Home cook or restaurant</div>
+          </div>
+        </button>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px" id="meal-grid">
           <button onclick="pickMeal('Breakfast',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px"><span style="font-size:22px">🌅</span><span style="font-size:14px;font-weight:700;color:#2D1810">Breakfast</span></button>
           <button onclick="pickMeal('Brunch',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px"><span style="font-size:22px">🥂</span><span style="font-size:14px;font-weight:700;color:#2D1810">Brunch</span></button>
@@ -280,6 +325,109 @@ button{cursor:pointer;border:none;font-family:inherit}
           <button onclick="sendHomeChat()" style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0">&#x2192;</button>
         </div>
         <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:6px;margin-bottom:4px">Hot dogs · Meal tips · Recipe ideas · Anything food</div>
+      </div>
+
+      <!-- BUILD MY OWN VIEW -->
+      <div id="buildown-view" style="display:none;overflow-y:auto;padding-bottom:20px">
+        <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:16px">&#x2190; Back</button>
+        <div style="text-align:center;margin-bottom:22px">
+          <div style="font-size:36px;margin-bottom:8px">🔨</div>
+          <div style="font-size:18px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Build My Own</div>
+          <div style="font-size:13px;color:#9B7B6E">Tell me what you want — I cost it out completely</div>
+        </div>
+        <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">I am cooking for</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" id="build-for-grid">
+            <button onclick="selectBuildFor(this,'myself')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer;text-align:center"><div style="font-size:22px;margin-bottom:4px">🧑‍🍳</div>Just Me</button>
+            <button onclick="selectBuildFor(this,'family')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer;text-align:center"><div style="font-size:22px;margin-bottom:4px">👨‍👩‍👧</div>My Family</button>
+            <button onclick="selectBuildFor(this,'restaurant')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer;text-align:center"><div style="font-size:22px;margin-bottom:4px">🍽️</div>Restaurant</button>
+          </div>
+        </div>
+        <div style="background:#FFF;border:2px solid #0EA5E9;border-radius:16px;padding:16px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:#0EA5E9;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">What do you want to build?</div>
+          <textarea id="buildown-input" rows="3" placeholder="e.g. BBQ plate with brisket, mac and cheese, coleslaw&#10;e.g. Breakfast burrito with eggs, cheese and potatoes&#10;e.g. Build me a smash burger with special sauce" style="width:100%;background:none;border:none;outline:none;font-size:15px;color:#2D1810;resize:none;font-family:inherit;line-height:1.6"></textarea>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <div style="font-size:11px;color:#C4956A;font-weight:700;width:100%;margin-bottom:2px">Quick picks:</div>
+          <button onclick="document.getElementById('buildown-input').value='BBQ plate with brisket, mac and cheese and coleslaw'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🍖 BBQ Plate</button>
+          <button onclick="document.getElementById('buildown-input').value='Breakfast burrito with eggs, cheese and potatoes'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🌯 Breakfast Burrito</button>
+          <button onclick="document.getElementById('buildown-input').value='Smash burger with special sauce, lettuce and pickles'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🍔 Smash Burger</button>
+          <button onclick="document.getElementById('buildown-input').value='Pasta carbonara with bacon and parmesan'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🍝 Carbonara</button>
+        </div>
+        <button onclick="submitBuildOwn()" style="display:block;width:100%;background:linear-gradient(135deg,#0EA5E9,#0284C7);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(14,165,233,.3)">Build It &amp; Cost It Out &#x2192;</button>
+      </div>
+
+      <!-- DAILY DISH VIEW -->
+      <div id="dailydish-view" style="display:none;overflow-y:auto;padding-bottom:20px">
+        <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:12px">&#8592; Back</button>
+        <div id="dd-content"></div>
+      </div>
+
+      <!-- COPYCAT VIEW -->
+      <div id="copycat-view" style="display:none;overflow-y:auto;padding-bottom:20px">
+        <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:16px">&#x2190; Back</button>
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:36px;margin-bottom:8px">🔴</div>
+          <div style="font-size:18px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Chef's Version</div>
+          <div style="font-size:13px;color:#9B7B6E">Chipotle bowl, Taco Bell burrito, Olive Garden pasta — I'll make it better</div>
+        </div>
+        <div style="background:#FFF;border:2px solid #EF4444;border-radius:16px;padding:16px;margin-bottom:14px">
+          <textarea id="copycat-input" rows="2" placeholder="e.g. Taco Bell Crunchwrap Supreme&#10;e.g. Olive Garden Fettuccine Alfredo" style="width:100%;background:none;border:none;outline:none;font-size:15px;color:#2D1810;resize:none;font-family:inherit;line-height:1.6"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <div style="font-size:11px;color:#C4956A;font-weight:700;width:100%;margin-bottom:2px">Popular picks:</div>
+          <button onclick="document.getElementById('copycat-input').value='Taco Bell Crunchwrap Supreme'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🌮 Crunchwrap</button>
+          <button onclick="document.getElementById('copycat-input').value='Taco Bell Spicy Potato Taco'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🥔 Potato Taco</button>
+          <button onclick="document.getElementById('copycat-input').value='McDonald's Big Mac'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🍔 Big Mac</button>
+          <button onclick="document.getElementById('copycat-input').value='Olive Garden Fettuccine Alfredo'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🍝 Fettuccine</button>
+          <button onclick="document.getElementById('copycat-input').value='Chick-fil-A Chicken Sandwich'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🐔 Chick-fil-A</button>
+          <button onclick="document.getElementById('copycat-input').value='Chipotle Burrito Bowl'" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:20px;padding:6px 12px;font-size:11px;font-weight:600;color:#2D1810;cursor:pointer">🫙 Chipotle Bowl</button>
+        </div>
+        <button onclick="submitCopycat()" style="display:block;width:100%;background:linear-gradient(135deg,#EF4444,#DC2626);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(239,68,68,.3)">
+          Show Me How to Make It for Less &#x2192;
+        </button>
+      </div>
+
+      <!-- TIME AWARE VIEW -->
+      <div id="timeaware-view" style="display:none;overflow-y:auto;padding-bottom:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:4px">&#x2190; Back</button>
+          <button onclick="resetPlanMeal()" style="background:#FFF8F0;border:1.5px solid #FFE0CC;color:#C4956A;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer">Start Over</button>
+        </div>
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:36px;margin-bottom:8px">⏰</div>
+          <div style="font-size:18px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Plan My Meal</div>
+          <div style="font-size:13px;color:#9B7B6E">Any meal, any time — I build your full timeline</div>
+        </div>
+
+        <!-- STEP 1: MEAL TYPE -->
+        <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Step 1 · Which meal?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="plan-meal-grid">
+            <button onclick="selectPlanMeal(this,'Breakfast')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>🌅</span>Breakfast</button>
+            <button onclick="selectPlanMeal(this,'Brunch')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>🥂</span>Brunch</button>
+            <button onclick="selectPlanMeal(this,'Lunch')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>☀️</span>Lunch</button>
+            <button onclick="selectPlanMeal(this,'Snack')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>🍿</span>Snack</button>
+            <button onclick="selectPlanMeal(this,'Dinner')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>🌙</span>Dinner</button>
+            <button onclick="selectPlanMeal(this,'Late Night')" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer;display:flex;align-items:center;gap:8px"><span>🌃</span>Late Night</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: EAT TIME -->
+        <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Step 2 · What time do you want to eat?</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px" id="eat-time-grid"></div>
+        </div>
+
+        <!-- STEP 3: CRAVING -->
+        <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Step 3 · What are you craving?</div>
+          <textarea id="timeaware-input" rows="2" placeholder="e.g. eggs and bacon, pasta, BBQ chicken, Taco Bell burrito..." style="width:100%;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.5"></textarea>
+        </div>
+
+        <button onclick="submitTimeAware()" style="display:block;width:100%;background:linear-gradient(135deg,#F59E0B,#D97706);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,.3)">
+          Build My Meal Plan &#x2192;
+        </button>
       </div>
 
       <!-- DRINK TYPE VIEW -->
@@ -403,7 +551,7 @@ button{cursor:pointer;border:none;font-family:inherit}
   <!-- MEAL PREP PAGE -->
   <div id="pg-prep" class="page">
     <div class="scr">
-      <div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:20px;padding:20px;color:#FFF;margin-bottom:14px"><div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Weekly Meal Plans</div><div style="font-size:14px;opacity:.85">Plan your whole week. Save time and money.</div></div>
+      <div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:20px;padding:20px;color:#FFF;margin-bottom:14px"><div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Weekly Meal Prep</div><div style="font-size:14px;opacity:.85">Plan your whole week. Save time and money.</div></div>
       <div style="display:flex;gap:8px;margin-bottom:14px">
         <button class="ptab on" id="pt-fam" onclick="showPlan('family',this)" style="flex:1;background:#FF6B35;border:1.5px solid #FF6B35;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#FFF;cursor:pointer">Family</button>
         <button class="ptab" id="pt-fit" onclick="showPlan('fitness',this)" style="flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:30px;padding:9px;font-size:12px;font-weight:700;color:#2D1810;cursor:pointer">Fitness</button>
@@ -503,11 +651,11 @@ button{cursor:pointer;border:none;font-family:inherit}
 </div>
 
 <!-- AUTH MODAL -->
-<div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
-  <div id="auth-view" style="background:#FFF;border-radius:24px;padding:28px 22px;width:100%">
+<div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#FFF;border-radius:24px;padding:24px 22px;width:100%;max-height:88vh;overflow-y:auto">
     <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:32px;margin-bottom:8px">👨‍🍳</div>
-      <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Welcome to ChefSays</div>
+      <svg width="56" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+      <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:6px 0 4px">Welcome to ChefSays</div>
       <div id="auth-subtitle" style="font-size:13px;color:#9B7B6E">Sign up to save your recipes, savings and chat history</div>
     </div>
     <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
@@ -524,27 +672,30 @@ button{cursor:pointer;border:none;font-family:inherit}
       </div>
     </div>
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
-    <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:16px;font-family:inherit"/>
-    <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Create Free Account →</button><button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Sign In →</button>
-    <button onclick="setAuthMode('login')" id="auth-signin-link" style="display:block;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:14px;padding: 8px;">Already have an account? Sign In</button>
-    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:14px;padding: 8px;">New here? Create a free account</button>
+    <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
+    <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
+    <button onclick="doAuth('login')" id="auth-login-btn" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Already have an account? Sign In</button>
+    <button id="auth-new-link" onclick="setAuthSignup()" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
     <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
   </div>
-  <div id="profile-view" style="display:none; background:#FFF;border-radius:24px;padding:28px 22px;width:100%">
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:32px;margin-bottom:8px">👤</div>
-      <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Your Account</div>
-      <div id="profile-email" style="font-size:13px;color:#9B7B6E"></div>
-    </div>
-    <button onclick="logout()" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Sign Out</button>
-    <button onclick="document.getElementById('auth-modal').style.display='none'" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Close</button>
+</div>
+
+<!-- ACCOUNT MODAL -->
+<div id="account-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#FFF;border-radius:24px;padding:26px 22px;width:100%;text-align:center">
+    <svg width="56" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+    <div id="acct-name" style="font-size:19px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:8px 0 2px">Chef</div>
+    <div id="acct-email" style="font-size:13px;color:#9B7B6E;margin-bottom:14px"></div>
+    <div id="acct-trial" style="display:inline-block;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#16A34A;margin-bottom:18px"></div>
+    <button onclick="closeAccountModal()" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:10px">Back to Cooking</button>
+    <button onclick="signOut()" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:14px;padding:13px;font-weight:700;font-size:14px;cursor:pointer">Sign Out</button>
   </div>
 </div>
 
 <!-- PAYWALL -->
-<div id="paywall" class="paywall" onclick="this.className='paywall'">
-  <div style="background:#FFF;border-radius:24px;padding:28px 20px;width:100%;text-align:center" onclick="event.stopPropagation()">
+<div id="paywall" class="paywall">
+  <div style="background:#FFF;border-radius:24px;padding:28px 20px;width:100%;text-align:center">
     <div style="font-size:44px;margin-bottom:12px">🔒</div>
     <div style="font-size:22px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:6px">Your free trial has ended</div>
     <div style="font-size:14px;color:#9B7B6E;margin-bottom:20px;line-height:1.6">Upgrade to keep cooking and saving money every day.</div>
@@ -579,14 +730,19 @@ const CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
 const DB_ENDPOINT = `${API_BASE_URL}/save-conversation`;
 
 // ── GLOBALS ──────────────────────────────────────────────────────────────────
-// SUPABASE — wrapped safely so it never breaks the app
+// SUPABASE
 var _sb = null;
 var _user = null;
 var _token = null;
 var _userProfile = null;
 try {
-  _sb = supabase.createClient('https://ethcmkxemjsfgvpwygub.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0aGNta3hlbWpzZmd2cHd5Z3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTIwMzYsImV4cCI6MjA5NTAyODAzNn0.Q9_IJ-8AJdEpjrruXXjvcZC7e4mvmDMRleUcbsaI5lk');
-} catch(e) { console.log('Supabase init failed:', e.message); }
+  if(typeof supabase !== 'undefined'){
+    _sb = supabase.createClient(
+      'https://ethcmkxemjsfgvpwygub.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0aGNta3hlbWpzZmd2cHd5Z3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTIwMzYsImV4cCI6MjA5NTAyODAzNn0.Q9_IJ-8AJdEpjrruXXjvcZC7e4mvmDMRleUcbsaI5lk'
+    );
+  }
+} catch(e) { console.log('Supabase init error:', e.message); }
 
 async function initAuth(){
   if(!_sb){ console.log('Supabase not available'); return; }
@@ -596,14 +752,14 @@ async function initAuth(){
     _user = session.user;
     _token = session.access_token;
     await loadProfile();
-    updateAcctButton(true);
   }
   _sb.auth.onAuthStateChange(function(event, session){
     if(session){
       _user = session.user;
       _token = session.access_token;
+      try{localStorage.setItem('cs_signed_in','true');}catch(e){}
+      if(!isPaid() && trialDaysLeft()>0){var pw=document.getElementById('paywall');if(pw)pw.className='paywall';}
       loadProfile();
-      updateAcctButton(true);
     } else {
       _user = null;
       _token = null;
@@ -620,12 +776,6 @@ async function initAuth(){
     }
   });
   }catch(e){ console.log('Auth init error:', e.message); }
-}
-
-function updateAcctButton(isLoggedIn){
-  const acctBtn = document.getElementById('tb-acct');
-  if(!acctBtn) return;
-  acctBtn.style.borderColor = isLoggedIn ? '#22C55E' : 'transparent';
 }
 
 async function loadProfile(){
@@ -709,6 +859,23 @@ function setAuthMode(mode) {
     // Reset signup button state
     if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; }
   }
+  doAuth('login');
+}
+function setAuthSignup(){
+  _authMode='signup';
+  var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='block';
+  var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='block';
+  var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Already have an account? Sign In';
+  var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Sign up to save your recipes, savings and chat history';
+  var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='none';
+}
+function getAge(dobStr){
+  if(!dobStr) return 0;
+  var dob=new Date(dobStr); var now=new Date();
+  var age=now.getFullYear()-dob.getFullYear();
+  var m=now.getMonth()-dob.getMonth();
+  if(m<0||(m===0&&now.getDate()<dob.getDate()))age--;
+  return age;
 }
 
 function getAge(dobStr){
@@ -721,7 +888,7 @@ function getAge(dobStr){
 }
 
 async function doAuth(type){
-  if(!_sb){ toast('Account system loading... try again'); return; }
+  if(!_sb){ toast('Loading... please wait a moment and try again'); return; }
   var email = document.getElementById('auth-email').value.trim();
   var password = document.getElementById('auth-password').value.trim();
   var errEl = document.getElementById('auth-error');
@@ -742,7 +909,7 @@ async function doAuth(type){
   if(password.length<6){ errEl.style.display='block'; errEl.textContent='Password must be at least 6 characters'; return; }
   errEl.style.display='none';
   var btn = document.getElementById(type==='signup'?'auth-signup-btn':'auth-login-btn');
-  if(btn) { btn.textContent = 'Please wait...'; btn.disabled=true; }
+  btn.textContent = 'Please wait...'; btn.disabled=true;
   try{
     var result = type==='signup'
       ? await _sb.auth.signUp({email, password, options: {data: {first_name:first, last_name:last, dob:dob, zip:zip, gender:gender}}})
@@ -750,50 +917,54 @@ async function doAuth(type){
     if(result.error){
       errEl.style.display='block';
       errEl.textContent = result.error.message;
-      if(btn) { btn.textContent = type==='signup'?'Create Free Account →':'Sign In →'; btn.disabled=false; }
+      btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
+      btn.disabled=false;
     } else {
+      if(type==='signup'){
+        try{localStorage.setItem('cs_profile',JSON.stringify({first:first,last:last,dob:dob,zip:zip,gender:gender}));}catch(e){}
+      }
+      try{localStorage.setItem('cs_signed_in','true');}catch(e){}
       document.getElementById('auth-modal').style.display='none';
-      if(type==='signup') toast('Welcome to ChefSays! 🎉');
+      var pw=document.getElementById('paywall'); if(pw)pw.className='paywall';
+      if(type==='signup') toast('Welcome to ChefSays, '+(first||'chef')+'! 🎉 90-day beta trial started');
       else toast('Welcome back! 👨‍🍳');
     }
   }catch(e){
     errEl.style.display='block'; errEl.textContent='Something went wrong. Try again.';
-    if(btn) { btn.textContent = type==='signup'?'Create Free Account →':'Sign In →'; btn.disabled=false; }
+    btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
+    btn.disabled=false;
   }
 }
 
 function continueAsGuest(){
   document.getElementById('auth-modal').style.display='none';
-  toast('Continuing as guest — your data stays on this device only');
+  toast('Look around! Create a free account when you\'re ready to cook 👨‍🍳');
 }
 
 function showAuthModal(){
-  if(!_sb){ toast('Sign-in coming soon!'); return; }
-  const authModal = document.getElementById('auth-modal');
-  const authView = document.getElementById('auth-view');
-  const profileView = document.getElementById('profile-view');
-  if (_user) {
-    authView.style.display = 'none';
-    profileView.style.display = 'block';
-    document.getElementById('profile-email').textContent = _user.email;
-  } else {
-    authView.style.display = 'block';
-    profileView.style.display = 'none';
-  }
-  setAuthMode('signup'); // Reset to signup view every time it's opened
+  if(_user){ showAccountModal(); return; }
   document.getElementById('auth-modal').style.display='flex';
 }
-
-async function logout() {
-  if (!_sb) return;
-  await _sb.auth.signOut();
-  document.getElementById('auth-modal').style.display = 'none';
-  updateAcctButton(false);
-  toast('You have been signed out.');
+function showAccountModal(){
+  var p={}; try{p=JSON.parse(localStorage.getItem('cs_profile')||'{}');}catch(e){}
+  var nm=document.getElementById('acct-name');
+  if(nm)nm.textContent=p.first?(p.first+' '+(p.last||'')).trim():(_user&&_user.email?_user.email.split('@')[0]:'Chef');
+  var em=document.getElementById('acct-email');
+  if(em)em.textContent=(_user&&_user.email)||'';
+  var tr=document.getElementById('acct-trial');
+  if(tr)tr.textContent='✨ '+trialDaysLeft()+' days left in your beta trial';
+  document.getElementById('account-modal').style.display='flex';
+}
+function closeAccountModal(){document.getElementById('account-modal').style.display='none';}
+async function signOut(){
+  try{ if(_sb) await _sb.auth.signOut(); }catch(e){}
+  _user=null;_token=null;_userProfile=null;
+  try{localStorage.removeItem('cs_signed_in');}catch(e){}
+  closeAccountModal();
+  toast('Signed out 👋 See you soon');
 }
 
 async function saveConversation(question, response, type, cuisine, mealType){
-  if(!_token || !_sb) return;
   try{
     fetch(DB_ENDPOINT,{
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -823,8 +994,13 @@ async function saveMenuItems(items){
 }
 
 function getUserContext(){
-  if(!_userProfile) return '';
   var ctx = '';
+  try{
+    var p=JSON.parse(localStorage.getItem('cs_profile')||'{}');
+    if(p.zip) ctx += 'User ZIP code: '+p.zip+' — use realistic local grocery prices for this area. ';
+    if(p.first) ctx += 'User name: '+p.first+'. ';
+  }catch(e){}
+  if(!_userProfile) return ctx;
   if(_userProfile.favorite_cuisines&&_userProfile.favorite_cuisines.length)
     ctx += 'User loves: '+_userProfile.favorite_cuisines.slice(0,3).join(', ')+'. ';
   if(_userProfile.is_caterer) ctx += 'User runs a restaurant/catering business. ';
@@ -844,13 +1020,41 @@ var PLANS={
 
 // ── TRIAL ────────────────────────────────────────────────────────────────────
 function getTrialStart(){var t=localStorage.getItem('cs_trial');if(!t){t=String(Date.now());localStorage.setItem('cs_trial',t);}return parseInt(t);}
-function trialDaysLeft(){return Math.max(0,Math.ceil(7-(Date.now()-getTrialStart())/(1000*60*60*24)));}
+function trialDaysLeft(){
+  // Signed-in users: 60-day beta trial from ACCOUNT creation date
+  if(_user && _user.created_at){
+    var created=new Date(_user.created_at).getTime();
+    return Math.max(0,Math.ceil(90-(Date.now()-created)/(1000*60*60*24)));
+  }
+  // Session still restoring but this device has an account: don't punish them
+  if(localStorage.getItem('cs_signed_in')==='true') return 90;
+  // Guests: 7 days from first open on this device
+  return Math.max(0,Math.ceil(7-(Date.now()-getTrialStart())/(1000*60*60*24)));
+}
 function isPaid(){return localStorage.getItem('cs_paid')==='true';}
-function checkLimit(){if(!isPaid()&&trialDaysLeft()<=0){document.getElementById('paywall').className='paywall on';return true;}return false;}
+function hasAccount(){return !!_user || localStorage.getItem('cs_signed_in')==='true';}
+function checkLimit(){
+  // Account required to use the kitchen
+  if(!hasAccount()){ showAuthModal(); return true; }
+  if(!isPaid()&&trialDaysLeft()<=0){document.getElementById('paywall').className='paywall on';return true;}
+  return false;
+}
 
 // ── UTILS ────────────────────────────────────────────────────────────────────
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window._t);window._t=setTimeout(function(){t.style.display='none';},2600);}
 function bot(){setTimeout(function(){var s=document.getElementById('chat-scr');if(s)s.scrollTop=s.scrollHeight;},80);}
+function closeStoreSheet(el){
+  try{var s=el.closest('.store-sheet');setTimeout(function(){if(s)s.remove();},80);}catch(e){}
+}
+window.addEventListener('pageshow',function(){
+  document.querySelectorAll('.store-sheet').forEach(function(el){el.remove();});
+});
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'){
+    document.querySelectorAll('.store-sheet').forEach(function(el){el.remove();});
+  }
+});
+function goTop(){setTimeout(function(){var s=document.getElementById('chat-scr');if(s)s.scrollTop=0;window.scrollTo(0,0);},90);}
 function eq(n){return n>=60?'That is a tank of gas!':n>=30?'That is a nice dinner out saved!':n>=20?'That is 4 Starbucks coffees!':n>=10?'That is lunch money saved!':'Every dollar adds up!';}
 
 function progress(step){
@@ -914,7 +1118,7 @@ function progress(step){
   if(dotsEl){
     HOOKS.forEach(function(_,i){
       var d=document.createElement('div');
-      d.style.cssText='width:'+(i===0?18:6)+'px;height:6px;border-radius:3px;background:'+(i===0?HOOKS[0].color:'rgba(255,255,255,.15)')+';cursor:pointer;transition:all .3s;display:inline-block;margin:0 2px';
+      d.style.cssText='width:'+(i===0?20:8)+'px;height:8px;border-radius:4px;background:'+(i===0?HOOKS[0].color:'rgba(255,255,255,.15)')+';cursor:pointer;transition:all .3s;display:inline-block;margin:0 2px';
       (function(idx){d.onclick=function(){setHook(idx);};})(i);
       dotsEl.appendChild(d);
     });
@@ -927,15 +1131,42 @@ function progress(step){
     var tg=document.getElementById('hook-tag');if(tg){tg.textContent=hk.tag;tg.style.color=hk.color;}
     var ln=document.getElementById('hook-line');if(ln)ln.textContent=hk.line;
     var dots=document.getElementById('hook-dots');
-    if(dots)dots.querySelectorAll('div').forEach(function(d,di){d.style.width=(di===i?18:6)+'px';d.style.background=(di===i?hk.color:'rgba(255,255,255,.15)');});
+    if(dots)dots.querySelectorAll('div').forEach(function(d,di){d.style.width=(di===i?20:8)+'px';d.style.background=(di===i?hk.color:'rgba(255,255,255,.15)');});
   }
 
-  setInterval(function(){setHook((hookIdx+1)%HOOKS.length);},3000);
+  var hookTimer=setInterval(function(){setHook((hookIdx+1)%HOOKS.length);},5000);
+  function bumpHook(dir){
+    setHook((hookIdx+dir+HOOKS.length)%HOOKS.length);
+    clearInterval(hookTimer);
+    hookTimer=setInterval(function(){setHook((hookIdx+1)%HOOKS.length);},5000);
+  }
+  var hookCard=document.getElementById('hook-card');
+  if(hookCard){
+    var _sx=0,_sy=0;
+    hookCard.addEventListener('touchstart',function(e){_sx=e.touches[0].clientX;_sy=e.touches[0].clientY;},{passive:true});
+    hookCard.addEventListener('touchend',function(e){
+      var dx=e.changedTouches[0].clientX-_sx;
+      var dy=e.changedTouches[0].clientY-_sy;
+      if(Math.abs(dx)>30&&Math.abs(dx)>Math.abs(dy)){bumpHook(dx<0?1:-1);}
+      else if(Math.abs(dx)<8&&Math.abs(dy)<8){bumpHook(1);}
+    },{passive:true});
+    hookCard.addEventListener('click',function(e){
+      if(e.target&&e.target.id==='hook-prev'){bumpHook(-1);return;}
+      if(e.target&&e.target.id==='hook-next'){bumpHook(1);return;}
+    });
+  }
 })();
 
 function launch(){
   document.getElementById('splash').style.display='none';
   document.getElementById('app').style.display='flex';
+  [0,120,350,700].forEach(function(d){setTimeout(function(){
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    document.querySelectorAll('.scr').forEach(function(s){s.scrollTop=0;});
+  },d);});
+  updateDDBadge();
   initAuth();
   // Show auth modal after 3 seconds if not signed in
   setTimeout(function(){ if(!_user) showAuthModal(); }, 3000);
@@ -943,7 +1174,6 @@ function launch(){
   showView('home');
   showPlan('family',document.getElementById('pt-fam'));
   renderSav();
-  updateAcctButton(!!_user);
 }
 
 function goTab(t){
@@ -957,14 +1187,16 @@ function goTab(t){
 }
 
 function showView(v){
-  ['home','cuisine','time','results'].forEach(function(x){
+  ['home','cuisine','time','results','drinktype','drinkbase','copycat','timeaware','buildown','dailydish'].forEach(function(x){
     var el=document.getElementById(x+'-view');
     if(el)el.style.display='none';
   });
   var el=document.getElementById(v+'-view');
   if(el)el.style.display='block';
+  if(v==='results'){var rc=document.getElementById('results-content');if(rc)while(rc.firstChild)rc.removeChild(rc.firstChild);}
+  var sc=document.getElementById('chat-scr');if(sc)sc.scrollTop=0;
+  window.scrollTo(0,0);
   if(v==='home'){progress(0);_meal='';_cuisine='';_time='';_hasPhoto=false;}
-  bot();
 }
 
 // ── MEAL → CUISINE → TIME ────────────────────────────────────────────────────
@@ -1028,7 +1260,7 @@ function callAI(){
   loading.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
   loading.innerHTML='<div style="font-size:28px;margin-bottom:8px">👨‍🍳</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:8px">Building your '+_cuisine+' '+_meal+' recipes...</div><div style="display:flex;gap:6px;justify-content:center"><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.15s"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.3s"></div></div>';
   content.appendChild(loading);
-  bot();
+  goTop();
 
   var timeCtx=_time?(_timeMins>0?' Must be ready in '+_timeMins+' minutes or less.':' Should be suitable for weekly meal prep.'):'';
   var messages=[{role:'user',content:'Give me 3 authentic '+_cuisine+' style '+_meal+' recipes.'+timeCtx+' I want real classic '+_cuisine+' '+_meal+' dishes. Return exactly 3 recipes.'}];
@@ -1043,10 +1275,10 @@ function callAI(){
   fetch(CHAT_ENDPOINT,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body),
-    signal: AbortSignal.timeout(30000) // 30 second timeout
+    body:JSON.stringify(body)
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
+    saveConversation((_meal||'Meal')+' · '+(_cuisine||'any cuisine'), data.text||'', 'recipe', _cuisine, _meal);
     if(data.error){
       showError(content,'Having trouble connecting. Please try again.');
       return;
@@ -1064,18 +1296,15 @@ function callAI(){
       var recipes=parsed.recipes||[];
       if(parsed.recipe)recipes=[parsed.recipe];
       if(recipes.length>0){
-        saveConversation(messages[0].content, data.text, _hasPhoto ? 'photo' : 'chat', _cuisine, _meal);
         showRecipeOptions(recipes,content);
       } else {
         showError(content,'No recipes found. Try again.');
       }
     }catch(err){
-      console.error("AI parse failed:", err);
       showError(content,'Something went wrong. Please try again.');
     }
-    bot();
-  }).catch(function(err){
-    console.error("AI Call failed:", err);
+    goTop();
+  }).catch(function(){
     loading.remove();
     showError(content,'Connection error. Please try again.');
   });
@@ -1093,7 +1322,9 @@ function showError(content,msg){
   content.appendChild(retry);
 }
 
+var _lastRecipes=null;
 function showRecipeOptions(recipes,container){
+  _lastRecipes=recipes;
   var isDrinks=(_meal==='Drinks');
   // Header
   var isDrinkFlow=(_meal==='Drinks');
@@ -1135,14 +1366,32 @@ function showFullCard(r,container){
   // Clear container and show full card
   while(container.firstChild)container.removeChild(container.firstChild);
 
+  // Back to recipe options
+  if(_lastRecipes && _lastRecipes.length>1){
+    var backRow=document.createElement('button');
+    backRow.style.cssText='display:flex;align-items:center;gap:6px;background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:10px;padding:0';
+    backRow.innerHTML='&#x2190; Back to the other recipes';
+    backRow.onclick=function(){
+      while(container.firstChild)container.removeChild(container.firstChild);
+      showRecipeOptions(_lastRecipes,container);
+    };
+    container.appendChild(backRow);
+  }
+
+  var isDrink=(_meal==='Drinks');
+  var isDrinkCard=(_meal==='Drinks');
   var name=String(r.name||'Recipe');
   var desc=String(r.description||r.desc||'');
-  var hc=parseFloat(r.homeCost||0)||0;
-  var rc=parseFloat(r.restaurantCost||0)||0;
-  if(rc<=hc)rc=+(hc*2.5).toFixed(2);
-  var sv=Math.max(0,+(rc-hc));
-  var ings=Array.isArray(r.ingredients)?r.ingredients:[];
-  var steps=Array.isArray(r.steps)?r.steps:[];
+  var hc=parseFloat(r.homeCost||r.home_cost||r.cost||0)||0;
+  var rc=parseFloat(r.restaurantCost||r.restaurant_cost||r.bar_price||0)||0;
+  if(hc===0 && rc===0){ hc=8; rc=24; }
+  if(rc<=hc) rc=+(hc*2.5).toFixed(2);
+  var sv=Math.max(0,+(rc-hc).toFixed(2));
+  var ings=(Array.isArray(r.ingredients)?r.ingredients:[]).map(function(ing){
+    if(typeof ing==='string') return {name:ing,quantity:'',cost:0};
+    return ing;
+  });
+  var steps=Array.isArray(r.steps)?r.steps:(Array.isArray(r.instructions)?r.instructions:[]);
   var tip=String(r.tip||r.pro_tip||'');
 
   var card=document.createElement('div');
@@ -1151,7 +1400,6 @@ function showFullCard(r,container){
   // Header
   var hdr=document.createElement('div');
   hdr.style.cssText='background:linear-gradient(135deg,'+(isDrink?'#A855F7,#7C3AED':'#FF6B35,#FF8C42')+';padding:16px 18px;border-radius:18px 18px 0 0';
-  var isDrink=(_meal==='Drinks');
   hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;margin-bottom:4px">'+_meal+(_drinkType?' \u00b7 '+_drinkType:(_cuisine?' \u00b7 '+_cuisine:''))+(_drinkBase?' \u00b7 '+_drinkBase:(_time?' \u00b7 '+_time:''))+'</div>'
     +'<div style="font-size:20px;font-weight:800;color:#FFF;font-family:Georgia,serif;margin-bottom:4px">'+name+'</div>'
     +'<div style="font-size:13px;color:rgba(255,255,255,.9)">'+desc+'</div>';
@@ -1239,15 +1487,17 @@ function showFullCard(r,container){
         f2.onclick=function(){
           var q=encodeURIComponent(name2);
           var menu=document.createElement('div');
+          menu.className='store-sheet';
           menu.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:flex;align-items:flex-end;max-width:430px;margin:0 auto';
+          menu.onclick=function(e){if(e.target===menu)menu.remove();};
           menu.innerHTML='<div style="background:#FFF;border-radius:24px 24px 0 0;padding:24px 20px 44px;width:100%">'
             +'<div style="font-size:16px;font-weight:800;color:#2D1810;text-align:center;margin-bottom:4px">Find '+name2+'</div>'
             +'<div style="font-size:13px;color:#9B7B6E;text-align:center;margin-bottom:20px">Where would you like to shop?</div>'
-            +'<a href="https://www.instacart.com/store/s?k='+q+'" target="_blank" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none">'
+            +'<a href="https://www.instacart.com/store/s?k='+q+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none">'
             +'<span style="font-size:28px">🛒</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Instacart</div><div style="font-size:12px;color:#9B7B6E">Deliver to your door</div></div></a>'
-            +'<a href="https://www.walmart.com/search?q='+q+'" target="_blank" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none">'
+            +'<a href="https://www.walmart.com/search?q='+q+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none">'
             +'<span style="font-size:28px">🏪</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Walmart</div><div style="font-size:12px;color:#9B7B6E">Check prices nearby</div></div></a>'
-            +'<a href="https://www.google.com/search?tbm=shop&q='+q+'" target="_blank" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:16px;text-decoration:none">'
+            +'<a href="https://www.google.com/search?tbm=shop&q='+q+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:16px;text-decoration:none">'
             +'<span style="font-size:28px">🔍</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Google Shopping</div><div style="font-size:12px;color:#9B7B6E">Compare prices from all stores</div></div></a>'
             +'<button onclick="this.parentElement.parentElement.remove()" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:14px;padding:14px;font-weight:600;cursor:pointer">Cancel</button>'
             +'</div>';
@@ -1288,7 +1538,7 @@ function showFullCard(r,container){
   // Log button
   var lb=document.createElement('button');
   lb.style.cssText='display:block;width:calc(100% - 32px);margin:0 16px 16px;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 4px 16px rgba(34,197,94,.3)';
-  lb.textContent=(isDrink?'I Made This! Log My $':'I Made This! Log My $')+sv.toFixed(2)+(isDrink?' Bar Savings':' Savings');
+  lb.textContent=(isDrinkCard?'I Made This! Log My $':'I Made This! Log My $')+sv.toFixed(2)+(isDrinkCard?' Bar Savings':' Savings');
   (function(s,n){lb.onclick=function(){ps=s;pn=n;document.getElementById('ls-val').textContent='$'+s.toFixed(2);document.getElementById('ls-eq').textContent=eq(s);document.getElementById('logsheet').className='logsheet on';};})(sv,name);
   card.appendChild(lb);
   container.appendChild(card);
@@ -1299,14 +1549,14 @@ function showFullCard(r,container){
   nb.textContent=isDrink?'🏠 Make another drink':'🏠 Start a new recipe';
   nb.onclick=function(){showView('home');};
   container.appendChild(nb);
-  bot();
+  goTop();
 }
 
 // ── LOG SAVINGS ──────────────────────────────────────────────────────────────
 function doLog(){
   savLog.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps});
   localStorage.setItem('cs',JSON.stringify(savLog));
-  saveSavingsToCloud(pn, ps, 0, 0);
+  saveSavingsToCloud(pn,ps,0,0);
   document.getElementById('logsheet').className='logsheet';
   renderSav();
   toast('Logged! You saved $'+ps.toFixed(2)+'!');
@@ -1423,10 +1673,10 @@ function sendHomeChat(){
   content.appendChild(loading);
   bot(); fetch(CHAT_ENDPOINT,{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:text}]}),
-    signal: AbortSignal.timeout(30000) // 30 second timeout
+    body:JSON.stringify({messages:[{role:'user',content:text}]})
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
+    saveConversation(text, data.text||'', 'chat', _cuisine, _meal);
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
     try{
       var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
@@ -1439,7 +1689,6 @@ function sendHomeChat(){
         msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';
         msg.textContent=parsed.message;
         content.appendChild(msg);
-        saveConversation(text, data.text, 'chat');
       }
 
       // MENU response — show beautiful menu cards
@@ -1499,12 +1748,10 @@ function sendHomeChat(){
       // Regular recipes
       var recipes=parsed.recipes||[];
       if(parsed.recipe) recipes=[parsed.recipe];
-      if (recipes.length > 0 && !parsed.menu) {
-        saveConversation(text, data.text, 'chat');
-        showRecipeOptions(recipes, content);
-      }
+      if(recipes.length>0 && !parsed.menu) showRecipeOptions(recipes,content);
+
     }catch(err){
-      console.error("AI parse failed (home chat):", err);
+      // Try to detect if it's a plain text menu response and parse it
       var rawText = data.text||'';
       var menuItems = [];
       // Pattern: lines with Item Cost, Sell Price, Profit Margin
@@ -1572,7 +1819,6 @@ function sendHomeChat(){
         msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.7;white-space:pre-wrap';
         msg.textContent=rawText.replace(/\*\*/g,'').replace(/\*/g,'');
         content.appendChild(msg);
-        saveConversation(text, rawText, 'chat');
       }
     }
     // Show back + new question bar
@@ -1603,7 +1849,7 @@ function sendHomeChat(){
           var s2=raw2.indexOf('{'),e2=raw2.lastIndexOf('}');
           var p2=JSON.parse(s2>=0?raw2.substring(s2,e2+1):raw2);
           if(p2.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=p2.message;content.appendChild(mm);}
-          if(p2.menu && p2.menu.length >= 1){
+          if(p2.menu&&p2.menu.length>=1){
             var mw2=document.createElement('div');
             var mh2=document.createElement('div');mh2.style.cssText='background:linear-gradient(135deg,#2D1810,#4A2418);border-radius:18px;padding:16px;margin-bottom:10px;color:#FFF';
             mh2.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">ChefSays Menu</div><div style="font-size:18px;font-weight:800;font-family:Georgia,serif">Your Items</div>';
@@ -1627,10 +1873,11 @@ function sendHomeChat(){
             var tw2=p2.menu.reduce(function(s,i){var pr=i.profit_margin||i.profit||0;return s+(parseFloat(String(pr).replace('$',''))||0)*50;},0);
             if(tw2>0){var pc2=document.createElement('div');pc2.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center';pc2.innerHTML='<div><div style="font-size:12px;color:rgba(255,255,255,.9);font-weight:700">Sell 50/week each</div><div style="font-size:11px;color:rgba(255,255,255,.6)">conservative</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+tw2.toFixed(0)+'</div><div style="font-size:10px;color:rgba(255,255,255,.7)">weekly profit</div></div>';mw2.appendChild(pc2);}
             content.appendChild(mw2);
-          } else if(p2.recipes && p2.recipes.length > 0){
-            showRecipeOptions(p2.recipes,content);
-          } else if(!p2.menu){
-            var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);saveConversation(rt, d2.text, 'chat');
+          } else if(p2.recipes&&p2.recipes.length>0){
+            var recs2=p2.recipes.map(function(r){if(!r.homeCost&&!r.restaurantCost){r.homeCost=r.cost||8;r.restaurantCost=r.price||24;}return r;});
+            showRecipeOptions(recs2,content);
+          } else if(!p2.menu && !p2.recipes){
+            var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=p2.message||d2.text||'';content.appendChild(rm);
           }
         }catch(e2){
           var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);
@@ -1642,12 +1889,12 @@ function sendHomeChat(){
         rb2btn.onclick=function(){var t3=ri2.value.trim();if(!t3)return;rb2.remove();var fu3=document.createElement('div');fu3.style.cssText='background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;margin-left:auto;max-width:85%';fu3.textContent=t3;content.appendChild(fu3);var fl3=document.createElement('div');fl3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';fl3.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';content.appendChild(fl3);bot();fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt},{role:'assistant',content:d2.text},{role:'user',content:t3}]})}).then(function(r){return r.json();}).then(function(d3){fl3.remove();var rm3=document.createElement('div');rm3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm3.textContent=d3.text||'';content.appendChild(rm3);bot();}).catch(function(){fl3.remove();});};
         rb2.appendChild(ri2);rb2.appendChild(rb2btn);content.appendChild(rb2);
         bot();
-      }).catch(function(err){console.error("Follow-up failed:", err); fl.remove();});
+      }).catch(function(){fl.remove();});
     };
     replyBar.appendChild(replyInp);replyBar.appendChild(replyBtn);
     content.appendChild(replyBar);
-    bot();
-  }).catch(function(err){console.error("Home chat failed:", err); loading.remove();showError(content,'Connection error. Please try again.');});
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
 }
 
 function startDrinks(){
@@ -1657,7 +1904,23 @@ function startDrinks(){
   progress(1);
 }
 
+function getUserAge(){
+  try{
+    var p=JSON.parse(localStorage.getItem('cs_profile')||'{}');
+    if(p.dob) return getAge(p.dob);
+  }catch(e){}
+  if(_userProfile&&_userProfile.dob) return getAge(_userProfile.dob);
+  return null; // unknown
+}
+
 function pickDrinkType(type){
+  if(type==='Alcoholic'){
+    var age=getUserAge();
+    if(age!==null&&age<21){
+      toast('21+ only for cocktails 🍹 — check out our amazing mocktails instead!');
+      type='Non-Alcoholic';
+    }
+  }
   _drinkType=type;
   _selectedMeal='Drinks';
   var bases = type==='Alcoholic' ? SPIRIT_BASES : NA_BASES;
@@ -1681,13 +1944,14 @@ function pickDrinkBase(base){
   loading.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
   loading.innerHTML='<div style="font-size:28px;margin-bottom:8px">🍹</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:8px">Building your '+base.name+' drink recipes...</div><div style="display:flex;gap:6px;justify-content:center"><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.15s"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.3s"></div></div>';
   content.appendChild(loading);
-  bot();
+  goTop();
   var msg='IMPORTANT: You are a bartender. Make DRINKS AND COCKTAILS ONLY. Do NOT suggest any food. I have: '+base.name+'. Give me exactly 3 cocktail or drink recipes I can make using ONLY what I listed. These must be DRINKS to sip — not food. For each drink: name, description, exact measurements, cost per ingredient, total home cost to make, typical bar price, prep time under 5 minutes. Respond in JSON with recipes array.';
   fetch(CHAT_ENDPOINT,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({messages:[{role:'user',content:'You are a professional bartender. Only suggest drinks and cocktails. Never suggest food.'},{role:'assistant',content:'I understand. I will only suggest cocktails and drinks.'},{role:'user',content:msg}]})
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
+    saveConversation('Drink: '+String(_drinkBase||''), data.text||'', 'drink', '', 'Drinks');
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
     try{
       var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
@@ -1696,12 +1960,426 @@ function pickDrinkBase(base){
       if(parsed.message){var msg2=document.createElement('div');msg2.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';msg2.textContent=parsed.message;content.appendChild(msg2);}
       var recipes=parsed.recipes||[];
       if(parsed.recipe)recipes=[parsed.recipe];
-      if(recipes.length>0){saveConversation(msg, data.text, 'drinks', _drinkBase, 'Drinks'); showRecipeOptions(recipes,content);}
+      if(recipes.length>0){showRecipeOptions(recipes,content);}
       else{showError(content,'No recipes found. Try again.');}
     }catch(err){showError(content,'Something went wrong. Please try again.');}
-    bot();
+    goTop();
   }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
 }
+var _buildFor = 'myself';
+
+function startBuildOwn(){
+  if(checkLimit()) return;
+  _buildFor = 'myself';
+  showView('buildown');
+  progress(1);
+}
+
+function selectBuildFor(btn, type){
+  _buildFor = type;
+  var grid = document.getElementById('build-for-grid');
+  if(grid) grid.querySelectorAll('button').forEach(function(b){b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';});
+  btn.style.background='#0EA5E9';btn.style.color='#FFF';btn.style.borderColor='#0EA5E9';
+}
+
+function submitBuildOwn(){
+  var inp = document.getElementById('buildown-input');
+  var dish = inp ? inp.value.trim() : '';
+  if(!dish){ if(inp)inp.style.borderColor='#EF4444'; return; }
+  if(checkLimit()) return;
+  showView('results'); progress(4);
+  var content = document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  var loading = document.createElement('div');
+  loading.style.cssText = 'background:#FFF;border:1.5px solid #E0F2FE;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML = '<div style="font-size:28px;margin-bottom:8px">🔨</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Building and costing...</div><div style="font-size:13px;color:#9B7B6E">'+(_buildFor==='restaurant'?'Calculating food cost, margin and suppliers':'Calculating your cost per serving')+'</div>';
+  content.appendChild(loading); goTop();
+  var ctx = _buildFor==='restaurant'
+    ? 'This is for a RESTAURANT OWNER. Give full restaurant costing: raw ingredient cost per serving, food cost percentage, suggested sell price, profit margin per item, and where to buy ingredients (Restaurant Depot, Sams Club, Smart and Final, Costco, Food 4 Less).'
+    : _buildFor==='family'
+    ? 'This is for a home cook feeding a family of 4. Give total cost and cost per person.'
+    : 'This is for a home cook making 1-2 servings. Give cost per serving and savings vs ordering out.';
+  var msg = 'Build a recipe for: "'+dish+'". '+ctx+' Include: full ingredient list with quantities and cost per ingredient, total cost, prep time, step by step instructions, how much they save vs buying it at a restaurant.';
+  fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:msg}]})}).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    saveConversation(dish+' ('+_buildFor+')', data.text||'', 'build_own');
+    if(data.error){showError(content,'Having trouble. Try again.');return;}
+    try{
+      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e2=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e2+1):raw);
+      var icons={'myself':'🧑‍🍳','family':'👨‍👩‍👧','restaurant':'🍽️'};
+      var hdr=document.createElement('div');hdr.style.cssText='background:linear-gradient(135deg,#0EA5E9,#0284C7);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
+      hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">'+(icons[_buildFor]||'🔨')+' Build My Own</div><div style="font-size:20px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">'+dish+'</div><div style="font-size:13px;color:rgba(255,255,255,.8)">'+(_buildFor==='restaurant'?'Restaurant costing + suppliers':_buildFor==='family'?'Family of 4 cost breakdown':'Your cost breakdown')+'</div>';
+      content.appendChild(hdr);
+      var backBtn=document.createElement('button');backBtn.style.cssText='display:flex;align-items:center;gap:6px;background:none;border:none;color:#0EA5E9;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:8px;padding:0';backBtn.innerHTML='&#x2190; Build something else';backBtn.onclick=function(){showView('buildown');};content.appendChild(backBtn);
+      if(parsed.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #E0F2FE;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=parsed.message;content.appendChild(mm);}
+      if(parsed.menu&&parsed.menu.length>=1){
+        parsed.menu.forEach(function(item){
+          var cn=parseFloat(String(item.item_cost||item.cost||0).replace('$',''))||0;
+          var sn=parseFloat(String(item.sell_price||item.price||0).replace('$',''))||0;
+          var pn=parseFloat(String(item.profit_margin||item.profit||0).replace('$',''))||+(sn-cn).toFixed(2);
+          var card=document.createElement('div');card.style.cssText='background:#FFF;border:1.5px solid #E0F2FE;border-radius:16px;padding:16px;margin-bottom:10px';
+          card.innerHTML='<div style="font-size:16px;font-weight:800;color:#2D1810;margin-bottom:6px">'+(item.item_name||item.item||item.name||'Item')+'</div>'+(item.description?'<div style="font-size:13px;color:#9B7B6E;margin-bottom:10px">'+item.description+'</div>':'')+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px"><div style="background:#F0F9FF;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#0EA5E9;text-transform:uppercase;font-weight:600;margin-bottom:2px">Cost</div><div style="font-size:18px;font-weight:900;color:#0284C7">$'+cn.toFixed(2)+'</div></div>'+(sn>0?'<div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Sell</div><div style="font-size:18px;font-weight:900;color:#FF6B35">$'+sn.toFixed(2)+'</div></div>':'')+((sn-cn)>0?'<div style="background:#F0FDF4;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#16A34A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Profit</div><div style="font-size:18px;font-weight:900;color:#22C55E">$'+pn.toFixed(2)+'</div></div>':'')+'</div>'+(item.where_to_buy||item.where?'<div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:10px"><div style="font-size:10px;font-weight:700;color:#0EA5E9;margin-bottom:3px">🛒 Where to Buy</div><div style="font-size:12px;color:#9B7B6E">'+(item.where_to_buy||item.where)+'</div></div>':'');
+          content.appendChild(card);
+        });
+      } else {
+        var recs=parsed.recipes||[];if(parsed.recipe)recs=[parsed.recipe];
+        if(recs.length>0) showRecipeOptions(recs,content);
+        else if(!parsed.message){var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #E0F2FE;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'');content.appendChild(rm);}
+      }
+    }catch(err){var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #E0F2FE;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'');content.appendChild(rm);}
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
+// ── DAILY DISH GAME ──
+var DAILY_DISHES=[
+  {emoji:'🌯',name:'Chipotle Chicken Burrito Bowl',restaurant:'Chipotle',rp:11.95,hc:4.20,br:[['Chicken thigh 6oz',1.45],['Rice 1 cup',0.35],['Black beans',0.40],['Corn salsa',0.55],['Cheese + crema',0.75],['Lettuce + pico',0.70]]},
+  {emoji:'🍔',name:'Big Mac Style Burger',restaurant:'McDonald\'s',rp:5.99,hc:2.10,br:[['Beef patties 2x2oz',1.10],['Sesame bun',0.35],['Special sauce',0.20],['Lettuce + onion',0.25],['Cheese slice',0.20]]},
+  {emoji:'🌮',name:'Crunchwrap Supreme Style',restaurant:'Taco Bell',rp:5.49,hc:1.85,br:[['Large tortilla',0.40],['Seasoned beef 3oz',0.75],['Nacho cheese',0.25],['Tostada shell',0.20],['Lettuce + crema',0.25]]},
+  {emoji:'🍝',name:'Fettuccine Alfredo',restaurant:'Olive Garden',rp:16.49,hc:3.40,br:[['Fettuccine 4oz',0.55],['Heavy cream',1.10],['Parmesan',1.20],['Butter + garlic',0.55]]},
+  {emoji:'🐔',name:'Crispy Chicken Sandwich',restaurant:'Chick-fil-A',rp:5.95,hc:2.25,br:[['Chicken breast',1.30],['Brioche bun',0.40],['Pickles',0.10],['Oil + breading',0.45]]},
+  {emoji:'🍕',name:'Pepperoni Pizza (Large)',restaurant:'Domino\'s',rp:13.99,hc:4.80,br:[['Dough',0.90],['Sauce',0.60],['Mozzarella 8oz',2.20],['Pepperoni',1.10]]},
+  {emoji:'🥡',name:'Orange Chicken w/ Rice',restaurant:'Panda Express',rp:10.40,hc:3.60,br:[['Chicken thigh 8oz',1.90],['Orange sauce',0.65],['Rice 1.5 cups',0.50],['Oil + cornstarch',0.55]]},
+  {emoji:'🍗',name:'8pc Hot Wings',restaurant:'Wingstop',rp:11.99,hc:3.95,br:[['Wings 8pc',3.00],['Sauce + butter',0.55],['Oil',0.40]]},
+  {emoji:'🥪',name:'Italian BMT Footlong',restaurant:'Subway',rp:9.49,hc:3.30,br:[['Footlong roll',0.80],['Salami + pepperoni + ham',1.85],['Cheese',0.35],['Veggies',0.30]]},
+  {emoji:'🍜',name:'Tonkotsu Ramen',restaurant:'Ramen shop',rp:15.95,hc:4.50,br:[['Noodles',0.85],['Pork belly',2.10],['Broth + tare',0.95],['Egg + toppings',0.60]]},
+  {emoji:'☕',name:'Caramel Frappuccino',restaurant:'Starbucks',rp:6.45,hc:1.15,br:[['Espresso',0.30],['Milk + ice',0.35],['Caramel + whip',0.50]]},
+  {emoji:'🥗',name:'Chicken Caesar Salad',restaurant:'Panera',rp:12.59,hc:3.55,br:[['Romaine',0.80],['Chicken breast',1.40],['Parmesan + croutons',0.75],['Caesar dressing',0.60]]},
+  {emoji:'🌯',name:'California Burrito',restaurant:'Taco shop',rp:10.95,hc:3.85,br:[['Carne asada 5oz',2.00],['Fries',0.55],['Tortilla',0.45],['Cheese + crema + guac',0.85]]},
+  {emoji:'🍳',name:'Bacon Egg & Cheese',restaurant:'Diner',rp:8.95,hc:1.95,br:[['Eggs x2',0.50],['Bacon 3 strips',0.85],['Cheese',0.25],['Roll',0.35]]},
+];
+
+function getTodayDish(){
+  var now=new Date();
+  var dayNum=Math.floor(now.getTime()/86400000);
+  return {dish:DAILY_DISHES[dayNum%DAILY_DISHES.length], num:dayNum%1000};
+}
+
+function getDDState(){
+  try{return JSON.parse(localStorage.getItem('cs_dd')||'{}');}catch(e){return {};}
+}
+function saveDDState(s){try{localStorage.setItem('cs_dd',JSON.stringify(s));}catch(e){}}
+
+function updateDDBadge(){
+  var s=getDDState();
+  var badge=document.getElementById('dd-streak-badge');
+  if(badge)badge.textContent='🔥 '+(s.streak||0);
+  var sub=document.getElementById('dd-home-sub');
+  var today=new Date().toDateString();
+  if(sub&&s.lastPlayed===today)sub.textContent='✅ Played today · Come back tomorrow';
+}
+
+function startDailyDish(){
+  showView('dailydish');
+  renderDailyDish();
+}
+
+function renderDailyDish(){
+  var wrap=document.getElementById('dd-content');
+  if(!wrap)return;
+  while(wrap.firstChild)wrap.removeChild(wrap.firstChild);
+  var td=getTodayDish();
+  var d=td.dish;
+  var s=getDDState();
+  var today=new Date().toDateString();
+  var played=(s.lastPlayed===today);
+
+  var hdr=document.createElement('div');
+  hdr.style.cssText='background:linear-gradient(135deg,#16A34A,#15803D);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
+  hdr.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1.5px;font-weight:700">🎯 Guess the Cost · #'+td.num+'</div><div style="background:rgba(255,255,255,.15);border-radius:14px;padding:4px 10px;font-size:11px;font-weight:800">🔥 '+(s.streak||0)+' streak</div></div><div style="font-size:19px;font-weight:800;font-family:Georgia,serif">Today\'s Dish</div><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">No login required · Everyone gets the same dish daily</div>';
+  wrap.appendChild(hdr);
+
+  var card=document.createElement('div');
+  card.style.cssText='background:#FFF;border:2px solid #FFE0CC;border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:12px';
+  card.innerHTML='<div style="font-size:56px;margin-bottom:8px">'+d.emoji+'</div><div style="font-size:19px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">'+d.name+'</div><div style="font-size:14px;color:#9B7B6E;margin-bottom:12px">'+d.restaurant+' charges <strong style="color:#EF4444">$'+d.rp.toFixed(2)+'</strong></div><div style="background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px;font-size:14px;font-weight:700;color:#2D1810">What does it cost to make at home?</div>';
+  wrap.appendChild(card);
+
+  if(played){
+    showDDResult(wrap, d, s.lastGuess||0, td.num, true);
+    return;
+  }
+
+  var inpWrap=document.createElement('div');
+  inpWrap.style.cssText='display:flex;gap:10px;align-items:center;background:#FFF;border:2px solid #16A34A;border-radius:16px;padding:12px 16px;margin-bottom:10px';
+  inpWrap.innerHTML='<span style="font-size:24px;font-weight:900;color:#16A34A">$</span>';
+  var inp=document.createElement('input');
+  inp.type='number';inp.inputMode='decimal';inp.step='0.25';inp.placeholder='0.00';
+  inp.style.cssText='flex:1;border:none;outline:none;font-size:26px;font-weight:900;color:#2D1810;background:none;font-family:inherit;width:100%';
+  inpWrap.appendChild(inp);
+  wrap.appendChild(inpWrap);
+
+  var quick=document.createElement('div');
+  quick.style.cssText='display:flex;gap:8px;margin-bottom:12px';
+  ['2.50','4.00','6.00','8.50'].forEach(function(v){
+    var b=document.createElement('button');
+    b.style.cssText='flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:10px 4px;font-size:13px;font-weight:700;color:#2D1810;cursor:pointer';
+    b.textContent='$'+v;
+    b.onclick=function(){inp.value=v;};
+    quick.appendChild(b);
+  });
+  wrap.appendChild(quick);
+
+  var lockBtn=document.createElement('button');
+  lockBtn.style.cssText='display:block;width:100%;background:linear-gradient(135deg,#16A34A,#15803D);color:#FFF;border:none;border-radius:16px;padding:17px;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 6px 24px rgba(22,163,74,.3)';
+  lockBtn.innerHTML='Lock In My Guess 🔒';
+  lockBtn.onclick=function(){
+    var g=parseFloat(inp.value)||0;
+    if(g<=0){inp.focus();return;}
+    var st=getDDState();
+    var yesterday=new Date(Date.now()-86400000).toDateString();
+    st.streak=(st.lastPlayed===yesterday)?(st.streak||0)+1:1;
+    st.lastPlayed=new Date().toDateString();
+    st.lastGuess=g;
+    saveDDState(st);
+    updateDDBadge();
+    // Remove input UI
+    inpWrap.remove();quick.remove();lockBtn.remove();
+    showDDResult(wrap, d, g, getTodayDish().num, false);
+  };
+  wrap.appendChild(lockBtn);
+}
+
+function showDDResult(wrap, d, g, num, alreadyPlayed){
+  var diff=Math.abs(g-d.hc);
+  var label=diff<=0.25?'🎯 BULLSEYE':diff<=0.75?'🔥 SO CLOSE':diff<=1.5?'👍 NOT BAD':'😅 WAY OFF';
+  var color=diff<=0.25?'#22C55E':diff<=0.75?'#F59E0B':diff<=1.5?'#3B82F6':'#EF4444';
+  var sav=(d.rp-d.hc).toFixed(2);
+  var s=getDDState();
+
+  var res=document.createElement('div');
+  res.style.cssText='background:#FFF;border:2px solid '+color+';border-radius:20px;padding:18px;text-align:center;margin-bottom:12px';
+  res.innerHTML='<div style="font-size:22px;font-weight:900;color:'+color+';margin-bottom:12px">'+label+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">'
+    +'<div style="background:#FFF8F0;border-radius:14px;padding:12px"><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:700;margin-bottom:3px">Your guess</div><div style="font-size:26px;font-weight:900;color:#2D1810">$'+g.toFixed(2)+'</div></div>'
+    +'<div style="background:#F0FDF4;border-radius:14px;padding:12px"><div style="font-size:10px;color:#16A34A;text-transform:uppercase;font-weight:700;margin-bottom:3px">Real cost</div><div style="font-size:26px;font-weight:900;color:#22C55E">$'+d.hc.toFixed(2)+'</div></div>'
+    +'</div><div style="font-size:13px;color:#9B7B6E">You were <strong style="color:'+color+'">$'+diff.toFixed(2)+'</strong> off</div>';
+  wrap.appendChild(res);
+
+  var bd=document.createElement('div');
+  bd.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:18px;padding:16px;margin-bottom:12px';
+  var bdRows='';
+  d.br.forEach(function(row,i){
+    bdRows+='<div style="display:flex;justify-content:space-between;padding:6px 0;'+(i<d.br.length-1?'border-bottom:1px solid #FFF5F0':'')+'"><span style="font-size:13px;color:#2D1810">'+row[0]+'</span><span style="font-size:13px;font-weight:700;color:#FF6B35">$'+row[1].toFixed(2)+'</span></div>';
+  });
+  bd.innerHTML='<div style="font-size:13px;font-weight:800;color:#2D1810;margin-bottom:8px">The real breakdown:</div>'+bdRows;
+  wrap.appendChild(bd);
+
+  var savBar=document.createElement('div');
+  savBar.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:18px;padding:16px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center';
+  savBar.innerHTML='<div><div style="font-size:13px;color:rgba(255,255,255,.85);font-weight:700">Make this tonight, pocket</div><div style="font-size:11px;color:rgba(255,255,255,.6)">vs ordering from '+d.restaurant+'</div></div><div style="font-size:34px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+sav+'</div>';
+  wrap.appendChild(savBar);
+
+  var recipeBtn=document.createElement('button');
+  recipeBtn.style.cssText='display:block;width:100%;background:linear-gradient(135deg,#FF4500,#FF6B35);color:#FFF;border:none;border-radius:16px;padding:15px;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:10px';
+  recipeBtn.innerHTML='👨‍🍳 Get the Full Recipe &#x2192;';
+  recipeBtn.onclick=function(){
+    var inp=document.getElementById('copycat-input');
+    if(inp)inp.value=d.name+' like '+d.restaurant;
+    submitCopycat();
+  };
+  wrap.appendChild(recipeBtn);
+
+  var shareBtn=document.createElement('button');
+  shareBtn.style.cssText='display:block;width:100%;background:#FFF;border:2px solid #FFD4B8;color:#FF6B35;border-radius:16px;padding:13px;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:10px';
+  shareBtn.innerHTML='📤 Share My Score';
+  shareBtn.onclick=function(){
+    var txt='🎯 ChefSays Daily Dish #'+num+'\n'+d.emoji+' '+d.name+'\nI guessed $'+g.toFixed(2)+' — real cost $'+d.hc.toFixed(2)+' ('+label+')\n'+d.restaurant+' charges $'+d.rp.toFixed(2)+' 🤯\nPlay at chefsays.ai';
+    if(navigator.share){navigator.share({text:txt}).catch(function(){});}
+    else{navigator.clipboard.writeText(txt).then(function(){toast('Score copied! Paste it anywhere 📤');}).catch(function(){});}
+  };
+  wrap.appendChild(shareBtn);
+
+  var streakCard=document.createElement('div');
+  streakCard.style.cssText='background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:14px;padding:13px;text-align:center';
+  streakCard.innerHTML='<div style="font-size:13px;font-weight:800;color:#2D1810;margin-bottom:2px">🔥 Streak: '+(s.streak||0)+' day'+((s.streak||0)===1?'':'s')+'</div><div style="font-size:12px;color:#9B7B6E">'+(alreadyPlayed?'You played today — come back tomorrow for the next dish':'Come back tomorrow to keep it alive')+'</div>';
+  wrap.appendChild(streakCard);
+}
+
+function startCopycat(){
+  if(checkLimit()) return;
+  showView('copycat');
+  progress(1);
+}
+
+function submitCopycat(){
+  var inp = document.getElementById('copycat-input');
+  var dish = inp ? inp.value.trim() : '';
+  if(!dish){ return; }
+  if(checkLimit()) return;
+  showView('results');
+  progress(4);
+  var content = document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  var loading = document.createElement('div');
+  loading.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML = '<div style="font-size:28px;margin-bottom:8px">🔴</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Building your copycat recipe...</div><div style="font-size:13px;color:#9B7B6E">Calculating what it costs vs the restaurant</div>';
+  content.appendChild(loading);
+  goTop();
+  var msg = 'Give me a copycat recipe for "'+dish+'". Show exactly how to make it at home. Include: all ingredients with exact costs per item, total home cost, what the dish costs at the actual restaurant, how much they save making it at home, prep time, and step by step instructions. Make it taste as close to the original as possible. Also tell me the exact ingredient breakdown per serving like: tortilla = $0.50, beef = $0.85, cheese = $0.35 etc.';
+  fetch('/.netlify/functions/chat',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({messages:[{role:'user',content:msg}]})
+  }).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    saveConversation(dish, data.text||'', 'chef_version');
+    if(data.error){showError(content,'Having trouble. Try again.');return;}
+    try{
+      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
+      // Add copycat header
+      var hdr=document.createElement('div');
+      hdr.style.cssText='background:linear-gradient(135deg,#EF4444,#DC2626);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
+      hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">Chef\'s Version</div>'
+        +'<div style="font-size:20px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">'+dish+'</div>'
+        +'<div style="font-size:13px;color:rgba(255,255,255,.8)">Restaurant quality. Your kitchen. Your price.</div>';
+      content.appendChild(hdr);
+      if(parsed.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=parsed.message;content.appendChild(mm);}
+      var recipes=parsed.recipes||[];
+      if(parsed.recipe) recipes=[parsed.recipe];
+      if(recipes.length>0) showRecipeOptions(recipes,content);
+    }catch(err){
+      var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'').replace(/\*\*/g,'').replace(/\*/g,'');content.appendChild(rm);
+    }
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
+// TIME AWARE
+var _eatTime = '';
+
+function startTimeAware(){
+  if(checkLimit()) return;
+  _planMeal = '';
+  _eatTime = '';
+  showView('timeaware');
+  progress(1);
+  buildEatTimeGrid('Dinner'); // default
+}
+
+var _planMeal = '';
+
+function resetPlanMeal(){
+  _planMeal = '';
+  _eatTime = '';
+  // Reset meal buttons
+  var grid = document.getElementById('plan-meal-grid');
+  if(grid) grid.querySelectorAll('button').forEach(function(b){
+    b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';
+  });
+  // Reset time grid to dinner default
+  buildEatTimeGrid('Dinner');
+  // Clear craving input
+  var inp = document.getElementById('timeaware-input');
+  if(inp) inp.value='';
+}
+
+function selectPlanMeal(btn, meal){
+  _planMeal = meal;
+  var grid = document.getElementById('plan-meal-grid');
+  if(grid) grid.querySelectorAll('button').forEach(function(b){
+    b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';
+  });
+  btn.style.background='#F59E0B';btn.style.color='#FFF';btn.style.borderColor='#F59E0B';
+  // Rebuild time grid for this meal type
+  buildEatTimeGrid(meal);
+}
+
+function buildEatTimeGrid(mealType){
+  var grid = document.getElementById('eat-time-grid');
+  if(!grid) return;
+  while(grid.firstChild) grid.removeChild(grid.firstChild);
+  _eatTime = '';
+
+  // Set time range based on meal type
+  var slots = [];
+  var meal = mealType || _planMeal || '';
+  if(meal==='Breakfast'){
+    slots=['5:00am','5:30am','6:00am','6:30am','7:00am','7:30am','8:00am','8:30am','9:00am','9:30am','10:00am','10:30am'];
+  } else if(meal==='Brunch'){
+    slots=['9:00am','9:30am','10:00am','10:30am','11:00am','11:30am','12:00pm','12:30pm','1:00pm','1:30pm'];
+  } else if(meal==='Lunch'){
+    slots=['11:00am','11:30am','12:00pm','12:30pm','1:00pm','1:30pm','2:00pm','2:30pm'];
+  } else if(meal==='Snack'){
+    slots=['2:00pm','2:30pm','3:00pm','3:30pm','4:00pm','4:30pm','5:00pm'];
+  } else if(meal==='Late Night'){
+    slots=['9:00pm','9:30pm','10:00pm','10:30pm','11:00pm','11:30pm','12:00am'];
+  } else {
+    // Dinner
+    slots=['5:00pm','5:30pm','6:00pm','6:30pm','7:00pm','7:30pm','8:00pm','8:30pm','9:00pm'];
+  }
+
+  slots.forEach(function(time){
+    var btn = document.createElement('button');
+    btn.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:10px;padding:10px 4px;font-size:11px;font-weight:700;color:#2D1810;cursor:pointer;text-align:center';
+    btn.textContent = time;
+    (function(t){
+      btn.onclick = function(){
+        _eatTime = t;
+        grid.querySelectorAll('button').forEach(function(b){b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';});
+        btn.style.background='#F59E0B';btn.style.color='#FFF';btn.style.borderColor='#F59E0B';
+      };
+    })(time);
+    grid.appendChild(btn);
+  });
+}
+
+function submitTimeAware(){
+  var inp = document.getElementById('timeaware-input');
+  var craving = inp ? inp.value.trim() : '';
+  if(!craving){ inp.style.borderBottom='2px solid #EF4444'; return; }
+  if(checkLimit()) return;
+  var now = new Date();
+  var nowStr = (now.getHours()%12||12)+':'+(now.getMinutes()<10?'0':'')+now.getMinutes()+(now.getHours()<12?'am':'pm');
+  var eatStr = _eatTime || '7:00pm';
+  showView('results');
+  progress(4);
+  var content = document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  var loading = document.createElement('div');
+  loading.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML = '<div style="font-size:28px;margin-bottom:8px">⏰</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Planning your meal...</div><div style="font-size:13px;color:#9B7B6E">It is '+nowStr+' — you want to eat at '+eatStr+'</div>';
+  content.appendChild(loading);
+  goTop();
+  var mealLabel = _planMeal || 'meal';
+  var msg = 'It is currently '+nowStr+'. The user wants to eat '+mealLabel+' at '+eatStr+'. They are craving: "'+craving+'". Give them: 1) The best recipe for this craving that fits the time available, 2) A step by step timeline with real clock times starting from '+nowStr+' — include when to shop/gather ingredients, when to prep, when to start cooking, and when food is ready at '+eatStr+', 3) All ingredient costs per item, 4) Total home cost vs ordering the same thing out, 5) How much they save. Be specific with times like "'+nowStr+' - Pull ingredients" etc.';
+  fetch('/.netlify/functions/chat',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({messages:[{role:'user',content:msg}]})
+  }).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    saveConversation((_planMeal||'Meal')+' at '+eatStr+': '+craving, data.text||'', 'meal_plan', '', _planMeal);
+    if(data.error){showError(content,'Having trouble. Try again.');return;}
+    try{
+      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
+      // Time aware header
+      var hdr=document.createElement('div');
+      hdr.style.cssText='background:linear-gradient(135deg,#F59E0B,#D97706);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
+      hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">Meal Plan</div>'
+        +'<div style="font-size:20px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">'+(mealLabel||'Meal')+' at '+eatStr+'</div>'
+        +'<div style="font-size:13px;color:rgba(255,255,255,.8)">It is '+nowStr+' — here is your plan</div>';
+      content.appendChild(hdr);
+      // Add back to plan button
+      var backBtn=document.createElement('button');
+      backBtn.style.cssText='display:flex;align-items:center;gap:6px;background:none;border:none;color:#F59E0B;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:8px;padding:0';
+      backBtn.innerHTML='&#x2190; Change my plan';
+      backBtn.onclick=function(){showView('timeaware');};
+      content.appendChild(backBtn);
+      if(parsed.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.7;white-space:pre-wrap';mm.textContent=parsed.message;content.appendChild(mm);}
+      var recipes=parsed.recipes||[];
+      if(parsed.recipe) recipes=[parsed.recipe];
+      if(recipes.length>0) showRecipeOptions(recipes,content);
+    }catch(err){
+      var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.7;white-space:pre-wrap';rm.textContent=(data.text||'').replace(/\*\*/g,'').replace(/\*/g,'');content.appendChild(rm);
+    }
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
 function submitDrink(){
   var inp=document.getElementById('drink-input');
   var ingredients=inp?inp.value.trim():'';
@@ -1712,6 +2390,17 @@ function submitDrink(){
 }
 function findFreeFood(){document.getElementById('free-food-sheet').className='sheet on';}
 function findEBT(){document.getElementById('ebt-sheet').className='sheet on';}
+  // Clean ChefSays opening animation
+  window.addEventListener('load', function(){
+    var loader = document.getElementById('brand-loader');
+    if(!loader) return;
+    setTimeout(function(){
+      loader.classList.add('gone');
+      setTimeout(function(){ loader.style.display='none'; }, 480);
+    }, 1450);
+  });
+
+
 </script>
 </body>
 </html>

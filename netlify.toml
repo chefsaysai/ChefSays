@@ -1,11 +1,7 @@
-# This file configures the build and deployment settings for Netlify.
-
 [build]
-  command = "npm run build"
-  publish = "."
   functions = "netlify/functions"
+  publish = "."
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[build.environment]
+  NODE_VERSION = "18"
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
