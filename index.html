@@ -83,6 +83,7 @@ button{cursor:pointer;border:none;font-family:inherit}
   </div>
 </div>
 
+
 <!-- ═══════════════════ SPLASH ═══════════════════ -->
 <div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto;padding-bottom:90px">
 
@@ -91,12 +92,20 @@ button{cursor:pointer;border:none;font-family:inherit}
     <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(255,107,53,.35),transparent 70%);border-radius:50%;pointer-events:none"></div>
     <div style="position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(34,197,94,.15),transparent 70%);border-radius:50%;pointer-events:none"></div>
 
+    <!-- Logo -->
     <div class="cs-brand cs-hero-logo">
       <svg class="cs-mark" width="126" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon logo">
         <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
       </svg>
       <div class="cs-word">CHEF<span>SAYS</span></div>
+    </div>
+
+    <!-- What it is -->
+    <div style="margin-bottom:24px">
+      <div style="font-size:25px;font-weight:800;color:#FFF;line-height:1.32;margin-bottom:10px">Your AI chef that turns whatever you have into meals &mdash; and shows the money you save.</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6">Snap your fridge or name a craving. Get a real recipe in seconds, with the exact cost to make it at home vs ordering out.</div>
+      <div style="display:inline-block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;color:#22C55E;margin-top:14px">&#10003; Free to try &middot; No card to start</div>
     </div>
 
     <!-- Big savings number -->
@@ -274,6 +283,24 @@ button{cursor:pointer;border:none;font-family:inherit}
             <div><div style="font-size:13px;font-weight:800;color:#FFF;line-height:1.2">Plan My Meal</div><div style="font-size:10px;color:rgba(255,255,255,.8)">Pick a meal &amp; eat time</div></div>
           </button>
         </div>
+        <!-- CHAT BAR -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+          <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">OR JUST ASK ME ANYTHING</div>
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px">
+          <textarea id="home-chat-input" rows="1" placeholder="e.g. how do I make a delicious hot link hot dog..." style="flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHomeChat();}"></textarea>
+          <button onclick="sendHomeChat()" style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0">&#x2192;</button>
+        </div>
+        <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:6px;margin-bottom:4px">Hot dogs · Meal tips · Recipe ideas · Anything food</div>
+        <button onclick="startTired()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#7C3AED,#6D28D9);border:none;border-radius:14px;padding:15px 16px;cursor:pointer;margin-bottom:10px;text-align:left;box-shadow:0 4px 14px rgba(124,58,237,.3)">
+          <span style="font-size:30px">&#128564;</span>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:800;color:#FFF;line-height:1.2">Too Tired to Think</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px">One tap &rarr; tonight's dinner + grocery cart ready</div>
+          </div>
+        </button>
         <button onclick="startBuildOwn()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#0EA5E9,#0284C7);border:none;border-radius:14px;padding:14px;cursor:pointer;margin-bottom:12px;text-align:left;box-shadow:0 4px 14px rgba(14,165,233,.25)">
           <span style="font-size:28px">🔨</span>
           <div>
@@ -301,17 +328,7 @@ button{cursor:pointer;border:none;font-family:inherit}
           <button onclick="findFreeFood()" style="flex:1;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border:none;border-radius:12px;padding:12px;font-weight:700;font-size:13px;cursor:pointer">🗺️ Free Food Near Me</button>
           <button onclick="findEBT()" style="flex:1;background:linear-gradient(135deg,#3B82F6,#1D4ED8);color:#FFF;border:none;border-radius:12px;padding:12px;font-weight:700;font-size:13px;cursor:pointer">🏪 EBT Stores Near Me</button>
         </div>
-        <!-- CHAT BAR -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <div style="flex:1;height:1px;background:#FFE0CC"></div>
-          <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">OR JUST ASK ME ANYTHING</div>
-          <div style="flex:1;height:1px;background:#FFE0CC"></div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px">
-          <textarea id="home-chat-input" rows="1" placeholder="e.g. how do I make a delicious hot link hot dog..." style="flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHomeChat();}"></textarea>
-          <button onclick="sendHomeChat()" style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0">&#x2192;</button>
-        </div>
-        <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:6px;margin-bottom:4px">Hot dogs · Meal tips · Recipe ideas · Anything food</div>
+        
       </div>
 
       <!-- BUILD MY OWN VIEW -->
@@ -348,6 +365,31 @@ button{cursor:pointer;border:none;font-family:inherit}
       <div id="dailydish-view" style="display:none;overflow-y:auto;padding-bottom:20px">
         <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:12px">&#8592; Back</button>
         <div id="dd-content"></div>
+      </div>
+
+      <!-- TOO TIRED VIEW -->
+      <div id="tired-view" style="display:none;overflow-y:auto;padding-bottom:20px">
+        <button onclick="showView('home')" style="background:none;border:none;color:#FF6B35;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:14px">&#8592; Back</button>
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:38px;margin-bottom:8px">&#128564;</div>
+          <div style="font-size:19px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">Too Tired to Think</div>
+          <div style="font-size:13px;color:#9B7B6E">Pick how much energy you have. I'll handle the rest &mdash; dinner picked, cart ready.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+          <button onclick="tiredGo('nocook')" style="display:flex;align-items:center;gap:14px;background:#FFF;border:2px solid #FFE0CC;border-radius:16px;padding:16px;cursor:pointer;text-align:left">
+            <span style="font-size:28px">&#129362;</span>
+            <div><div style="font-size:15px;font-weight:800;color:#2D1810">No Cooking At All</div><div style="font-size:12px;color:#9B7B6E">Assembly only &middot; no stove, no oven</div></div>
+          </button>
+          <button onclick="tiredGo('15min')" style="display:flex;align-items:center;gap:14px;background:#FFF;border:2px solid #FFE0CC;border-radius:16px;padding:16px;cursor:pointer;text-align:left">
+            <span style="font-size:28px">&#9201;&#65039;</span>
+            <div><div style="font-size:15px;font-weight:800;color:#2D1810">15 Minutes Max</div><div style="font-size:12px;color:#9B7B6E">One pan, minimal cleanup</div></div>
+          </button>
+          <button onclick="tiredGo('onepot')" style="display:flex;align-items:center;gap:14px;background:#FFF;border:2px solid #FFE0CC;border-radius:16px;padding:16px;cursor:pointer;text-align:left">
+            <span style="font-size:28px">&#127858;</span>
+            <div><div style="font-size:15px;font-weight:800;color:#2D1810">One Pot, Feed the Family</div><div style="font-size:12px;color:#9B7B6E">Big batch &middot; leftovers for tomorrow</div></div>
+          </button>
+        </div>
+        <div style="background:#F5F3FF;border:1px solid #DDD6FE;border-radius:14px;padding:13px;text-align:center;font-size:12px;color:#6D28D9">&#128161; You'll get dinner + a one-tap grocery cart. No meal-kit fees, no subscription to a food box &mdash; just your own groceries.</div>
       </div>
 
       <!-- COPYCAT VIEW -->
@@ -527,11 +569,6 @@ button{cursor:pointer;border:none;font-family:inherit}
         <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;text-align:center"><div id="sav-avg" style="font-size:22px;font-weight:800;color:#FF6B35;margin-bottom:3px">$0</div><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600">Avg Save</div></div>
       </div>
       <div id="sav-list"></div>
-      <div style="margin-top: 24px;">
-        <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px;margin-bottom:12px;text-align:center;">RECENT CHAT HISTORY</div>
-        <div id="chat-history-list">
-        </div>
-      </div>
     </div>
   </div>
 
@@ -640,14 +677,13 @@ button{cursor:pointer;border:none;font-family:inherit}
 <!-- AUTH MODAL -->
 <div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
   <div style="background:#FFF;border-radius:24px;padding:24px 22px;width:100%;max-height:88vh;overflow-y:auto">
-    <button onclick="document.getElementById('auth-modal').style.display='none'" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:24px;color:#C4956A;cursor:pointer;padding:8px">&times;</button>
     <div style="text-align:center;margin-bottom:20px">
       <svg width="56" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
       <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:6px 0 4px">Welcome to ChefSays</div>
       <div id="auth-subtitle" style="font-size:13px;color:#9B7B6E">Sign up to save your recipes, savings and chat history</div>
     </div>
     <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
-    <div id="auth-extra-fields">
+    <div id="auth-extra">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
         <input id="auth-first" type="text" placeholder="First name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
         <input id="auth-last" type="text" placeholder="Last name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
@@ -656,15 +692,17 @@ button{cursor:pointer;border:none;font-family:inherit}
       <input id="auth-dob" type="date" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:11px 13px;font-size:14px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
         <input id="auth-zip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP code" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
-        <select id="auth-gender" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 10px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"><option value="">Gender</option><option value="male">Male</option><option value="female">Female</option><option value="na">Prefer not to say</option></select>
+        <select id="auth-gender" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 10px;font-size:14px;color:#2D1810;outline:none;font-family:inherit">
+          <option value="">Gender</option><option value="male">Male</option><option value="female">Female</option><option value="na">Prefer not to say</option>
+        </select>
       </div>
+      <div style="font-size:10px;color:#C4956A;margin:0 2px 10px">ZIP helps us use real local grocery prices for your recipes.</div>
     </div>
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
     <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
     <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
-    <button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Sign In →</button>
-    <button id="auth-signin-link" onclick="setAuthMode('login')" style="width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">Already have an account? Sign In</button>
-    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
+    <button onclick="setAuthMode('login')" id="auth-login-btn" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Already have an account? Sign In</button>
+    <button id="auth-new-link" onclick="setAuthSignup()" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
     <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
   </div>
@@ -707,16 +745,6 @@ button{cursor:pointer;border:none;font-family:inherit}
 <div id="toast"></div>
 
 <script>
-// Hide brand loader after animation
-setTimeout(function(){
-  var loader = document.getElementById('brand-loader');
-  if(loader) loader.className = 'gone';
-}, 2000);
-
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocal ? 'http://localhost:3000' : '/.netlify/functions';
-const CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
-const DB_ENDPOINT = `${API_BASE_URL}/save-conversation`;
 
 // ── GLOBALS ──────────────────────────────────────────────────────────────────
 // SUPABASE
@@ -736,7 +764,13 @@ try {
 async function initAuth(){
   if(!_sb){ console.log('Supabase not available'); return; }
   try{
-  _sb.auth.onAuthStateChange(async function(event, session){
+  const { data: { session } } = await _sb.auth.getSession();
+  if(session){
+    _user = session.user;
+    _token = session.access_token;
+    await loadProfile();
+  }
+  _sb.auth.onAuthStateChange(function(event, session){
     if(session){
       _user = session.user;
       _token = session.access_token;
@@ -747,94 +781,45 @@ async function initAuth(){
       _user = null;
       _token = null;
       _userProfile = null;
-      // Clear user-specific data on logout
-      savLog = [];
-      localStorage.removeItem('cs');
-      if (document.getElementById('pg-sav').classList.contains('on')) {
-        renderSav();
-        renderChatHistory([]); // Clear chat history view
-      }
-      // Also clear the main chat view if active
-      showView('home');
+      try{localStorage.removeItem('cs_signed_in');}catch(e){}
     }
   });
   }catch(e){ console.log('Auth init error:', e.message); }
 }
 
 async function loadProfile(){
-  if(!_token || !_user) return;
+  if(!_token) return;
   try{
-    // Fetch profile, savings, and chat history in parallel
-    const [profileResp, savingsResp, chatHistoryResp] = await Promise.all([
-      fetch(DB_ENDPOINT, {
+    var resp = await fetch('/.netlify/functions/save-conversation', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'get_profile', token:_token, data:{}})
-      }),
-      fetch(DB_ENDPOINT, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'get_history', token: _token, data: { type: 'savings' } })
-      }),
-      fetch(DB_ENDPOINT, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'get_history', token: _token, data: { type: 'conversation' } })
-      })
-    ]);
-
-    const profileData = await profileResp.json();
-    if(profileData.profile) _userProfile = profileData.profile;
-
-    // Handle savings data
-    const savingsData = await savingsResp.json();
-    if (savingsData.savings) {
-      savLog = savingsData.savings;
-      localStorage.setItem('cs', JSON.stringify(savLog));
-    }
-
-    // Handle chat history data
-    const chatHistoryData = await chatHistoryResp.json();
-    if (chatHistoryData.conversations) {
-      renderChatHistory(chatHistoryData.conversations);
-    }
-
-    // Re-render the savings page if it's the current view
-    if (document.getElementById('pg-sav').classList.contains('on')) {
-      renderSav();
-    }
-
+    });
+    var d = await resp.json();
+    if(d.profile) _userProfile = d.profile;
   }catch(e){}
 }
 
-var _authMode = 'signup';
-function setAuthMode(mode) {
-  _authMode = mode;
-  const signupBtn = document.getElementById('auth-signup-btn');
-  const loginBtn = document.getElementById('auth-login-btn');
-  const signinLink = document.getElementById('auth-signin-link');
-  const signupLink = document.getElementById('auth-signup-link');
-  const subtitle = document.getElementById('auth-subtitle');
-  const extraFields = document.getElementById('auth-extra-fields');
-  const errEl = document.getElementById('auth-error');
-
-  // Reset error message
-  if (errEl) errEl.style.display = 'none';
-
-  if (mode === 'login') {
-    if(subtitle) subtitle.textContent = 'Welcome back — sign in to your account';
-    if(signupBtn) signupBtn.style.display = 'none';
-    if(loginBtn) loginBtn.style.display = 'block';
-    if(signinLink) signinLink.style.display = 'none';
-    if(signupLink) signupLink.style.display = 'block';
-    if(extraFields) extraFields.style.display = 'none';
-    if(loginBtn) { loginBtn.textContent = 'Sign In →'; loginBtn.disabled = false; }
-  } else { // signup
-    if(subtitle) subtitle.textContent = 'Sign up to save your recipes, savings and chat history';
-    if(signupBtn) signupBtn.style.display = 'block';
-    if(loginBtn) loginBtn.style.display = 'none';
-    if(signinLink) signinLink.style.display = 'block';
-    if(signupLink) signupLink.style.display = 'none';
-    if(extraFields) extraFields.style.display = 'block';
-    if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; }
+var _authMode='signup';
+function setAuthMode(mode){
+  // First tap on 'Sign In' switches mode; second tap actually signs in
+  if(mode==='login' && _authMode!=='login'){
+    _authMode='login';
+    var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='none';
+    var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='none';
+    var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Sign In →';
+    var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Welcome back — sign in to your account';
+    var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='block';
+    return;
   }
+  doAuth('login');
+}
+function setAuthSignup(){
+  _authMode='signup';
+  var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='block';
+  var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='block';
+  var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Already have an account? Sign In';
+  var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Sign up to save your recipes, savings and chat history';
+  var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='none';
 }
 function getAge(dobStr){
   if(!dobStr) return 0;
@@ -844,25 +829,24 @@ function getAge(dobStr){
   if(m<0||(m===0&&now.getDate()<dob.getDate()))age--;
   return age;
 }
-
 async function doAuth(type){
   if(!_sb){ toast('Loading... please wait a moment and try again'); return; }
   var email = document.getElementById('auth-email').value.trim();
   var password = document.getElementById('auth-password').value.trim();
   var errEl = document.getElementById('auth-error');
   var first='',last='',dob='',zip='',gender='';
-
-  if (type === 'signup') {
-    first = (document.getElementById('auth-first')||{value:''}).value.trim();
-    last = (document.getElementById('auth-last')||{value:''}).value.trim();
-    dob = (document.getElementById('auth-dob')||{value:''}).value;
-    zip = (document.getElementById('auth-zip')||{value:''}).value.trim();
-    gender = (document.getElementById('auth-gender')||{value:''}).value;
-    if(!first || !last){ errEl.style.display='block'; errEl.textContent='Please enter your first and last name'; return; }
+  if(type==='signup'){
+    first=(document.getElementById('auth-first')||{value:''}).value.trim();
+    last=(document.getElementById('auth-last')||{value:''}).value.trim();
+    dob=(document.getElementById('auth-dob')||{value:''}).value;
+    zip=(document.getElementById('auth-zip')||{value:''}).value.trim();
+    gender=(document.getElementById('auth-gender')||{value:''}).value;
+    if(!first||!last){ errEl.style.display='block'; errEl.textContent='Please enter your first and last name'; return; }
     if(!dob){ errEl.style.display='block'; errEl.textContent='Please enter your date of birth'; return; }
-    if(getAge(dob) < 13){ errEl.style.display='block'; errEl.textContent='You must be at least 13 to use ChefSays'; return; }
+    var age=getAge(dob);
+    if(age<13){ errEl.style.display='block'; errEl.textContent='You must be at least 13 to use ChefSays'; return; }
+    if(!zip||zip.length<5){ errEl.style.display='block'; errEl.textContent='Please enter your 5-digit ZIP code'; return; }
   }
-
   if(!email||!password){ errEl.style.display='block'; errEl.textContent='Please enter email and password'; return; }
   if(password.length<6){ errEl.style.display='block'; errEl.textContent='Password must be at least 6 characters'; return; }
   errEl.style.display='none';
@@ -870,7 +854,7 @@ async function doAuth(type){
   btn.textContent = 'Please wait...'; btn.disabled=true;
   try{
     var result = type==='signup'
-      ? await _sb.auth.signUp({email, password, options: {data: {first_name:first, last_name:last, dob:dob, zip:zip, gender:gender}}})
+      ? await _sb.auth.signUp({email, password, options:{data:{first_name:first,last_name:last,dob:dob,zip:zip,gender:gender}}})
       : await _sb.auth.signInWithPassword({email, password});
     if(result.error){
       errEl.style.display='block';
@@ -924,7 +908,13 @@ async function signOut(){
 
 async function saveConversation(question, response, type, cuisine, mealType){
   try{
-    fetch(DB_ENDPOINT,{
+    if(!_sb) return;
+    if(!_token){
+      var sess=await _sb.auth.getSession();
+      if(sess&&sess.data&&sess.data.session){_token=sess.data.session.access_token;_user=sess.data.session.user;}
+    }
+    if(!_token) return;
+    fetch('/.netlify/functions/save-conversation',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_conversation', token:_token, data:{question, response, type:type||'chat', cuisine:cuisine||_cuisine, meal_type:mealType||_meal}})
     });
@@ -934,7 +924,7 @@ async function saveConversation(question, response, type, cuisine, mealType){
 async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
   if(!_token || !_sb) return;
   try{
-    fetch(DB_ENDPOINT,{
+    fetch('/.netlify/functions/save-conversation',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_savings', token:_token, data:{dish_name:dishName, amount_saved:amount, home_cost:homeCost, restaurant_cost:restaurantCost, cuisine:_cuisine, meal_type:_meal}})
     });
@@ -944,7 +934,7 @@ async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
 async function saveMenuItems(items){
   if(!_token || !_sb) return;
   try{
-    fetch(DB_ENDPOINT,{
+    fetch('/.netlify/functions/save-conversation',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_menu_item', token:_token, data:{items:items, category:'dollar_menu'}})
     });
@@ -1145,7 +1135,7 @@ function goTab(t){
 }
 
 function showView(v){
-  ['home','cuisine','time','results','drinktype','drinkbase','copycat','timeaware','buildown','dailydish'].forEach(function(x){
+  ['home','cuisine','time','results','drinktype','drinkbase','copycat','timeaware','buildown','dailydish','tired'].forEach(function(x){
     var el=document.getElementById(x+'-view');
     if(el)el.style.display='none';
   });
@@ -1230,7 +1220,7 @@ function callAI(){
     messages[0].content='Scan my '+_photoType+' photo. Only use ingredients you can CLEARLY see. Do NOT add anything not visible. Then give me 3 authentic '+_cuisine+' '+_meal+' recipes using those ingredients.'+timeCtx;
   }
 
-  fetch(CHAT_ENDPOINT,{
+  fetch('/.netlify/functions/chat',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(body)
@@ -1533,26 +1523,6 @@ function renderSav(){
   else{savLog.forEach(function(l){var row=document.createElement('div');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';list.appendChild(row);});}
 }
 
-function renderChatHistory(conversations) {
-  var list = document.getElementById('chat-history-list');
-  if (!list) return;
-  while(list.firstChild) list.removeChild(list.firstChild);
-
-  if (!conversations || conversations.length === 0) {
-    var e = document.createElement('div');
-    e.style.cssText='text-align:center;padding:20px;font-size:13px;color:#C4956A;line-height:1.7';
-    e.textContent='Your recent conversations will appear here.';
-    list.appendChild(e);
-  } else {
-    conversations.forEach(function(c) {
-      var row = document.createElement('div');
-      row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px 16px;margin-bottom:10px';
-      row.innerHTML = '<div><div style="font-weight:700;font-size:14px;color:#2D1810;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.question+'</div><div style="font-size:12px;color:#C4956A;">'+new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric', year:'numeric'})+'</div></div>';
-      list.appendChild(row);
-    });
-  }
-}
-
 // ── MEAL PREP ────────────────────────────────────────────────────────────────
 function showPlan(key,btn){
   document.querySelectorAll('.ptab').forEach(function(b){b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';});
@@ -1619,240 +1589,101 @@ function sendHomeChat(){
   progress(3);
   var content = document.getElementById('results-content');
   while(content.firstChild) content.removeChild(content.firstChild);
-  // Show user message
+  runChatTurn(content, [{role:'user',content:text}], text);
+}
+
+// Renders one chat turn and an endless follow-up bar. history = full message array.
+function runChatTurn(content, history, displayText){
+  // user bubble
   var userMsg = document.createElement('div');
-  userMsg.style.cssText = 'background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;line-height:1.5;align-self:flex-end;max-width:85%;margin-left:auto';
-  userMsg.textContent = text;
+  userMsg.style.cssText = 'background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;line-height:1.5;max-width:85%;margin-left:auto';
+  userMsg.textContent = displayText;
   content.appendChild(userMsg);
-  // Loading
+  // loading
   var loading = document.createElement('div');
   loading.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';
-  loading.innerHTML = '<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
+  loading.innerHTML = '<div style="font-size:24px;margin-bottom:8px">\uD83D\uDC68\u200D\uD83C\uDF73</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
   content.appendChild(loading);
-  bot(); fetch(CHAT_ENDPOINT,{
+  // scroll loading into view
+  setTimeout(function(){loading.scrollIntoView({behavior:'smooth',block:'center'});},60);
+  fetch('/.netlify/functions/chat',{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:text}]})
+    body:JSON.stringify({messages:history})
   }).then(function(r){return r.json();}).then(function(data){
     loading.remove();
-    saveConversation(text, data.text||'', 'chat', _cuisine, _meal);
+    saveConversation(displayText, data.text||'', 'chat', _cuisine, _meal);
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
+    var rendered=false;
     try{
-      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var raw=(data.text||'').replace(/```json/g,'').replace(/```/g,'').trim();
       var s=raw.indexOf('{'), e=raw.lastIndexOf('}');
       var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
-
-      // Show message if present
       if(parsed.message){
         var msg=document.createElement('div');
         msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';
         msg.textContent=parsed.message;
-        content.appendChild(msg);
+        content.appendChild(msg); rendered=true;
       }
-
-      // MENU response — show beautiful menu cards
       if(parsed.menu && parsed.menu.length>=1){
-        var menuWrap=document.createElement('div');
-        // Summary header
-        var menuHdr=document.createElement('div');
-        menuHdr.style.cssText='background:linear-gradient(135deg,#2D1810,#4A2418);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
-        menuHdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">ChefSays Built Your Menu</div>'
-          +'<div style="font-size:20px;font-weight:800;font-family:Georgia,serif;margin-bottom:12px">Your $5 BBQ Dollar Menu</div>'
-          +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-          +'<div style="background:rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:3px">ITEMS</div><div style="font-size:22px;font-weight:900;color:#FF6B35">'+parsed.menu.length+'</div></div>'
-          +'<div style="background:rgba(34,197,94,.15);border-radius:10px;padding:10px;text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:3px">AVG MARGIN</div><div style="font-size:22px;font-weight:900;color:#22C55E">72%</div></div>'
-          +'</div>';
-        menuWrap.appendChild(menuHdr);
-
-        parsed.menu.forEach(function(item){
-          var card=document.createElement('div');
-          card.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px';
-          var costNum=parseFloat(((item.item_cost||item.cost||item.raw_cost||'0')).toString().replace('$','').replace(',',''))||0;
-          var sellNum=parseFloat(((item.sell_price||item.sell||item.price||'5')).toString().replace('$','').replace(',',''))||5;
-          var profitNum=parseFloat(((item.profit_margin||item.profit||item.profit_per_item||String(sellNum-costNum))).toString().replace('$','').replace(',',''))||+(sellNum-costNum).toFixed(2);
-          var margin=sellNum>0?Math.round((profitNum/sellNum)*100):0;
-          var itemDesc=String(item.description||item.desc||item.details||'');
-          card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-            +'<div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;flex:1;padding-right:8px">'+(item.item_name||item.item||item.name||item.dish||item.title||'Item')+'</div>'
-            +(itemDesc?'<div style="font-size:13px;color:#9B7B6E;line-height:1.5;margin-bottom:10px">'+itemDesc+'</div>':'')
-            +'<div style="background:'+(margin>=60?'#F0FDF4':'#FFF8F0')+';border:1px solid '+(margin>=60?'#BBF7D0':'#FFD4B8')+';border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:'+(margin>=60?'#16A34A':'#FF6B35')+';flex-shrink:0">'+margin+'% margin</div>'
-            +'</div>'
-            +(itemDesc?'<div style="font-size:13px;color:#9B7B6E;line-height:1.5;margin-bottom:10px">'+itemDesc+'</div>':'')
-            +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
-            +'<div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Sell</div><div style="font-size:18px;font-weight:900;color:#FF6B35">$'+sellNum.toFixed(2)+'</div></div>'
-            +'<div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Cost</div><div style="font-size:18px;font-weight:900;color:#2D1810">$'+costNum.toFixed(2)+'</div></div>'
-            +'<div style="background:#F0FDF4;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#16A34A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Profit</div><div style="font-size:18px;font-weight:900;color:#22C55E">$'+profitNum.toFixed(2)+'</div></div>'
-            +'</div>'
-            +'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px">'
-            +'<div style="font-size:10px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">🛒 Where to Buy</div>'
-            +'<div style="font-size:12px;color:#9B7B6E;line-height:1.5">'+(item.where_to_buy||item.where||item.supplier||item.purchase_at||'')+'</div>'
-            +'</div>';
-          menuWrap.appendChild(card);
-        });
-
-        // Weekly profit estimate
-        var totalWeekly=parsed.menu.reduce(function(s,item){
-          var p=parseFloat((item.profit_margin||'0').toString().replace('$',''))||0;
-          return s+(p*50);
-        },0);
-        var profitCard=document.createElement('div');
-        profitCard.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center';
-        profitCard.innerHTML='<div><div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:700">Sell 50 of each per week</div><div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">conservative estimate</div></div>'
-          +'<div style="text-align:right"><div style="font-size:32px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+totalWeekly.toFixed(0)+'</div><div style="font-size:10px;color:rgba(255,255,255,.7)">weekly profit</div></div>';
-        menuWrap.appendChild(profitCard);
-        content.appendChild(menuWrap);
-        saveMenuItems(parsed.menu);
-      }
-
-      // Regular recipes
-      var recipes=parsed.recipes||[];
-      if(parsed.recipe) recipes=[parsed.recipe];
-      if(recipes.length>0 && !parsed.menu) showRecipeOptions(recipes,content);
-
-    }catch(err){
-      // Try to detect if it's a plain text menu response and parse it
-      var rawText = data.text||'';
-      var menuItems = [];
-      // Pattern: lines with Item Cost, Sell Price, Profit Margin
-      var lines = rawText.split('\n');
-      var currentItem = null;
-      lines.forEach(function(line){
-        var l = line.trim();
-        // Detect item name by bold/number pattern or numbered list
-        var nameMatch = l.match(/^\*{0,2}(\d+)\.\s+\*{0,2}([^*\-:]+)\*{0,2}/) || l.match(/^[-•]\s+\*{0,2}([A-Z][^*\-:]{3,})\*{0,2}$/);
-        if(nameMatch){
-          if(currentItem && currentItem.item) menuItems.push(currentItem);
-          currentItem = {item: (nameMatch[2]||nameMatch[1]).trim(), cost:'0', sell_price:'5.00', profit_margin:'0', where_to_buy:''};
-        }
-        if(currentItem){
-          var costMatch = l.match(/[Ii]tem\s+[Cc]ost[:\s]+\$?([\d.]+)/);
-          var sellMatch = l.match(/[Ss]ell\s+[Pp]rice[:\s]+\$?([\d.]+)/);
-          var profitMatch = l.match(/[Pp]rofit\s+[Mm]argin[:\s]+\$?([\d.]+)/);
-          var whereMatch = l.match(/[Ww]here\s+to\s+[Bb]uy[:\s]+(.+)/);
-          if(costMatch) currentItem.cost = costMatch[1];
-          if(sellMatch) currentItem.sell_price = sellMatch[1];
-          if(profitMatch) currentItem.profit_margin = profitMatch[1];
-          if(whereMatch) currentItem.where_to_buy = whereMatch[1].replace(/\*+/g,'').trim();
-        }
-      });
-      if(currentItem && currentItem.item) menuItems.push(currentItem);
-
-      if(menuItems.length >= 1){
-        // Render as menu cards
-        var fakeData = {message:'Here is your menu:', menu: menuItems};
-        var menuWrap=document.createElement('div');
-        var menuHdr=document.createElement('div');
-        menuHdr.style.cssText='background:linear-gradient(135deg,#2D1810,#4A2418);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
-        menuHdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">ChefSays Built Your Menu</div>'
-          +'<div style="font-size:20px;font-weight:800;font-family:Georgia,serif;">Your Dollar Menu</div>';
-        menuWrap.appendChild(menuHdr);
-        menuItems.forEach(function(item){
-          var costNum=parseFloat(String(item.cost||0).replace('$',''))||0;
-          var sellNum=parseFloat(String(item.sell_price||5).replace('$',''))||5;
-          var profitNum=parseFloat(String(item.profit_margin||0).replace('$',''))||+(sellNum-costNum).toFixed(2);
-          var margin=sellNum>0?Math.round((profitNum/sellNum)*100):0;
-          var card=document.createElement('div');
-          card.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px';
-          card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-            +'<div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;flex:1;padding-right:8px">'+(item.item||'Item')+'</div>'
-            +'<div style="background:'+(margin>=60?'#F0FDF4':'#FFF8F0')+';border:1px solid '+(margin>=60?'#BBF7D0':'#FFD4B8')+';border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:'+(margin>=60?'#16A34A':'#FF6B35')+'">'+margin+'% margin</div>'
-            +'</div>'
-            +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">'
-            +'<div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Sell</div><div style="font-size:18px;font-weight:900;color:#FF6B35">$'+sellNum.toFixed(2)+'</div></div>'
-            +'<div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Cost</div><div style="font-size:18px;font-weight:900;color:#2D1810">$'+costNum.toFixed(2)+'</div></div>'
-            +'<div style="background:#F0FDF4;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#16A34A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Profit</div><div style="font-size:18px;font-weight:900;color:#22C55E">$'+profitNum.toFixed(2)+'</div></div>'
-            +'</div>'
-            +(item.where_to_buy?'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px"><div style="font-size:10px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">🛒 Where to Buy</div><div style="font-size:12px;color:#9B7B6E;line-height:1.5">'+item.where_to_buy+'</div></div>':'');
-          menuWrap.appendChild(card);
-        });
-        var totalWeekly=menuItems.reduce(function(s,item){return s+(parseFloat(String(item.profit_margin||0).replace('$',''))||0)*50;},0);
-        var profitCard=document.createElement('div');
-        profitCard.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:16px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center';
-        profitCard.innerHTML='<div><div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:700">Sell 50 of each per week</div><div style="font-size:11px;color:rgba(255,255,255,.65)">conservative estimate</div></div>'
-          +'<div style="text-align:right"><div style="font-size:32px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+totalWeekly.toFixed(0)+'</div><div style="font-size:10px;color:rgba(255,255,255,.7)">weekly profit</div></div>';
-        menuWrap.appendChild(profitCard);
-        content.appendChild(menuWrap);
+        renderMenuCards(parsed.menu, content); rendered=true;
       } else {
-        // Just show as readable text
-        var msg=document.createElement('div');
-        msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.7;white-space:pre-wrap';
-        msg.textContent=rawText.replace(/\*\*/g,'').replace(/\*/g,'');
-        content.appendChild(msg);
+        var recipes=parsed.recipes||[];
+        if(parsed.recipe) recipes=[parsed.recipe];
+        if(recipes.length>0){ showRecipeOptions(recipes,content); rendered=true; }
       }
+    }catch(err){}
+    if(!rendered){
+      var rm=document.createElement('div');
+      rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';
+      rm.textContent=(data.text||'').replace(/```json/g,'').replace(/```/g,'').replace(/\*\*/g,'').replace(/\*/g,'');
+      content.appendChild(rm);
     }
-    // Show back + new question bar
-    var replyBar=document.createElement('div');
-    replyBar.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px';
-    var replyInp=document.createElement('textarea');
-    replyInp.rows=1;
-    replyInp.placeholder='Ask a follow up...';
-    replyInp.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4';
-    var replyBtn=document.createElement('button');
-    replyBtn.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';
-    replyBtn.innerHTML='&#x2192;';
-    replyBtn.onclick=function(){
-      var rt=replyInp.value.trim();
-      if(!rt)return;
-      replyBar.remove();
-      var fu=document.createElement('div');
-      fu.style.cssText='background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;line-height:1.5;margin-left:auto;max-width:85%';
-      fu.textContent=rt;
-      content.appendChild(fu);
-      var fl=document.createElement('div');
-      fl.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';
-      fl.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
-      content.appendChild(fl); bot(); fetch(CHAT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt}]})}).then(function(r){return r.json();}).then(function(d2){
-        fl.remove();
-        try{
-          var raw2=d2.text.replace(/```json/g,'').replace(/```/g,'').trim();
-          var s2=raw2.indexOf('{'),e2=raw2.lastIndexOf('}');
-          var p2=JSON.parse(s2>=0?raw2.substring(s2,e2+1):raw2);
-          if(p2.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=p2.message;content.appendChild(mm);}
-          if(p2.menu&&p2.menu.length>=1){
-            var mw2=document.createElement('div');
-            var mh2=document.createElement('div');mh2.style.cssText='background:linear-gradient(135deg,#2D1810,#4A2418);border-radius:18px;padding:16px;margin-bottom:10px;color:#FFF';
-            mh2.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">ChefSays Menu</div><div style="font-size:18px;font-weight:800;font-family:Georgia,serif">Your Items</div>';
-            mw2.appendChild(mh2);
-            p2.menu.forEach(function(item){
-              var cn2=parseFloat(String(item.item_cost||item.cost||item.raw_cost||'0').replace('$',''))||0;
-              var sn2=parseFloat(String(item.sell_price||item.sell||item.price||'5').replace('$',''))||5;
-              var pr2raw=item.profit_margin||item.profit||item.profit_per_item;
-              var pn2=pr2raw!=null?parseFloat(String(pr2raw).replace('$',''))||0:+(sn2-cn2).toFixed(2);
-              var mg2=sn2>0?Math.round((pn2/sn2)*100):0;
-              var nm2=item.item_name||item.item||item.name||item.dish||item.title||'Item';
-              var ds2=String(item.description||item.desc||'');
-              var wb2=String(item.where_to_buy||item.where||item.supplier||'');
-              var c2=document.createElement('div');c2.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px';
-              c2.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;flex:1;padding-right:8px">'+nm2+'</div><div style="background:'+(mg2>=60?'#F0FDF4':'#FFF8F0')+';border:1px solid '+(mg2>=60?'#BBF7D0':'#FFD4B8')+';border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:'+(mg2>=60?'#16A34A':'#FF6B35')+'">'+mg2+'% margin</div></div>'
-                +(ds2?'<div style="font-size:13px;color:#9B7B6E;line-height:1.5;margin-bottom:10px">'+ds2+'</div>':'')
-                +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px"><div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Sell</div><div style="font-size:18px;font-weight:900;color:#FF6B35">$'+sn2.toFixed(2)+'</div></div><div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Cost</div><div style="font-size:18px;font-weight:900;color:#2D1810">$'+cn2.toFixed(2)+'</div></div><div style="background:#F0FDF4;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#16A34A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Profit</div><div style="font-size:18px;font-weight:900;color:#22C55E">$'+pn2.toFixed(2)+'</div></div></div>'
-                +(wb2?'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px"><div style="font-size:10px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">🛒 Where to Buy</div><div style="font-size:12px;color:#9B7B6E;line-height:1.5">'+wb2+'</div></div>':'');
-              mw2.appendChild(c2);
-            });
-            var tw2=p2.menu.reduce(function(s,i){var pr=i.profit_margin||i.profit||0;return s+(parseFloat(String(pr).replace('$',''))||0)*50;},0);
-            if(tw2>0){var pc2=document.createElement('div');pc2.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center';pc2.innerHTML='<div><div style="font-size:12px;color:rgba(255,255,255,.9);font-weight:700">Sell 50/week each</div><div style="font-size:11px;color:rgba(255,255,255,.6)">conservative</div></div><div style="text-align:right"><div style="font-size:28px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+tw2.toFixed(0)+'</div><div style="font-size:10px;color:rgba(255,255,255,.7)">weekly profit</div></div>';mw2.appendChild(pc2);}
-            content.appendChild(mw2);
-          } else if(p2.recipes&&p2.recipes.length>0){
-            var recs2=p2.recipes.map(function(r){if(!r.homeCost&&!r.restaurantCost){r.homeCost=r.cost||8;r.restaurantCost=r.price||24;}return r;});
-            showRecipeOptions(recs2,content);
-          } else if(!p2.menu && !p2.recipes){
-            var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=p2.message||d2.text||'';content.appendChild(rm);
-          }
-        }catch(e2){
-          var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm.textContent=d2.text||'';content.appendChild(rm);
-        }
-        // Add new follow-up bar
-        var rb2=document.createElement('div');rb2.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px';
-        var ri2=document.createElement('textarea');ri2.rows=1;ri2.placeholder='Ask another follow up...';ri2.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4';
-        var rb2btn=document.createElement('button');rb2btn.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';rb2btn.innerHTML='&#x2192;';
-        rb2btn.onclick=function(){var t3=ri2.value.trim();if(!t3)return;rb2.remove();var fu3=document.createElement('div');fu3.style.cssText='background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;margin-left:auto;max-width:85%';fu3.textContent=t3;content.appendChild(fu3);var fl3=document.createElement('div');fl3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';fl3.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';content.appendChild(fl3);bot();fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt},{role:'assistant',content:d2.text},{role:'user',content:t3}]})}).then(function(r){return r.json();}).then(function(d3){fl3.remove();var rm3=document.createElement('div');rm3.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';rm3.textContent=d3.text||'';content.appendChild(rm3);bot();}).catch(function(){fl3.remove();});};
-        rb2.appendChild(ri2);rb2.appendChild(rb2btn);content.appendChild(rb2);
-        bot();
-      }).catch(function(){fl.remove();});
-    };
-    replyBar.appendChild(replyInp);replyBar.appendChild(replyBtn);
-    content.appendChild(replyBar);
-    goTop();
+    // endless follow-up bar
+    var bar=document.createElement('div');
+    bar.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px;margin-bottom:4px';
+    var bi=document.createElement('textarea');
+    bi.rows=1; bi.placeholder='Ask a follow up...';
+    bi.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4';
+    var bb=document.createElement('button');
+    bb.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';
+    bb.innerHTML='&#x2192;';
+    function send(){
+      var t=bi.value.trim();
+      if(!t) return;
+      bar.remove();
+      var newHist=history.concat([{role:'assistant',content:data.text||''},{role:'user',content:t}]);
+      runChatTurn(content, newHist, t);
+    }
+    bb.onclick=send;
+    bi.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();send();}});
+    bar.appendChild(bi); bar.appendChild(bb);
+    content.appendChild(bar);
+    setTimeout(function(){bar.scrollIntoView({behavior:'smooth',block:'center'});},80);
   }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
+// Shared menu-card renderer (used by chat)
+function renderMenuCards(menu, content){
+  var menuWrap=document.createElement('div');
+  menu.forEach(function(item){
+    var card=document.createElement('div');
+    card.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px';
+    var costNum=parseFloat(String(item.item_cost||item.cost||item.raw_cost||'0').replace('$','').replace(',',''))||0;
+    var sellNum=parseFloat(String(item.sell_price||item.sell||item.price||'5').replace('$','').replace(',',''))||5;
+    var pr=item.profit_margin||item.profit||item.profit_per_item;
+    var profitNum=pr!=null?parseFloat(String(pr).replace('$','').replace(',',''))||0:+(sellNum-costNum).toFixed(2);
+    var margin=sellNum>0?Math.round((profitNum/sellNum)*100):0;
+    var nm=item.item_name||item.item||item.name||item.dish||item.title||'Item';
+    var ds=String(item.description||item.desc||'');
+    var wb=String(item.where_to_buy||item.where||item.supplier||'');
+    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;flex:1;padding-right:8px">'+nm+'</div><div style="background:'+(margin>=60?'#F0FDF4':'#FFF8F0')+';border:1px solid '+(margin>=60?'#BBF7D0':'#FFD4B8')+';border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:'+(margin>=60?'#16A34A':'#FF6B35')+'">'+margin+'% margin</div></div>'
+      +(ds?'<div style="font-size:13px;color:#9B7B6E;line-height:1.5;margin-bottom:10px">'+ds+'</div>':'')
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px"><div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Sell</div><div style="font-size:18px;font-weight:900;color:#FF6B35">$'+sellNum.toFixed(2)+'</div></div><div style="background:#FFF8F0;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#C4956A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Cost</div><div style="font-size:18px;font-weight:900;color:#2D1810">$'+costNum.toFixed(2)+'</div></div><div style="background:#F0FDF4;border-radius:10px;padding:8px;text-align:center"><div style="font-size:9px;color:#16A34A;text-transform:uppercase;font-weight:600;margin-bottom:2px">Profit</div><div style="font-size:18px;font-weight:900;color:#22C55E">$'+profitNum.toFixed(2)+'</div></div></div>'
+      +(wb?'<div style="background:#FFF8F0;border:1px solid #FFE0CC;border-radius:10px;padding:10px"><div style="font-size:10px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">\uD83D\uDED2 Where to Buy</div><div style="font-size:12px;color:#9B7B6E;line-height:1.5">'+wb+'</div></div>':'');
+    menuWrap.appendChild(card);
+  });
+  content.appendChild(menuWrap);
+  if(typeof saveMenuItems==='function') saveMenuItems(menu);
 }
 
 function startDrinks(){
@@ -1904,7 +1735,7 @@ function pickDrinkBase(base){
   content.appendChild(loading);
   goTop();
   var msg='IMPORTANT: You are a bartender. Make DRINKS AND COCKTAILS ONLY. Do NOT suggest any food. I have: '+base.name+'. Give me exactly 3 cocktail or drink recipes I can make using ONLY what I listed. These must be DRINKS to sip — not food. For each drink: name, description, exact measurements, cost per ingredient, total home cost to make, typical bar price, prep time under 5 minutes. Respond in JSON with recipes array.';
-  fetch(CHAT_ENDPOINT,{
+  fetch('/.netlify/functions/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({messages:[{role:'user',content:'You are a professional bartender. Only suggest drinks and cocktails. Never suggest food.'},{role:'assistant',content:'I understand. I will only suggest cocktails and drinks.'},{role:'user',content:msg}]})
   }).then(function(r){return r.json();}).then(function(data){
@@ -2153,6 +1984,105 @@ function showDDResult(wrap, d, g, num, alreadyPlayed){
   streakCard.style.cssText='background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:14px;padding:13px;text-align:center';
   streakCard.innerHTML='<div style="font-size:13px;font-weight:800;color:#2D1810;margin-bottom:2px">🔥 Streak: '+(s.streak||0)+' day'+((s.streak||0)===1?'':'s')+'</div><div style="font-size:12px;color:#9B7B6E">'+(alreadyPlayed?'You played today — come back tomorrow for the next dish':'Come back tomorrow to keep it alive')+'</div>';
   wrap.appendChild(streakCard);
+}
+
+var _tiredMode='';
+
+function startTired(){
+  if(checkLimit()) return;
+  _tiredMode='';
+  showView('tired');
+  progress(1);
+}
+
+function tiredGo(mode){
+  _tiredMode=mode;
+  if(checkLimit()) return;
+  _meal='Dinner';
+  showView('results');
+  progress(4);
+  var content=document.getElementById('results-content');
+  while(content.firstChild)content.removeChild(content.firstChild);
+  var loading=document.createElement('div');
+  loading.style.cssText='background:#FFF;border:1.5px solid #EDE9FE;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML='<div style="font-size:28px;margin-bottom:8px">\uD83D\uDE34</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Picking your dinner...</div><div style="font-size:13px;color:#9B7B6E">No thinking required</div>';
+  content.appendChild(loading);
+  goTop();
+  var modeText = mode==='nocook'
+    ? 'NO COOKING AT ALL - assembly only, no stove or oven needed (sandwiches, wraps, salads, charcuterie, overnight oats type meals). '
+    : mode==='15min'
+    ? 'Ready in 15 MINUTES MAX, one pan, minimal cleanup. '
+    : 'ONE POT meal that feeds a family of 4 with leftovers for tomorrow. ';
+  var ctx = (typeof getUserContext==='function'? getUserContext():'');
+  var msg = (ctx?ctx+' ':'')+'I am exhausted and have no energy to think about dinner. Just pick ONE great dinner for me. Requirement: '+modeText+'Give me exactly one recipe (not multiple options) with: a short appetizing name, total time, full ingredient list with quantities, simple numbered steps, cost to make at home, and what it would cost to order similar takeout so I can see the savings.';
+  fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:msg}]})}).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    if(data.error){showError(content,'Having trouble. Try again.');return;}
+    try{
+      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
+      var hdr=document.createElement('div');
+      hdr.style.cssText='background:linear-gradient(135deg,#7C3AED,#6D28D9);border-radius:18px;padding:18px;margin-bottom:12px;color:#FFF';
+      var modeLabel = mode==='nocook'?'No cooking needed':mode==='15min'?'15 minutes max':'One pot, feeds the family';
+      hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">\uD83D\uDE34 Tonight\'s Dinner &middot; '+modeLabel+'</div><div style="font-size:20px;font-weight:800;font-family:Georgia,serif">Done. Don\'t think, just make it.</div>';
+      content.appendChild(hdr);
+      if(parsed.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #EDE9FE;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=parsed.message;content.appendChild(mm);}
+      var recipes=parsed.recipes||[];
+      if(parsed.recipe)recipes=[parsed.recipe];
+      if(recipes.length>0){
+        showRecipeOptions(recipes,content);
+        // Auto-open the single recipe (no choosing when you're tired)
+        if(recipes.length===1){
+          var rc=document.getElementById('results-content');
+          showFullCard(recipes[0], rc);
+        }
+        // Add one-tap full grocery cart button
+        addCartButton(content, recipes[0]);
+      } else {
+        var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #EDE9FE;border-radius:14px;padding:14px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'');content.appendChild(rm);
+      }
+    }catch(err){
+      var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #EDE9FE;border-radius:14px;padding:14px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'');content.appendChild(rm);
+    }
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
+function addCartButton(content, recipe){
+  if(!recipe) return;
+  var ings = recipe.ingredients||[];
+  var names = ings.map(function(i){ return typeof i==='string'? i : (i.name||i.ingredient||''); }).filter(Boolean);
+  if(!names.length) return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='background:linear-gradient(135deg,#7C3AED,#6D28D9);border-radius:18px;padding:16px;margin:14px 0 8px;text-align:center';
+  wrap.innerHTML='<div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:700;margin-bottom:3px">Don\'t have the ingredients?</div><div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:12px">One tap sends the whole list to your store</div>';
+  var btn=document.createElement('button');
+  btn.style.cssText='display:block;width:100%;background:#FFF;color:#6D28D9;border:none;border-radius:14px;padding:14px;font-weight:800;font-size:15px;cursor:pointer';
+  btn.innerHTML='\uD83D\uDED2 Send Whole List to My Store';
+  btn.onclick=function(){ openCartSheet(names); };
+  wrap.appendChild(btn);
+  content.appendChild(wrap);
+}
+
+function openCartSheet(names){
+  var listQ = encodeURIComponent(names.join(', '));
+  var first = encodeURIComponent(names[0]||'groceries');
+  var menu=document.createElement('div');
+  menu.className='store-sheet';
+  menu.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:flex;align-items:flex-end;max-width:430px;margin:0 auto';
+  menu.onclick=function(e){if(e.target===menu)menu.remove();};
+  var rows=names.map(function(n){return '<div style="font-size:13px;color:#2D1810;padding:6px 0;border-bottom:1px solid #F5F0FF">&#8226; '+n+'</div>';}).join('');
+  menu.innerHTML='<div style="background:#FFF;border-radius:24px 24px 0 0;padding:24px 20px 44px;width:100%;max-height:80vh;overflow-y:auto">'
+    +'<div style="font-size:16px;font-weight:800;color:#2D1810;text-align:center;margin-bottom:4px">Your Grocery List</div>'
+    +'<div style="font-size:12px;color:#9B7B6E;text-align:center;margin-bottom:14px">'+names.length+' items &middot; pick your store</div>'
+    +'<div style="background:#FAF8FF;border-radius:12px;padding:12px 14px;margin-bottom:16px">'+rows+'</div>'
+    +'<a href="https://www.instacart.com/store/s?k='+first+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none"><span style="font-size:26px">&#128666;</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Instacart</div><div style="font-size:12px;color:#9B7B6E">Delivered in about an hour</div></div></a>'
+    +'<a href="https://www.walmart.com/search?q='+first+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-decoration:none"><span style="font-size:26px">&#128717;&#65039;</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Walmart</div><div style="font-size:12px;color:#9B7B6E">Pickup or delivery</div></div></a>'
+    +'<a href="https://www.google.com/search?tbm=shop&q='+first+'" target="_blank" onclick="closeStoreSheet(this)" style="display:flex;align-items:center;gap:14px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:16px;text-decoration:none"><span style="font-size:26px">&#128269;</span><div><div style="font-size:15px;font-weight:700;color:#2D1810">Compare Stores</div><div style="font-size:12px;color:#9B7B6E">Find the best price</div></div></a>'
+    +'<button onclick="this.closest(\'.store-sheet\').remove()" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:14px;padding:14px;font-weight:600;cursor:pointer">Close</button>'
+    +'</div>';
+  document.body.appendChild(menu);
 }
 
 function startCopycat(){
