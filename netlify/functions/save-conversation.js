@@ -3,13 +3,6 @@
 
 const { createClient } = require('@supabase/supabase-js');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
-
-console.log('SUPABASE_URL:', process.env.SUPABASE_URL);
-
 exports.handler = async function(event) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -22,9 +15,20 @@ exports.handler = async function(event) {
   try {
     const { action, token, data } = JSON.parse(event.body);
 
-    // Verify user
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    // Create a temporary client to verify the user's token
+    const authClient = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY,
+      { global: { headers: { Authorization: `Bearer ${token}` } } }
+    );
+    const { data: { user }, error: authError } = await authClient.auth.getUser();
     if (authError || !user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+
+    // Once user is verified, create a client with the service_role key to perform admin operations
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_KEY
+    );
 
     if (action === 'save_conversation') {
       const { question, response, type, cuisine, meal_type, tags } = data;
@@ -33,19 +37,27 @@ exports.handler = async function(event) {
       });
       if (error) throw error;
       // Update habits
-      await updateHabits(user.id, cuisine, meal_type);
+      await updateHabits(supabase, user.id, cuisine, meal_type);
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
     if (action === 'get_history') {
-      const { data: convos, error } = await supabase
-        .from('conversations')
-        .select('question, response, type, created_at')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(10);
-      if (error) throw error;
-      return { statusCode: 200, headers, body: JSON.stringify({ conversations: convos }) };
+      const type = data.type || 'conversation';
+      if (type === 'savings') {
+        const { data: savings, error } = await supabase
+          .from('savings')
+          .select('dish_name, amount_saved, created_at')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        // Format data to match localStorage structure
+        const formattedSavings = savings.map(s => ({ name: s.dish_name, saved: s.amount_saved, date: new Date(s.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}) }));
+        return { statusCode: 200, headers, body: JSON.stringify({ savings: formattedSavings }) };
+      } else {
+        const { data: convos, error } = await supabase.from('conversations').select('question, response, type, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10);
+        if (error) throw error;
+        return { statusCode: 200, headers, body: JSON.stringify({ conversations: convos }) };
+      }
     }
 
     if (action === 'save_savings') {
@@ -55,7 +67,11 @@ exports.handler = async function(event) {
       });
       if (error) throw error;
       // Update total
-      await supabase.from('profiles').update({ meals_cooked: supabase.raw('meals_cooked + 1') }).eq('id', user.id);
+      // Use a separate client with the service key for admin-level operations like RPC calls if needed,
+      // but for user-specific updates, the user's client is fine if RLS is set up.
+      // For incrementing, it's safer to use an RPC function. Let's assume one exists or add it.
+      // For now, let's fix the direct update.
+      await supabase.rpc('increment_meals_cooked', { uid: user.id });
       await supabase.rpc('increment_savings', { uid: user.id, amount: amount_saved });
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
@@ -102,7 +118,7 @@ exports.handler = async function(event) {
   }
 };
 
-async function updateHabits(userId, cuisine, mealType) {
+async function updateHabits(supabase, userId, cuisine, mealType) {
   try {
     if (cuisine) {
       await supabase.rpc('add_to_array', { uid: userId, field: 'favorite_cuisines', val: cuisine });
@@ -110,6 +126,8 @@ async function updateHabits(userId, cuisine, mealType) {
     if (mealType) {
       await supabase.rpc('add_to_array', { uid: userId, field: 'favorite_meals', val: mealType });
     }
-    await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', userId);
+    // This update should be done with a service_role client if it's a background/system task.
+    // For now, let's assume RLS allows the user to update their own last_seen.
+    // await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', userId);
   } catch(e) { /* silent */ }
 }

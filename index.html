@@ -46,9 +46,43 @@ button{cursor:pointer;border:none;font-family:inherit}
 .paywall.on{display:flex}
 
 #toast{display:none;position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:#2D1810;color:#FFF;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:500;white-space:nowrap}
+
+/* OPENING BRAND SPLASH */
+#brand-loader{position:fixed;inset:0;max-width:430px;margin:0 auto;background:linear-gradient(160deg,#0D0800,#1A0E00,#2D1500);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}
+#brand-loader.gone{opacity:0;pointer-events:none}
+.brand-loader-inner{display:flex;flex-direction:column;align-items:center;gap:15px;animation:logoPop .7s cubic-bezier(.34,1.56,.64,1) forwards;opacity:0}
+.brand-loader-word{font-size:34px;font-weight:900;color:#FFF;letter-spacing:.18em;text-transform:uppercase;line-height:1}
+.brand-loader-word span{color:#FF6B35}
+.brand-loader-sub{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;animation:fadeUp .5s ease forwards .65s;opacity:0}
+@keyframes logoPop{0%{opacity:0;transform:scale(.55) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(6px)}100%{opacity:.55;transform:translateY(0)}}
+
+/* CHEFSAYS BRAND LOGO */
+.cs-brand{position:relative;display:flex;align-items:center;gap:10px}
+.cs-mark{display:block;flex-shrink:0;filter:drop-shadow(0 8px 18px rgba(255,107,53,.18))}
+.cs-word{font-weight:900;letter-spacing:-.5px;line-height:1;color:#FFF}
+.cs-word span{color:#FF6B35}
+.cs-word.dark{color:#2D1810}
+.cs-hero-logo{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:30px}
+.cs-hero-logo .cs-word{font-size:29px;letter-spacing:.16em;text-transform:uppercase}
+.cs-app-header{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;flex-shrink:0}
+.cs-app-header .cs-word{font-size:17px;letter-spacing:-.3px}
+.cs-icon-btn{background:none;border:none;font-size:22px;cursor:pointer}
 </style>
 </head>
 <body>
+
+<!-- CLEAN OPENING LOGO SPLASH -->
+<div id="brand-loader">
+  <div class="brand-loader-inner">
+    <svg class="cs-mark" width="122" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon mark">
+      <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
+    </svg>
+    <div class="brand-loader-word">Chef<span>Says</span></div>
+    <div class="brand-loader-sub">Your AI kitchen buddy</div>
+  </div>
+</div>
 
 <!-- ═══════════════════ SPLASH ═══════════════════ -->
 <div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto">
@@ -58,10 +92,12 @@ button{cursor:pointer;border:none;font-family:inherit}
     <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(255,107,53,.35),transparent 70%);border-radius:50%;pointer-events:none"></div>
     <div style="position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(34,197,94,.15),transparent 70%);border-radius:50%;pointer-events:none"></div>
 
-    <!-- Logo -->
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:32px">
-      <div style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF4500);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px">👨‍🍳</div>
-      <div style="font-size:20px;font-weight:900;color:#FFF;letter-spacing:-.5px">ChefSays</div>
+    <div class="cs-brand cs-hero-logo">
+      <svg class="cs-mark" width="126" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon logo">
+        <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
+      </svg>
+      <div class="cs-word">CHEF<span>SAYS</span></div>
     </div>
 
     <!-- Big savings number -->
@@ -356,6 +392,11 @@ button{cursor:pointer;border:none;font-family:inherit}
         <div style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;text-align:center"><div id="sav-avg" style="font-size:22px;font-weight:800;color:#FF6B35;margin-bottom:3px">$0</div><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:600">Avg Save</div></div>
       </div>
       <div id="sav-list"></div>
+      <div style="margin-top: 24px;">
+        <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px;margin-bottom:12px;text-align:center;">RECENT CHAT HISTORY</div>
+        <div id="chat-history-list">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -470,6 +511,18 @@ button{cursor:pointer;border:none;font-family:inherit}
       <div id="auth-subtitle" style="font-size:13px;color:#9B7B6E">Sign up to save your recipes, savings and chat history</div>
     </div>
     <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
+    <div id="auth-extra-fields">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <input id="auth-first" type="text" placeholder="First name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+        <input id="auth-last" type="text" placeholder="Last name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin:0 2px 4px">Date of birth <span style="font-weight:400;text-transform:none">(21+ unlocks drinks)</span></div>
+      <input id="auth-dob" type="date" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:11px 13px;font-size:14px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <input id="auth-zip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP code" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+        <select id="auth-gender" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 10px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"><option value="">Gender</option><option value="male">Male</option><option value="female">Female</option><option value="na">Prefer not to say</option></select>
+      </div>
+    </div>
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
     <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:16px;font-family:inherit"/>
     <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Create Free Account →</button><button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;">Sign In →</button>
@@ -514,6 +567,17 @@ button{cursor:pointer;border:none;font-family:inherit}
 <div id="toast"></div>
 
 <script>
+// Hide brand loader after animation
+setTimeout(function(){
+  var loader = document.getElementById('brand-loader');
+  if(loader) loader.className = 'gone';
+}, 2000);
+
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isLocal ? 'http://localhost:3000' : '/.netlify/functions';
+const CHAT_ENDPOINT = `${API_BASE_URL}/chat`;
+const DB_ENDPOINT = `${API_BASE_URL}/save-conversation`;
+
 // ── GLOBALS ──────────────────────────────────────────────────────────────────
 // SUPABASE — wrapped safely so it never breaks the app
 var _sb = null;
@@ -544,6 +608,15 @@ async function initAuth(){
       _user = null;
       _token = null;
       _userProfile = null;
+      // Clear user-specific data on logout
+      savLog = [];
+      localStorage.removeItem('cs');
+      if (document.getElementById('pg-sav').classList.contains('on')) {
+        renderSav();
+        renderChatHistory([]); // Clear chat history view
+      }
+      // Also clear the main chat view if active
+      showView('home');
     }
   });
   }catch(e){ console.log('Auth init error:', e.message); }
@@ -558,12 +631,48 @@ function updateAcctButton(isLoggedIn){
 async function loadProfile(){
   if(!_token) return;
   try{
-    var resp = await fetch('/.netlify/functions/save-conversation', {
+    // Fetch profile, savings, and chat history in parallel
+    const [profileResp, savingsResp, chatHistoryResp] = await Promise.all([
+      fetch(DB_ENDPOINT, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'get_profile', token:_token, data:{}})
-    });
-    var d = await resp.json();
-    if(d.profile) _userProfile = d.profile;
+      }),
+      fetch(DB_ENDPOINT, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_history', token: _token, data: { type: 'savings' } })
+      }),
+      fetch(DB_ENDPOINT, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_history', token: _token, data: { type: 'conversation' } })
+      })
+    ]);
+
+    const profileData = await profileResp.json();
+    if(profileData.profile) _userProfile = profileData.profile;
+
+    // Handle savings data
+    const savingsData = await savingsResp.json();
+    if (savingsData.savings) {
+      savLog = savingsData.savings;
+      localStorage.setItem('cs', JSON.stringify(savLog));
+    }
+
+    // Handle chat history data
+    const chatHistoryData = await chatHistoryResp.json();
+    if (chatHistoryData.conversations) {
+      renderChatHistory(chatHistoryData.conversations);
+    }
+
+    // Re-render the savings page if it's the current view
+    if (document.getElementById('pg-sav').classList.contains('on')) {
+      renderSav();
+    }
+
+    if (document.getElementById('pg-sav').classList.contains('on')) {
+      if (document.getElementById('pg-sav').classList.contains('on')) {
+        renderSav();
+      }
+    }
   }catch(e){}
 }
 
@@ -575,6 +684,7 @@ function setAuthMode(mode) {
   const signinLink = document.getElementById('auth-signin-link');
   const signupLink = document.getElementById('auth-signup-link');
   const subtitle = document.getElementById('auth-subtitle');
+  const extraFields = document.getElementById('auth-extra-fields');
   const errEl = document.getElementById('auth-error');
 
   // Reset error message
@@ -586,6 +696,7 @@ function setAuthMode(mode) {
     if(loginBtn) loginBtn.style.display = 'block';
     if(signinLink) signinLink.style.display = 'none';
     if(signupLink) signupLink.style.display = 'block';
+    if(extraFields) extraFields.style.display = 'none';
     // Reset login button state
     if(loginBtn) { loginBtn.textContent = 'Sign In →'; loginBtn.disabled = false; }
   } else { // signup
@@ -594,9 +705,19 @@ function setAuthMode(mode) {
     if(loginBtn) loginBtn.style.display = 'none';
     if(signinLink) signinLink.style.display = 'block';
     if(signupLink) signupLink.style.display = 'none';
+    if(extraFields) extraFields.style.display = 'block';
     // Reset signup button state
     if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; }
   }
+}
+
+function getAge(dobStr){
+  if(!dobStr) return 0;
+  var dob=new Date(dobStr); var now=new Date();
+  var age=now.getFullYear()-dob.getFullYear();
+  var m=now.getMonth()-dob.getMonth();
+  if(m<0||(m===0&&now.getDate()<dob.getDate()))age--;
+  return age;
 }
 
 async function doAuth(type){
@@ -604,6 +725,19 @@ async function doAuth(type){
   var email = document.getElementById('auth-email').value.trim();
   var password = document.getElementById('auth-password').value.trim();
   var errEl = document.getElementById('auth-error');
+  var first='',last='',dob='',zip='',gender='';
+
+  if (type === 'signup') {
+    first = (document.getElementById('auth-first')||{value:''}).value.trim();
+    last = (document.getElementById('auth-last')||{value:''}).value.trim();
+    dob = (document.getElementById('auth-dob')||{value:''}).value;
+    zip = (document.getElementById('auth-zip')||{value:''}).value.trim();
+    gender = (document.getElementById('auth-gender')||{value:''}).value;
+    if(!first || !last){ errEl.style.display='block'; errEl.textContent='Please enter your first and last name'; return; }
+    if(!dob){ errEl.style.display='block'; errEl.textContent='Please enter your date of birth'; return; }
+    if(getAge(dob) < 13){ errEl.style.display='block'; errEl.textContent='You must be at least 13 to use ChefSays'; return; }
+  }
+
   if(!email||!password){ errEl.style.display='block'; errEl.textContent='Please enter email and password'; return; }
   if(password.length<6){ errEl.style.display='block'; errEl.textContent='Password must be at least 6 characters'; return; }
   errEl.style.display='none';
@@ -611,7 +745,7 @@ async function doAuth(type){
   if(btn) { btn.textContent = 'Please wait...'; btn.disabled=true; }
   try{
     var result = type==='signup'
-      ? await _sb.auth.signUp({email, password})
+      ? await _sb.auth.signUp({email, password, options: {data: {first_name:first, last_name:last, dob:dob, zip:zip, gender:gender}}})
       : await _sb.auth.signInWithPassword({email, password});
     if(result.error){
       errEl.style.display='block';
@@ -661,7 +795,7 @@ async function logout() {
 async function saveConversation(question, response, type, cuisine, mealType){
   if(!_token || !_sb) return;
   try{
-    fetch('/.netlify/functions/save-conversation',{
+    fetch(DB_ENDPOINT,{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_conversation', token:_token, data:{question, response, type:type||'chat', cuisine:cuisine||_cuisine, meal_type:mealType||_meal}})
     });
@@ -671,7 +805,7 @@ async function saveConversation(question, response, type, cuisine, mealType){
 async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
   if(!_token || !_sb) return;
   try{
-    fetch('/.netlify/functions/save-conversation',{
+    fetch(DB_ENDPOINT,{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_savings', token:_token, data:{dish_name:dishName, amount_saved:amount, home_cost:homeCost, restaurant_cost:restaurantCost, cuisine:_cuisine, meal_type:_meal}})
     });
@@ -681,7 +815,7 @@ async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
 async function saveMenuItems(items){
   if(!_token || !_sb) return;
   try{
-    fetch('/.netlify/functions/save-conversation',{
+    fetch(DB_ENDPOINT,{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_menu_item', token:_token, data:{items:items, category:'dollar_menu'}})
     });
@@ -906,7 +1040,7 @@ function callAI(){
     messages[0].content='Scan my '+_photoType+' photo. Only use ingredients you can CLEARLY see. Do NOT add anything not visible. Then give me 3 authentic '+_cuisine+' '+_meal+' recipes using those ingredients.'+timeCtx;
   }
 
-  fetch('/.netlify/functions/chat',{
+  fetch(CHAT_ENDPOINT,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(body),
@@ -1191,6 +1325,26 @@ function renderSav(){
   else{savLog.forEach(function(l){var row=document.createElement('div');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';list.appendChild(row);});}
 }
 
+function renderChatHistory(conversations) {
+  var list = document.getElementById('chat-history-list');
+  if (!list) return;
+  while(list.firstChild) list.removeChild(list.firstChild);
+
+  if (!conversations || conversations.length === 0) {
+    var e = document.createElement('div');
+    e.style.cssText='text-align:center;padding:20px;font-size:13px;color:#C4956A;line-height:1.7';
+    e.textContent='Your recent conversations will appear here.';
+    list.appendChild(e);
+  } else {
+    conversations.forEach(function(c) {
+      var row = document.createElement('div');
+      row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px 16px;margin-bottom:10px';
+      row.innerHTML = '<div><div style="font-weight:700;font-size:14px;color:#2D1810;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.question+'</div><div style="font-size:12px;color:#C4956A;">'+new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric', year:'numeric'})+'</div></div>';
+      list.appendChild(row);
+    });
+  }
+}
+
 // ── MEAL PREP ────────────────────────────────────────────────────────────────
 function showPlan(key,btn){
   document.querySelectorAll('.ptab').forEach(function(b){b.style.background='#FFF';b.style.color='#2D1810';b.style.borderColor='#FFE0CC';});
@@ -1267,8 +1421,7 @@ function sendHomeChat(){
   loading.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';
   loading.innerHTML = '<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
   content.appendChild(loading);
-  bot();
-  fetch('/.netlify/functions/chat',{
+  bot(); fetch(CHAT_ENDPOINT,{
     method:'POST', headers:{'Content-Type':'application/json'},
     body:JSON.stringify({messages:[{role:'user',content:text}]}),
     signal: AbortSignal.timeout(30000) // 30 second timeout
@@ -1443,8 +1596,7 @@ function sendHomeChat(){
       var fl=document.createElement('div');
       fl.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:20px;text-align:center;margin-bottom:12px';
       fl.innerHTML='<div style="font-size:24px;margin-bottom:8px">👨‍🍳</div><div style="font-size:14px;font-weight:600;color:#2D1810">ChefSays is thinking...</div>';
-      content.appendChild(fl); bot();
-      fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt}]})}).then(function(r){return r.json();}).then(function(d2){
+      content.appendChild(fl); bot(); fetch(CHAT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:text},{role:'assistant',content:data.text},{role:'user',content:rt}]})}).then(function(r){return r.json();}).then(function(d2){
         fl.remove();
         try{
           var raw2=d2.text.replace(/```json/g,'').replace(/```/g,'').trim();
@@ -1531,7 +1683,7 @@ function pickDrinkBase(base){
   content.appendChild(loading);
   bot();
   var msg='IMPORTANT: You are a bartender. Make DRINKS AND COCKTAILS ONLY. Do NOT suggest any food. I have: '+base.name+'. Give me exactly 3 cocktail or drink recipes I can make using ONLY what I listed. These must be DRINKS to sip — not food. For each drink: name, description, exact measurements, cost per ingredient, total home cost to make, typical bar price, prep time under 5 minutes. Respond in JSON with recipes array.';
-  fetch('/.netlify/functions/chat',{
+  fetch(CHAT_ENDPOINT,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({messages:[{role:'user',content:'You are a professional bartender. Only suggest drinks and cocktails. Never suggest food.'},{role:'assistant',content:'I understand. I will only suggest cocktails and drinks.'},{role:'user',content:msg}]})
   }).then(function(r){return r.json();}).then(function(data){
@@ -1563,3 +1715,4 @@ function findEBT(){document.getElementById('ebt-sheet').className='sheet on';}
 </script>
 </body>
 </html>
+ l
