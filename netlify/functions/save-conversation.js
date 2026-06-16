@@ -25,17 +25,24 @@ exports.handler = async function(event) {
     if (authError || !user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
 
     // Once user is verified, create a client with the service_role key to perform admin operations
+    // This client should only be used for operations that require elevated privileges,
+    // such as RPC calls that bypass RLS or modify sensitive data.
     const supabaseAdmin = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_KEY
     );
+
+    console.log(`User ${user.id} performing action: ${action}`);
 
     if (action === 'save_conversation') {
       const { question, response, type, cuisine, meal_type, tags } = data;
       const { error } = await authClient.from('conversations').insert({
         user_id: user.id, question, response, type: type||'chat', cuisine, meal_type, tags: tags||[]
       });
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error saving conversation:', error.message);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error saving conversation: ${error.message}` }) };
+      }
       // Update habits
       await updateHabits(supabaseAdmin, user.id, cuisine, meal_type);
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
@@ -49,13 +56,19 @@ exports.handler = async function(event) {
           .select('dish_name, amount_saved, created_at')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false });
-        if (error) throw error;
+        if (error) {
+          console.error('Supabase error getting savings history:', error.message);
+          return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error getting savings history: ${error.message}` }) };
+        }
         // Format data to match localStorage structure
         const formattedSavings = savings.map(s => ({ name: s.dish_name, saved: s.amount_saved, date: new Date(s.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}) }));
         return { statusCode: 200, headers, body: JSON.stringify({ savings: formattedSavings }) };
       } else {
         const { data: convos, error } = await authClient.from('conversations').select('question, response, type, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10);
-        if (error) throw error;
+        if (error) {
+          console.error('Supabase error getting conversation history:', error.message);
+          return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error getting conversation history: ${error.message}` }) };
+        }
         return { statusCode: 200, headers, body: JSON.stringify({ conversations: convos }) };
       }
     }
@@ -65,7 +78,10 @@ exports.handler = async function(event) {
       const { error } = await authClient.from('savings').insert({
         user_id: user.id, dish_name, amount_saved, home_cost, restaurant_cost, cuisine, meal_type
       });
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error saving savings:', error.message);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error saving savings: ${error.message}` }) };
+      }
       // Update total
       // Use a separate client with the service key for admin-level operations like RPC calls if needed,
       // but for user-specific updates, the user's client is fine if RLS is set up.
@@ -87,8 +103,12 @@ exports.handler = async function(event) {
         where_to_buy: item.where_to_buy||item.where||'',
         category: data.category||'dollar_menu'
       }));
-      const { error } = await authClient.from('menu_items').insert(rows);
-      if (error) throw error;
+      // Assuming RLS allows insert for authenticated user
+      const { error } = await authClient.from('menu_items').insert(rows); // Assuming RLS allows insert for authenticated user
+      if (error) {
+        console.error('Supabase error saving menu item:', error.message);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error saving menu item: ${error.message}` }) };
+      }
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
@@ -98,7 +118,10 @@ exports.handler = async function(event) {
         .select('*')
         .eq('id', user.id)
         .single();
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error getting profile:', error.message);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error getting profile: ${error.message}` }) };
+      }
       // Get recent convos for memory
       const { data: recent } = await authClient
         .from('conversations')
@@ -112,7 +135,7 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unknown action' }) };
 
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Unhandled error in save-conversation function:', err.message, err.stack);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
