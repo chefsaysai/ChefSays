@@ -41,7 +41,10 @@ exports.handler = async function(event) {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_KEY,
       {
-        auth: { persistSession: false }
+        auth: { persistSession: false },
+        realtime: {
+          transport: ws
+        }
       }
     );
 
