@@ -20,12 +20,3 @@
   [headers.values]
     # Cache all assets for 1 year, but use a unique hash to break the cache on change
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Inject environment variables into the HTML during build
-[[plugins]]
-  package = "@netlify/plugin-replace-in-file"
-  [plugins.inputs]
-    # Replace a placeholder in index.html with the actual Supabase Anon Key
-    file = "index.html"
-    search = "SUPABASE_ANON_KEY_PLACEHOLDER"
-    replace = "{{ env.SUPABASE_ANON_KEY }}"

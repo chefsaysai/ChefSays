@@ -769,7 +769,7 @@ try {
   if(typeof supabase !== 'undefined'){
     _sb = supabase.createClient(
       'https://ethcmkxemjsfgvpwygub.supabase.co',
-      'SUPABASE_ANON_KEY_PLACEHOLDER' // This is replaced by Netlify during build
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0aGNta3hlbWpzZmd2cHd5Z3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTIwMzYsImV4cCI6MjA5NTAyODAzNn0.Q9_IJ-8AJdEpjrruXXjvcZC7e4mvmDMRleUcbsaI5lk'
     );
   }
 } catch(e) { console.log('Supabase init error:', e.message); }
