@@ -26,6 +26,6 @@
   package = "@netlify/plugin-replace"
   [plugins.inputs]
     # Replace a placeholder in index.html with the actual Supabase Anon Key
-    - file = "index.html"
-      search = "SUPABASE_ANON_KEY_PLACEHOLDER"
-      replace = "{{ env.SUPABASE_ANON_KEY }}"
+    file = "index.html"
+    search = "SUPABASE_ANON_KEY_PLACEHOLDER"
+    replace = "{{ env.SUPABASE_ANON_KEY }}"
