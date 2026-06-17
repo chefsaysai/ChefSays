@@ -14,5 +14,8 @@
     "http-proxy-middleware": "^4.1.1",
     "stripe": "^14.0.0",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@netlify/plugin-replace": "^1.4.1"
   }
 }
