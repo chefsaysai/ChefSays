@@ -2,7 +2,6 @@
 // Saves chat history and syncs savings to Supabase
 
 const { createClient } = require('@supabase/supabase-js');
-const ws = require('ws');
 
 exports.handler = async function(event) {
   const headers = {
@@ -27,12 +26,7 @@ exports.handler = async function(event) {
     const authClient = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY,
-      {
-        global: { headers: { Authorization: `Bearer ${token}` } },
-        realtime: {
-          transport: ws
-        }
-      }
+      { global: { headers: { Authorization: `Bearer ${token}` } } }
     );
     const { data: { user }, error: authError } = await authClient.auth.getUser();
     if (authError || !user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
@@ -40,12 +34,7 @@ exports.handler = async function(event) {
     const supabaseAdmin = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_KEY,
-      {
-        auth: { persistSession: false },
-        realtime: {
-          transport: ws
-        }
-      }
+      { auth: { persistSession: false } }
     );
 
     console.log(`User ${user.id} performing action: ${action}`);
