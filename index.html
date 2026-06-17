@@ -970,7 +970,8 @@ async function doAuth(type){
     btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
     btn.disabled=false;
   } finally {
-    // Ensure the button is always re-enabled after the authentication attempt
+    // Ensure the button is always re-enabled and text is reset after the authentication attempt
+    btn.textContent = type === 'signup' ? 'Create Free Account →' : 'Sign In →';
     btn.disabled = false;
   }
 }
