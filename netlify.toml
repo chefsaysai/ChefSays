@@ -1,11 +1,11 @@
 
 [build]
-  functions = "netlify/functions"
-  publish = "."
+  functions = "netlify/functions" # Specifies the directory for serverless functions.
+  publish = "." # Specifies the directory to publish, which is the root for this project.
 
 [build.environment]
-  NODE_VERSION = "20"
-  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
+  NODE_VERSION = "20" # Sets the Node.js version for the build environment.
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL" # Prevents Netlify's secret scanner from flagging the public Supabase URL.
 
 # Caching policy to prevent stale files
 [[headers]]
