@@ -793,13 +793,19 @@ async function initAuth(){
       _token = session.access_token;
       try{localStorage.setItem('cs_signed_in','true');}catch(e){}
       if(!isPaid() && trialDaysLeft()>0){var pw=document.getElementById('paywall');if(pw)pw.className='paywall';}
-      loadProfile();
+      await loadProfile();
+      renderSav();
+      renderHistory();
     } else {
       _user = null;
       _token = null;
       // Clear all user-specific data on logout
       console.log('Auth state changed: session ended');
       _userProfile = null;
+      _userSavings = [];
+      _userConversations = [];
+      renderSav();
+      renderHistory();
       try{localStorage.removeItem('cs_signed_in');}catch(e){}
     }
   });
@@ -839,6 +845,7 @@ async function loadProfile(){
     var savingsData = await savingsResp.json();
     if(savingsData.savings) _userSavings = savingsData.savings;
 
+    renderSav(); // Render savings after fetching
     renderHistory(); // Render the fetched conversation history
 
   }catch(e){
@@ -992,9 +999,6 @@ function showAccountModal(){
 function closeAccountModal(){document.getElementById('account-modal').style.display='none';}
 async function signOut(){
   try{ if(_sb) await _sb.auth.signOut(); }catch(e){}
-  _user=null;_token=null;_userProfile=null;
-  _userSavings = []; // Clear local data on sign out
-  _userConversations = []; // Clear local data on sign out
   closeAccountModal();
   toast('Signed out 👋 See you soon');
 }
