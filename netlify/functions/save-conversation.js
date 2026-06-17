@@ -2,6 +2,7 @@
 // Saves chat history and syncs savings to Supabase
 
 const { createClient } = require('@supabase/supabase-js');
+const ws = require('ws');
 
 exports.handler = async function(event) {
   const headers = {
@@ -26,17 +27,22 @@ exports.handler = async function(event) {
     const authClient = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY,
-      { global: { headers: { Authorization: `Bearer ${token}` } } }
+      {
+        global: { headers: { Authorization: `Bearer ${token}` } },
+        realtime: {
+          transport: ws
+        }
+      }
     );
     const { data: { user }, error: authError } = await authClient.auth.getUser();
     if (authError || !user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
 
-    // Once user is verified, create a client with the service_role key to perform admin operations
-    // This client should only be used for operations that require elevated privileges,
-    // such as RPC calls that bypass RLS or modify sensitive data.
     const supabaseAdmin = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
+      process.env.SUPABASE_SERVICE_KEY,
+      {
+        auth: { persistSession: false }
+      }
     );
 
     console.log(`User ${user.id} performing action: ${action}`);
