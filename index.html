@@ -815,6 +815,12 @@ async function loadProfile(){
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'get_profile', token:_token, data:{}})
     });
+
+    if (!resp.ok) {
+      const errorData = await resp.json();
+      throw new Error(errorData.error || `Server error: ${resp.status}`);
+    }
+
     var d = await resp.json();
     if(d.profile) _userProfile = d.profile;
     if(d.recent) _userConversations = d.recent; // Assign recent conversations
@@ -824,13 +830,20 @@ async function loadProfile(){
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'get_history', token:_token, data:{type:'savings'}})
     });
+
+    if (!savingsResp.ok) {
+      const errorData = await savingsResp.json();
+      throw new Error(errorData.error || `Server error: ${savingsResp.status}`);
+    }
+
     var savingsData = await savingsResp.json();
     if(savingsData.savings) _userSavings = savingsData.savings;
 
     renderHistory(); // Render the fetched conversation history
 
   }catch(e){
-    console.error("Error loading profile or history:", e);
+    console.error("Error loading profile or history:", e.message);
+    toast(`Error: ${e.message}`); // Show the exact error in a toast
   }
 }
 
