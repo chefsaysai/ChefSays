@@ -20,10 +20,6 @@ exports.handler = async function(event) {
       console.error(`Missing required environment variables: ${missingVars.join(', ')}`);
       return { statusCode: 500, headers, body: JSON.stringify({ error: `Server configuration error: Missing ${missingVars.join(', ')}` }) };
     }
-    console.log('--- save-conversation function started ---');
-    console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'Loaded' : 'NOT LOADED');
-    console.log('SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'Loaded' : 'NOT LOADED');
-    console.log('SUPABASE_SERVICE_KEY:', process.env.SUPABASE_SERVICE_KEY ? 'Loaded' : 'NOT LOADED');
     const { action, token, data } = JSON.parse(event.body);
 
     // Create a temporary client to verify the user's token
