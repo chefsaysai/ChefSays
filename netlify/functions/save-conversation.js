@@ -13,6 +13,13 @@ exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   try {
+    // --- Environment Variable Check ---
+    const requiredVars = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_KEY'];
+    const missingVars = requiredVars.filter(v => !process.env[v]);
+    if (missingVars.length > 0) {
+      console.error(`Missing required environment variables: ${missingVars.join(', ')}`);
+      return { statusCode: 500, headers, body: JSON.stringify({ error: `Server configuration error: Missing ${missingVars.join(', ')}` }) };
+    }
     console.log('--- save-conversation function started ---');
     console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'Loaded' : 'NOT LOADED');
     console.log('SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'Loaded' : 'NOT LOADED');
