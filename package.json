@@ -16,6 +16,6 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@netlify/plugin-replace": "^1.4.1"
+    "@netlify/plugin-replace-in-file": "^1.4.1"
   }
 }

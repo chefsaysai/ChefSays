@@ -23,7 +23,7 @@
 
 # Inject environment variables into the HTML during build
 [[plugins]]
-  package = "@netlify/plugin-replace"
+  package = "@netlify/plugin-replace-in-file"
   [plugins.inputs]
     # Replace a placeholder in index.html with the actual Supabase Anon Key
     file = "index.html"
