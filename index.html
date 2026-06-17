@@ -255,6 +255,14 @@ button{cursor:pointer;border:none;font-family:inherit}
 
       <!-- HOME VIEW -->
       <div id="home-view">
+        <div id="history-container" style="display:none; margin-bottom: 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="flex:1;height:1px;background:#FFE0CC"></div>
+            <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">RECENT ACTIVITY</div>
+            <div style="flex:1;height:1px;background:#FFE0CC"></div>
+          </div>
+          <div id="history-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
         <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
         <button onclick="startDailyDish()" style="display:flex;width:100%;align-items:center;gap:12px;background:linear-gradient(135deg,#16A34A,#15803D);border:none;border-radius:16px;padding:13px 16px;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 14px rgba(22,163,74,.3);text-align:left">
           <span style="font-size:26px">&#127919;</span>
@@ -701,8 +709,9 @@ button{cursor:pointer;border:none;font-family:inherit}
     <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
     <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
     <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
-    <button onclick="setAuthMode('login')" id="auth-login-btn" style="display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:14px">Already have an account? Sign In</button>
-    <button id="auth-new-link" onclick="setAuthSignup()" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
+    <button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Sign In →</button>
+    <button id="auth-signin-link" onclick="setAuthMode('login')" style="width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">Already have an account? Sign In</button>
+    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
     <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
   </div>
@@ -712,7 +721,9 @@ button{cursor:pointer;border:none;font-family:inherit}
 <div id="account-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
   <div style="background:#FFF;border-radius:24px;padding:26px 22px;width:100%;text-align:center">
     <svg width="56" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
-    <div id="acct-name" style="font-size:19px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:8px 0 2px">Chef</div>
+    <div id="acct-name" style="font-size:19px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:8px 0 2px">
+      Chef
+    </div>
     <div id="acct-email" style="font-size:13px;color:#9B7B6E;margin-bottom:14px"></div>
     <div id="acct-trial" style="display:inline-block;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:#16A34A;margin-bottom:18px"></div>
     <button onclick="closeAccountModal()" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:10px">Back to Cooking</button>
@@ -749,9 +760,11 @@ button{cursor:pointer;border:none;font-family:inherit}
 // ── GLOBALS ──────────────────────────────────────────────────────────────────
 // SUPABASE
 var _sb = null;
-var _user = null;
-var _token = null;
-var _userProfile = null;
+var _user = null; // Supabase user object
+var _token = null; // Supabase access token
+var _userProfile = null; // User profile data fetched from Supabase
+var _userSavings = []; // User savings data fetched from Supabase
+var _userConversations = []; // User conversation history fetched from Supabase
 try {
   if(typeof supabase !== 'undefined'){
     _sb = supabase.createClient(
@@ -765,13 +778,17 @@ async function initAuth(){
   if(!_sb){ console.log('Supabase not available'); return; }
   try{
   const { data: { session } } = await _sb.auth.getSession();
-  if(session){
+  if(session){ // Initial session check on page load
     _user = session.user;
     _token = session.access_token;
     await loadProfile();
+    showAccountModal(); // Update account modal with fetched profile data
+    renderSav(); // Update savings tab with fetched savings data
   }
-  _sb.auth.onAuthStateChange(function(event, session){
+  _sb.auth.onAuthStateChange(async function(event, session){ // Added async to the callback
     if(session){
+      // Session established or refreshed
+      console.log('Auth state changed: session active');
       _user = session.user;
       _token = session.access_token;
       try{localStorage.setItem('cs_signed_in','true');}catch(e){}
@@ -780,6 +797,8 @@ async function initAuth(){
     } else {
       _user = null;
       _token = null;
+      // Clear all user-specific data on logout
+      console.log('Auth state changed: session ended');
       _userProfile = null;
       try{localStorage.removeItem('cs_signed_in');}catch(e){}
     }
@@ -787,39 +806,93 @@ async function initAuth(){
   }catch(e){ console.log('Auth init error:', e.message); }
 }
 
+// Fetches user profile, savings, and conversations from the Netlify function
 async function loadProfile(){
-  if(!_token) return;
+  if(!_token || !_user) return; // Ensure token and user are available
   try{
+    // Fetch profile and recent conversations
     var resp = await fetch('/.netlify/functions/save-conversation', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'get_profile', token:_token, data:{}})
     });
     var d = await resp.json();
     if(d.profile) _userProfile = d.profile;
-  }catch(e){}
+    if(d.recent) _userConversations = d.recent; // Assign recent conversations
+
+    // Fetch full savings history separately
+    var savingsResp = await fetch('/.netlify/functions/save-conversation', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({action:'get_history', token:_token, data:{type:'savings'}})
+    });
+    var savingsData = await savingsResp.json();
+    if(savingsData.savings) _userSavings = savingsData.savings;
+
+    renderHistory(); // Render the fetched conversation history
+
+  }catch(e){
+    console.error("Error loading profile or history:", e);
+  }
 }
 
-var _authMode='signup';
-function setAuthMode(mode){
-  // First tap on 'Sign In' switches mode; second tap actually signs in
-  if(mode==='login' && _authMode!=='login'){
-    _authMode='login';
-    var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='none';
-    var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='none';
-    var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Sign In →';
-    var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Welcome back — sign in to your account';
-    var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='block';
-    return;
+var _authMode = 'signup'; // Global variable to track current auth mode
+
+// Toggles the UI of the authentication modal between signup and login views
+function setAuthMode(mode) {
+  _authMode = mode;
+  const signupBtn = document.getElementById('auth-signup-btn');
+  const loginBtn = document.getElementById('auth-login-btn');
+  const signinLink = document.getElementById('auth-signin-link'); // "Already have an account? Sign In"
+  const signupLink = document.getElementById('auth-signup-link'); // "New here? Create a free account"
+  const subtitle = document.getElementById('auth-subtitle');
+  const extraFields = document.getElementById('auth-extra'); // The div containing first name, last name, DOB, ZIP, gender
+  const errEl = document.getElementById('auth-error');
+
+  // Reset error message
+  if (errEl) errEl.style.display = 'none';
+
+  if (mode === 'login') {
+    if(subtitle) subtitle.textContent = 'Welcome back — sign in to your account';
+    if(signupBtn) signupBtn.style.display = 'none'; // Hide signup button
+    if(loginBtn) loginBtn.style.display = 'block';  // Show login button
+    if(signinLink) signinLink.style.display = 'none'; // Hide "Already have account" link
+    if(signupLink) signupLink.style.display = 'block'; // Show "New here?" link
+    if(extraFields) extraFields.style.display = 'none'; // Hide extra signup fields
+    if(loginBtn) { loginBtn.textContent = 'Sign In →'; loginBtn.disabled = false; } // Reset login button state
+  } else { // mode === 'signup'
+    if(subtitle) subtitle.textContent = 'Sign up to save your recipes, savings and chat history';
+    if(signupBtn) signupBtn.style.display = 'block'; // Show signup button
+    if(loginBtn) loginBtn.style.display = 'none';  // Hide login button
+    if(signinLink) signinLink.style.display = 'block'; // Show "Already have account" link
+    if(signupLink) signupLink.style.display = 'none'; // Hide "New here?" link
+    if(extraFields) extraFields.style.display = 'block'; // Show extra signup fields
+    if(signupBtn) { signupBtn.textContent = 'Create Free Account →'; signupBtn.disabled = false; } // Reset signup button state
   }
-  doAuth('login');
 }
-function setAuthSignup(){
-  _authMode='signup';
-  var ex=document.getElementById('auth-extra'); if(ex)ex.style.display='block';
-  var sb2=document.getElementById('auth-signup-btn'); if(sb2)sb2.style.display='block';
-  var lb=document.getElementById('auth-login-btn'); if(lb)lb.textContent='Already have an account? Sign In';
-  var sub=document.getElementById('auth-subtitle'); if(sub)sub.textContent='Sign up to save your recipes, savings and chat history';
-  var nw=document.getElementById('auth-new-link'); if(nw)nw.style.display='none';
+
+function renderHistory() {
+  const container = document.getElementById('history-container');
+  const list = document.getElementById('history-list');
+  if (!container || !list) return;
+
+  // Clear previous items
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+
+  if (_userConversations && _userConversations.length > 0) {
+    container.style.display = 'block';
+    _userConversations.forEach(convo => {
+      const item = document.createElement('button');
+      item.style.cssText = 'display:flex; align-items:center; gap:10px; background:#FFF; border:1.5px solid #FFE0CC; border-radius:12px; padding:10px 12px; text-align:left; width:100%;';
+      const icon = convo.type === 'recipe' ? '🍳' : (convo.type === 'drink' ? '🍹' : '💬');
+      const text = convo.question.length > 40 ? convo.question.substring(0, 40) + '...' : convo.question;
+      item.innerHTML = `<span style="font-size:20px">${icon}</span><div style="flex:1; font-size:13px; font-weight:600; color:#2D1810;">${text}</div><span style="font-size:11px; color:#C4956A;">${new Date(convo.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
+      // TODO: Add onclick to re-open the conversation result
+      list.appendChild(item);
+    });
+  } else {
+    container.style.display = 'none';
+  }
 }
 function getAge(dobStr){
   if(!dobStr) return 0;
@@ -865,7 +938,7 @@ async function doAuth(type){
       if(type==='signup'){
         try{localStorage.setItem('cs_profile',JSON.stringify({first:first,last:last,dob:dob,zip:zip,gender:gender}));}catch(e){}
       }
-      try{localStorage.setItem('cs_signed_in','true');}catch(e){}
+      // localStorage.setItem('cs_signed_in','true') is now handled by onAuthStateChange
       document.getElementById('auth-modal').style.display='none';
       var pw=document.getElementById('paywall'); if(pw)pw.className='paywall';
       if(type==='signup') toast('Welcome to ChefSays, '+(first||'chef')+'! 🎉 90-day beta trial started');
@@ -875,6 +948,9 @@ async function doAuth(type){
     errEl.style.display='block'; errEl.textContent='Something went wrong. Try again.';
     btn.textContent = type==='signup'?'Create Free Account →':'Sign In';
     btn.disabled=false;
+  } finally {
+    // Ensure the button is always re-enabled after the authentication attempt
+    btn.disabled = false;
   }
 }
 
@@ -888,9 +964,12 @@ function showAuthModal(){
   document.getElementById('auth-modal').style.display='flex';
 }
 function showAccountModal(){
-  var p={}; try{p=JSON.parse(localStorage.getItem('cs_profile')||'{}');}catch(e){}
+  // Use _userProfile if available, otherwise fallback to _user.email
+  var displayName = (_userProfile && _userProfile.first_name)
+    ? (_userProfile.first_name + ' ' + (_userProfile.last_name || '')).trim()
+    : (_user && _user.email ? _user.email.split('@')[0] : 'Chef');
   var nm=document.getElementById('acct-name');
-  if(nm)nm.textContent=p.first?(p.first+' '+(p.last||'')).trim():(_user&&_user.email?_user.email.split('@')[0]:'Chef');
+  if(nm)nm.textContent=displayName;
   var em=document.getElementById('acct-email');
   if(em)em.textContent=(_user&&_user.email)||'';
   var tr=document.getElementById('acct-trial');
@@ -901,7 +980,8 @@ function closeAccountModal(){document.getElementById('account-modal').style.disp
 async function signOut(){
   try{ if(_sb) await _sb.auth.signOut(); }catch(e){}
   _user=null;_token=null;_userProfile=null;
-  try{localStorage.removeItem('cs_signed_in');}catch(e){}
+  _userSavings = []; // Clear local data on sign out
+  _userConversations = []; // Clear local data on sign out
   closeAccountModal();
   toast('Signed out 👋 See you soon');
 }
@@ -914,7 +994,7 @@ async function saveConversation(question, response, type, cuisine, mealType){
       if(sess&&sess.data&&sess.data.session){_token=sess.data.session.access_token;_user=sess.data.session.user;}
     }
     if(!_token) return;
-    fetch('/.netlify/functions/save-conversation',{
+    await fetch('/.netlify/functions/save-conversation',{ // Await this call
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_conversation', token:_token, data:{question, response, type:type||'chat', cuisine:cuisine||_cuisine, meal_type:mealType||_meal}})
     });
@@ -923,7 +1003,7 @@ async function saveConversation(question, response, type, cuisine, mealType){
 
 async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
   if(!_token || !_sb) return;
-  try{
+  try {
     fetch('/.netlify/functions/save-conversation',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_savings', token:_token, data:{dish_name:dishName, amount_saved:amount, home_cost:homeCost, restaurant_cost:restaurantCost, cuisine:_cuisine, meal_type:_meal}})
@@ -934,7 +1014,7 @@ async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
 async function saveMenuItems(items){
   if(!_token || !_sb) return;
   try{
-    fetch('/.netlify/functions/save-conversation',{
+    await fetch('/.netlify/functions/save-conversation',{ // Await this call
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({action:'save_menu_item', token:_token, data:{items:items, category:'dollar_menu'}})
     });
@@ -957,7 +1037,7 @@ function getUserContext(){
   return ctx;
 }
 
-var savLog=JSON.parse(localStorage.getItem('cs')||'[]'),ps=0,pn='';
+var ps=0,pn=''; // Temporary variables for logging savings
 var _meal='',_cuisine='',_time='',_timeMins=30,_photoType='fridge',_hasPhoto=false;
 
 var PLANS={
@@ -1502,25 +1582,25 @@ function showFullCard(r,container){
 
 // ── LOG SAVINGS ──────────────────────────────────────────────────────────────
 function doLog(){
-  savLog.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps});
-  localStorage.setItem('cs',JSON.stringify(savLog));
+  _userSavings.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps}); // Add to global array
+  // No longer saving to local storage 'cs' directly, relying on cloud sync
   saveSavingsToCloud(pn,ps,0,0);
   document.getElementById('logsheet').className='logsheet';
   renderSav();
   toast('Logged! You saved $'+ps.toFixed(2)+'!');
   goTab('sav');
 }
-
 function renderSav(){
-  var total=savLog.reduce(function(s,l){return s+l.saved;},0);
+  // Use _userSavings instead of savLog (from localStorage)
+  var total=_userSavings.reduce(function(s,l){return s+l.saved;},0);
   document.getElementById('sav-total').textContent='$'+total.toFixed(2);
-  document.getElementById('sav-meals').textContent=savLog.length;
-  document.getElementById('sav-streak').textContent=Math.min(savLog.length,7);
-  document.getElementById('sav-avg').textContent=savLog.length?'$'+(total/savLog.length).toFixed(0):'$0';
+  document.getElementById('sav-meals').textContent=_userSavings.length;
+  document.getElementById('sav-streak').textContent=Math.min(_userSavings.length,7);
+  document.getElementById('sav-avg').textContent=_userSavings.length?'$'+(total/_userSavings.length).toFixed(0):'$0';
   document.getElementById('sav-sub').textContent=total>=200?'You could take a trip with this!':total>=100?'That is your groceries for a week!':total>=50?'That is a tank of gas!':total>=20?'That is a nice dinner saved!':total>0?'Every dollar adds up!':'Start cooking to grow your savings!';
   var list=document.getElementById('sav-list');while(list.firstChild)list.removeChild(list.firstChild);
-  if(!savLog.length){var e=document.createElement('div');e.style.cssText='text-align:center;padding:40px 20px;font-size:13px;color:#C4956A;line-height:1.7';e.textContent='Cook something and tap I Made This to start logging!';list.appendChild(e);}
-  else{savLog.forEach(function(l){var row=document.createElement('div');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';list.appendChild(row);});}
+  if(!_userSavings.length){var e=document.createElement('div');e.style.cssText='text-align:center;padding:40px 20px;font-size:13px;color:#C4956A;line-height:1.7';e.textContent='Cook something and tap I Made This to start logging!';list.appendChild(e);}
+  else{_userSavings.forEach(function(l){var row=document.createElement('div');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';list.appendChild(row);});}
 }
 
 // ── MEAL PREP ────────────────────────────────────────────────────────────────

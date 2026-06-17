@@ -13,6 +13,10 @@ exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   try {
+    console.log('--- save-conversation function started ---');
+    console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'Loaded' : 'NOT LOADED');
+    console.log('SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'Loaded' : 'NOT LOADED');
+    console.log('SUPABASE_SERVICE_KEY:', process.env.SUPABASE_SERVICE_KEY ? 'Loaded' : 'NOT LOADED');
     const { action, token, data } = JSON.parse(event.body);
 
     // Create a temporary client to verify the user's token
@@ -123,12 +127,13 @@ exports.handler = async function(event) {
         return { statusCode: 500, headers, body: JSON.stringify({ error: `Supabase error getting profile: ${error.message}` }) };
       }
       // Get recent convos for memory
-      const { data: recent } = await authClient
+      const { data: recent, error: recentError } = await authClient
         .from('conversations')
         .select('question, type, cuisine, meal_type, created_at')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(5);
+      if (recentError) console.error('Supabase error getting recent conversations:', recentError.message);
       return { statusCode: 200, headers, body: JSON.stringify({ profile, recent: recent||[] }) };
     }
 
