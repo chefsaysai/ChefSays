@@ -159,5 +159,7 @@ async function updateHabits(supabase, userId, cuisine, mealType) {
     // This update should be done with a service_role client if it's a background/system task.
     // For now, let's assume RLS allows the user to update their own last_seen.
     // await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', userId);
-  } catch(e) { /* silent */ }
+  } catch(e) {
+    console.error('Error in updateHabits:', e.message);
+  }
 }
