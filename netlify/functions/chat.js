@@ -16,8 +16,18 @@ exports.handler = async function(event) {
     var messages = body.messages || [];
     var image = body.image || null;
 
-    // This prompt is now aligned with your local server.js for consistency.
-    var SYSTEM = 'You are ChefSays AI. Respond ONLY with valid JSON. The user prompt may be prefixed with a context string about their history (e.g., "User loves: Italian."). Use this context to provide more relevant, personalized responses. Do not mention the context in your response. When food is mentioned return: {"message":"warm response","recipes":[{"name":"Name","description":"One sentence","homeCost":8.50,"restaurantCost":22.00,"ingredients":[{"name":"Chicken","quantity":"1 lb","cost":4.00},{"name":"Rice","quantity":"1 cup","cost":0.50},{"name":"Garlic","quantity":"3 cloves","cost":0.30}],"steps":["Step 1","Step 2","Step 3","Step 4"],"tip":"Pro tip"},{"name":"Name 2","description":"Sentence","homeCost":6.00,"restaurantCost":16.00,"ingredients":[{"name":"Eggs","quantity":"4","cost":1.20},{"name":"Butter","quantity":"2 tbsp","cost":0.40},{"name":"Milk","quantity":"quarter cup","cost":0.30}],"steps":["Step 1","Step 2","Step 3","Step 4"],"tip":"Tip"},{"name":"Name 3","description":"Sentence","homeCost":5.00,"restaurantCost":14.00,"ingredients":[{"name":"Pasta","quantity":"2 cups","cost":1.00},{"name":"Tomato sauce","quantity":"1 cup","cost":1.50},{"name":"Parmesan","quantity":"quarter cup","cost":0.80}],"steps":["Step 1","Step 2","Step 3","Step 4"],"tip":"Tip"}]}. For greetings: {"message":"response","recipes":[]}. ONLY JSON.';
+    var SYSTEM = 'You are ChefSays — an AI kitchen buddy, professional bartender, AND restaurant consultant. '
+      + 'CRITICAL: Respond with ONLY a valid JSON object. No text outside JSON. '
+      + 'ALWAYS return exactly 3 different recipe options in the recipes array so the user can choose. '
+      + 'If the user mentions drinks, cocktails, spirits, tequila, rum, gin, vodka, whiskey, beer, wine — give DRINK recipes ONLY. '
+      + 'If the user rejects previous suggestions (says they do not like them, want something else, are tired of them, etc.), give 3 NEW recipes that still match the ORIGINAL request — same protein, meal type, and general cuisine vibe — just different specific dishes. Do NOT switch to an unrelated cuisine or food category unless the user explicitly asks for that. Example: "tired of smoked meats with BBQ sauce" rejected once should lead to other meat-forward mains (grilled, braised, smoked-but-no-BBQ-sauce, etc.), not pasta or desserts. '
+      + 'If the user asks about restaurant menu design, dollar menus, pricing items — respond with a menu array containing items with: item_name, description, cost, sell_price, profit_margin, where_to_buy. '
+      + 'For general cooking tips, techniques, substitutions — respond with a message field containing helpful advice. '
+      + 'When food, ingredients, meals, drinks or cocktails are mentioned, return this format: '
+      + '{"message":"optional tip","recipes":[{"name":"","description":"","homeCost":0,"restaurantCost":0,"prepTime":"","difficulty":"","servings":0,"calories":0,"ingredients":[{"name":"","quantity":"","cost":0}],"steps":[""],"tip":""}]} '
+      + 'For menu/restaurant requests: {"message":"","menu":[{"item_name":"","description":"","cost":0,"sell_price":0,"profit_margin":0,"food_cost_percentage":0,"where_to_buy":""}]} '
+      + 'For simple tips: {"message":"your helpful advice here"} '
+      + 'NEVER use markdown. NEVER use bullet points. ONLY valid JSON.';
 
     var openAIMessages = [{ role: 'system', content: SYSTEM }];
 
@@ -48,7 +58,7 @@ exports.handler = async function(event) {
         'Authorization': 'Bearer ' + process.env.OPENAI_API_KEY
       },
       body: JSON.stringify(Object.assign({
-        model: 'gpt-4o-mini', // Switched to gpt-4o-mini to match server.js
+        model: 'gpt-4o',
         max_tokens: 3000,
         messages: openAIMessages
       }, (!image || !image.data) ? { response_format: { type: 'json_object' } } : {}))
