@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>ChefSays — Your Food Profile</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FFFAF6;max-width:430px;margin:0 auto;min-height:100vh;color:#2D1810}
+.wrap{padding:22px 20px 130px}
+.back-link{display:flex;align-items:center;gap:6px;color:#FF6B35;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:16px}
+.spoon{display:block;margin:0 auto 6px}
+.kicker{text-align:center;font-size:11px;font-weight:800;letter-spacing:2px;color:#FF6B35;text-transform:uppercase;margin-bottom:6px}
+h1{text-align:center;font-family:Georgia,serif;font-size:25px;font-weight:800;margin-bottom:6px;line-height:1.2}
+.sub{text-align:center;font-size:13px;color:#9B7B6E;line-height:1.6;margin-bottom:22px;padding:0 6px}
+.section{margin-bottom:26px}
+.slabel{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#C4956A;margin-bottom:4px}
+.shint{font-size:12px;color:#9B7B6E;margin-bottom:12px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:11px 15px;font-size:14px;font-weight:600;color:#2D1810;cursor:pointer;transition:all .15s;user-select:none}
+.chip:active{transform:scale(.96)}
+.chip .em{font-size:16px}
+.chip.sel{background:#FF6B35;border-color:#FF6B35;color:#FFF;box-shadow:0 4px 12px rgba(255,107,53,.3)}
+.chip.sel.red{background:#EF4444;border-color:#EF4444;box-shadow:0 4px 12px rgba(239,68,68,.3)}
+.chip.sel.teal{background:#0D9488;border-color:#0D9488;box-shadow:0 4px 12px rgba(13,148,136,.3)}
+.chip.auto{position:relative}
+.chip.auto::after{content:'auto';position:absolute;top:-7px;right:-4px;background:#6D28D9;color:#FFF;font-size:8px;font-weight:800;padding:2px 5px;border-radius:8px;letter-spacing:.5px}
+.subpick{display:none;gap:8px;margin-top:10px;flex-wrap:wrap}
+.subpick.show{display:flex}
+.subpick .mini{background:#FFF;border:1.5px solid #FFE0CC;border-radius:11px;padding:8px 12px;font-size:12px;font-weight:600;color:#9B7B6E;cursor:pointer}
+.subpick .mini.sel{background:#FF6B35;border-color:#FF6B35;color:#FFF}
+.divider{display:flex;align-items:center;gap:10px;margin:26px 0 22px}
+.divider .ln{flex:1;height:1px;background:#FFE0CC}
+.divider .tx{font-size:11px;font-weight:700;color:#C4956A;letter-spacing:.5px}
+.tradition-card{background:#FAF8FF;border:1.5px solid #E9E2FB;border-radius:18px;padding:16px}
+.tradition-head{font-size:14px;font-weight:800;color:#2D1810;margin-bottom:3px}
+.tradition-sub{font-size:12px;color:#9B7B6E;line-height:1.5;margin-bottom:14px}
+.tchips{display:flex;flex-wrap:wrap;gap:8px}
+.tchip{background:#FFF;border:1.5px solid #E9E2FB;border-radius:13px;padding:10px 14px;font-size:13px;font-weight:600;color:#6D28D9;cursor:pointer;transition:all .15s;user-select:none}
+.tchip:active{transform:scale(.96)}
+.tchip.sel{background:#6D28D9;border-color:#6D28D9;color:#FFF;box-shadow:0 4px 12px rgba(109,40,217,.3)}
+.tnote{background:#FFF;border:1px solid #E9E2FB;border-radius:12px;padding:12px 13px;font-size:12px;color:#6D28D9;line-height:1.6;margin-top:12px;display:none}
+.tnote.show{display:block}
+.warn{background:#FFFBEB;border:1px solid #FDE68A;border-radius:14px;padding:13px 14px;font-size:12px;color:#92400E;line-height:1.6;margin-top:10px;display:none}
+.warn.show{display:block}
+.cal-row{display:flex;gap:8px;margin-top:4px}
+.cal-opt{flex:1;text-align:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px 6px;cursor:pointer;transition:all .15s}
+.cal-opt:active{transform:scale(.97)}
+.cal-opt.sel{background:#0EA5E9;border-color:#0EA5E9;color:#FFF;box-shadow:0 4px 12px rgba(14,165,233,.3)}
+.cal-opt .n{font-size:14px;font-weight:800;display:block}
+.cal-opt .d{font-size:10px;opacity:.75;margin-top:2px}
+.cal-input{display:none;margin-top:10px}
+.cal-input.show{display:block}
+.cal-input input{width:100%;background:#FFF;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;font-family:inherit}
+.disc{background:#FFF8F0;border:1px solid #FFE0CC;border-radius:14px;padding:14px;font-size:11px;color:#9B7B6E;line-height:1.6;margin-top:8px}
+.disc b{color:#C4956A}
+.footer{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:linear-gradient(to top,#FFFAF6 72%,transparent);padding:16px 20px 22px}
+.btn{display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#FFF;border:none;border-radius:16px;padding:16px;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 6px 18px rgba(255,107,53,.3);text-align:center;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.skip{display:block;width:100%;text-align:center;background:none;border:none;color:#C4956A;font-size:13px;cursor:pointer;margin-top:10px;padding:6px;font-weight:600}
+.done{display:none;text-align:center;padding:40px 24px}
+.done.show{display:block}
+.done .big{font-size:48px;margin-bottom:14px}
+.done h2{font-family:Georgia,serif;font-size:24px;margin-bottom:10px}
+.done p{font-size:14px;color:#9B7B6E;line-height:1.6;margin-bottom:20px}
+.summary{text-align:left;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:8px}
+.summary .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #FFF5F0;font-size:13px;gap:12px}
+.summary .row:last-child{border:none}
+.summary .k{color:#9B7B6E;font-weight:600;white-space:nowrap}
+.summary .v{color:#2D1810;font-weight:700;text-align:right}
+#fp-saving{display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(255,250,246,.85);z-index:999;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#FF6B35}
+#fp-saving.show{display:flex}
+</style>
+</head>
+<body>
+
+<div id="fp-saving">Saving your profile…</div>
+
+<div class="wrap" id="form">
+  <a class="back-link" id="back-link" href="/" style="display:none">&#x2190; Back to ChefSays</a>
+
+  <svg class="spoon" width="58" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+  <div class="kicker">One time setup</div>
+  <h1>Your Food Profile</h1>
+  <p class="sub">Tell ChefSays what you can and can't eat. Every recipe respects it — like having a chef who actually knows you.</p>
+
+  <div class="section">
+    <div class="slabel">How do you eat?</div>
+    <div class="shint">Pick the one that fits. This is your foundation.</div>
+    <div class="chips" id="diet">
+      <div class="chip" data-v="none"><span class="em">🍽️</span>Everything</div>
+      <div class="chip" data-v="flexitarian"><span class="em">🌿</span>Mostly plant-based</div>
+      <div class="chip" data-v="pollotarian"><span class="em">🍗</span>Poultry only</div>
+      <div class="chip" data-v="pescatarian"><span class="em">🐟</span>Pescatarian</div>
+      <div class="chip" data-v="vegetarian"><span class="em">🥗</span>Vegetarian</div>
+      <div class="chip" data-v="vegan"><span class="em">🌱</span>Vegan</div>
+    </div>
+    <div class="subpick" id="vegtype">
+      <div class="mini" data-v="lacto_ovo">Eggs & dairy ok</div>
+      <div class="mini" data-v="lacto">Dairy, no eggs</div>
+      <div class="mini" data-v="ovo">Eggs, no dairy</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="slabel">Eating for a health goal?</div>
+    <div class="shint">Optional — tap any that apply. These stack with your diet above.</div>
+    <div class="chips" id="health">
+      <div class="chip" data-v="keto"><span class="em">🥑</span>Keto</div>
+      <div class="chip" data-v="paleo"><span class="em">🍖</span>Paleo</div>
+      <div class="chip" data-v="lowcarb"><span class="em">📉</span>Low-carb</div>
+      <div class="chip" data-v="mediterranean"><span class="em">🫒</span>Mediterranean</div>
+      <div class="chip" data-v="glutenfree"><span class="em">🌾</span>Gluten-free</div>
+      <div class="chip" data-v="dairyfree"><span class="em">🥛</span>Dairy-free</div>
+      <div class="chip" data-v="whole30"><span class="em">🥦</span>Whole30</div>
+      <div class="chip" data-v="lowsodium"><span class="em">🧂</span>Low-sodium</div>
+      <div class="chip" data-v="diabetic"><span class="em">🩸</span>Diabetic-friendly</div>
+      <div class="chip" data-v="highprotein"><span class="em">💪</span>High-protein</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="slabel">Any allergies?</div>
+    <div class="shint">Tap all that apply. ChefSays keeps these out of every recipe. (The FDA "Big 9".)</div>
+    <div class="chips" id="allergies">
+      <div class="chip" data-v="milk"><span class="em">🥛</span>Milk</div>
+      <div class="chip" data-v="eggs"><span class="em">🥚</span>Eggs</div>
+      <div class="chip" data-v="peanuts"><span class="em">🥜</span>Peanuts</div>
+      <div class="chip" data-v="treenuts"><span class="em">🌰</span>Tree nuts</div>
+      <div class="chip" data-v="fish"><span class="em">🐟</span>Fish</div>
+      <div class="chip" data-v="shellfish"><span class="em">🦐</span>Shellfish</div>
+      <div class="chip" data-v="wheat"><span class="em">🌾</span>Wheat</div>
+      <div class="chip" data-v="soy"><span class="em">🫛</span>Soy</div>
+      <div class="chip" data-v="sesame"><span class="em">⚪</span>Sesame</div>
+    </div>
+    <div class="warn" id="allergy-warn">⚠️ <b>For serious allergies:</b> ChefSays does its best, but always double-check every ingredient label yourself. We can't guarantee against cross-contamination or hidden ingredients.</div>
+  </div>
+
+  <div class="section">
+    <div class="slabel">Anything you'd rather skip?</div>
+    <div class="shint">Health, taste, or personal — tap any you avoid.</div>
+    <div class="chips" id="avoid">
+      <div class="chip" data-v="onion_garlic"><span class="em">🧅</span>Onion & Garlic</div>
+      <div class="chip" data-v="pork"><span class="em">🐷</span>Pork</div>
+      <div class="chip" data-v="beef"><span class="em">🐄</span>Beef</div>
+      <div class="chip" data-v="alcohol"><span class="em">🚫</span>Alcohol</div>
+      <div class="chip" data-v="root_veg"><span class="em">🥔</span>Root veggies</div>
+      <div class="chip" data-v="honey"><span class="em">🍯</span>Honey</div>
+      <div class="chip" data-v="gelatin"><span class="em">🍮</span>Gelatin</div>
+      <div class="chip" data-v="shellfish_avoid"><span class="em">🦀</span>Shellfish</div>
+      <div class="chip" data-v="caffeine"><span class="em">☕</span>Caffeine</div>
+      <div class="chip" data-v="sugar"><span class="em">🍬</span>Added sugar</div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="ln"></div><div class="tx">OPTIONAL</div><div class="ln"></div></div>
+  <div class="section">
+    <div class="tradition-card">
+      <div class="tradition-head">🍃 Follow a specific tradition?</div>
+      <div class="tradition-sub">Tap one and we'll auto-set the right food rules. Totally optional — skip if you've set everything above.</div>
+      <div class="tchips" id="tradition">
+        <div class="tchip" data-v="halal">Halal</div>
+        <div class="tchip" data-v="kosher">Kosher</div>
+        <div class="tchip" data-v="hindu">Hindu</div>
+        <div class="tchip" data-v="jain">Jain</div>
+        <div class="tchip" data-v="buddhist">Buddhist</div>
+        <div class="tchip" data-v="sikh">Sikh</div>
+        <div class="tchip" data-v="rastafarian">Ital / Rasta</div>
+        <div class="tchip" data-v="adventist">Adventist</div>
+        <div class="tchip" data-v="lds">LDS</div>
+      </div>
+      <div class="tnote" id="tnote"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="slabel">Spice level?</div>
+    <div class="shint">How hot do you like it?</div>
+    <div class="chips" id="spice">
+      <div class="chip" data-v="mild"><span class="em">😊</span>Mild</div>
+      <div class="chip" data-v="medium"><span class="em">🌶️</span>Medium</div>
+      <div class="chip" data-v="hot"><span class="em">🔥</span>Hot</div>
+      <div class="chip" data-v="extra"><span class="em">🥵</span>Bring the heat</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="slabel">Tracking calories?</div>
+    <div class="shint">ChefSays can show calories and aim for a daily target.</div>
+    <div class="cal-row" id="cal">
+      <div class="cal-opt" data-v="off"><span class="n">No thanks</span><span class="d">Just cook</span></div>
+      <div class="cal-opt" data-v="show"><span class="n">Show me</span><span class="d">Per meal</span></div>
+      <div class="cal-opt" data-v="target"><span class="n">Hit a target</span><span class="d">Daily goal</span></div>
+    </div>
+    <div class="cal-input" id="cal-input">
+      <input type="number" id="cal-goal" placeholder="Daily calorie goal (e.g. 2000)" inputmode="numeric"/>
+    </div>
+  </div>
+
+  <div class="disc">
+    <b>A note on health & allergies:</b> ChefSays gives smart suggestions, not medical or dietary advice. For allergies, medical conditions, pregnancy, or a clinical diet, always confirm ingredients yourself and check with a doctor or dietitian. Recipes and calorie counts are estimates.
+  </div>
+</div>
+
+<div class="done" id="done">
+  <div class="big">🎉</div>
+  <h2>You're all set!</h2>
+  <p>From now on, every recipe ChefSays makes respects your profile. Change it anytime from your account.</p>
+  <div class="summary" id="summary"></div>
+  <div class="disc" style="margin-top:14px">Remember: always double-check ingredients for serious allergies. ChefSays suggestions are estimates, not medical advice.</div>
+  <a href="/" class="btn" style="margin-top:20px;display:block">Start Cooking →</a>
+</div>
+
+<div class="footer" id="footer">
+  <button class="btn" id="save">Save My Profile →</button>
+  <button class="skip" id="skip">Skip for now</button>
+</div>
+
+<script>
+var profile = { diet:'', vegType:'', health:[], allergies:[], avoid:[], tradition:'', spice:'', calories:'off', calorieGoal:null };
+
+var TRADITIONS = {
+  halal:       { diet:'',           avoid:['pork','alcohol','gelatin'],
+    note:"Halal set: no pork, no alcohol, and we'll flag gelatin & non-halal ingredients." },
+  kosher:      { diet:'',           avoid:['pork','shellfish_avoid'],
+    note:"Kosher set: no pork, no shellfish, and we won't mix meat with dairy in a dish." },
+  hindu:       { diet:'vegetarian', avoid:['beef'],
+    note:"Hindu set: no beef, vegetarian-leaning. Adjust the diet above if you eat some meat." },
+  jain:        { diet:'vegetarian', avoid:['onion_garlic','root_veg','alcohol','honey'],
+    note:"Jain set: no meat/fish/eggs, no onion, garlic, potatoes or root vegetables, no honey or alcohol. The strictest profile — we've got it." },
+  buddhist:    { diet:'vegetarian', avoid:['alcohol'],
+    note:"Buddhist set: vegetarian-leaning, no alcohol. Many Buddhists eat some fish — adjust above if so." },
+  sikh:        { diet:'vegetarian', avoid:[],
+    note:"Sikh set: vegetarian-friendly. Adjust above if you eat meat." },
+  rastafarian: { diet:'vegan',      avoid:['pork','shellfish_avoid','alcohol'],
+    note:"Ital set: natural & plant-based, no pork, no shellfish, no alcohol, minimal processed food and salt." },
+  adventist:   { diet:'vegetarian', avoid:['alcohol','caffeine'],
+    note:"Adventist set: lacto-ovo vegetarian (eggs & dairy ok), no alcohol or caffeine." },
+  lds:         { diet:'',           avoid:['alcohol','caffeine'],
+    note:"LDS set: no alcohol, coffee or tea. Meat in moderation — adjust the diet above as you like." }
+};
+
+function clearAutoAvoid(){
+  document.querySelectorAll('#avoid .chip').forEach(function(c){
+    if(c.dataset.auto){ c.classList.remove('sel','red','auto'); delete c.dataset.auto; var i=profile.avoid.indexOf(c.dataset.v); if(i>=0)profile.avoid.splice(i,1); }
+  });
+}
+function setDietChip(v){
+  document.querySelectorAll('#diet .chip').forEach(function(c){ c.classList.toggle('sel', c.dataset.v===v); });
+  profile.diet = v;
+  document.getElementById('vegtype').classList.toggle('show', v==='vegetarian');
+}
+
+document.querySelectorAll('#diet .chip').forEach(function(chip){
+  chip.onclick = function(){ setDietChip(chip.dataset.v); };
+});
+document.querySelectorAll('#vegtype .mini').forEach(function(m){
+  m.onclick = function(){
+    document.querySelectorAll('#vegtype .mini').forEach(function(c){c.classList.remove('sel');});
+    m.classList.add('sel'); profile.vegType = m.dataset.v;
+  };
+});
+document.querySelectorAll('#health .chip').forEach(function(chip){
+  chip.onclick = function(){
+    chip.classList.toggle('sel'); chip.classList.toggle('teal');
+    var v=chip.dataset.v, i=profile.health.indexOf(v);
+    if(i<0)profile.health.push(v); else profile.health.splice(i,1);
+  };
+});
+document.querySelectorAll('#allergies .chip').forEach(function(chip){
+  chip.onclick = function(){
+    chip.classList.toggle('sel'); chip.classList.toggle('red');
+    var v=chip.dataset.v, i=profile.allergies.indexOf(v);
+    if(i<0)profile.allergies.push(v); else profile.allergies.splice(i,1);
+    document.getElementById('allergy-warn').classList.toggle('show', profile.allergies.length>0);
+  };
+});
+document.querySelectorAll('#avoid .chip').forEach(function(chip){
+  chip.onclick = function(){
+    if(chip.dataset.auto){ delete chip.dataset.auto; chip.classList.remove('auto'); }
+    chip.classList.toggle('sel');
+    var v=chip.dataset.v, i=profile.avoid.indexOf(v);
+    if(i<0)profile.avoid.push(v); else profile.avoid.splice(i,1);
+  };
+});
+document.querySelectorAll('#tradition .tchip').forEach(function(tchip){
+  tchip.onclick = function(){
+    var v=tchip.dataset.v, note=document.getElementById('tnote');
+    if(profile.tradition===v){
+      tchip.classList.remove('sel'); profile.tradition='';
+      clearAutoAvoid(); note.classList.remove('show'); return;
+    }
+    document.querySelectorAll('#tradition .tchip').forEach(function(c){c.classList.remove('sel');});
+    tchip.classList.add('sel'); profile.tradition=v;
+    clearAutoAvoid();
+    var t=TRADITIONS[v];
+    if(t.diet) setDietChip(t.diet);
+    t.avoid.forEach(function(av){
+      var c=document.querySelector('#avoid .chip[data-v="'+av+'"]');
+      if(c && !c.classList.contains('sel')){ c.classList.add('sel','auto'); c.dataset.auto='1'; if(profile.avoid.indexOf(av)<0) profile.avoid.push(av); }
+    });
+    note.textContent=t.note; note.classList.add('show');
+  };
+});
+document.querySelectorAll('#spice .chip').forEach(function(chip){
+  chip.onclick = function(){
+    document.querySelectorAll('#spice .chip').forEach(function(c){c.classList.remove('sel');});
+    chip.classList.add('sel'); profile.spice = chip.dataset.v;
+  };
+});
+document.querySelectorAll('#cal .cal-opt').forEach(function(opt){
+  opt.onclick = function(){
+    document.querySelectorAll('#cal .cal-opt').forEach(function(c){c.classList.remove('sel');});
+    opt.classList.add('sel'); profile.calories = opt.dataset.v;
+    document.getElementById('cal-input').classList.toggle('show', opt.dataset.v==='target');
+  };
+});
+document.getElementById('cal-goal').oninput = function(){ profile.calorieGoal = parseInt(this.value)||null; };
+
+function buildAIContext(p){
+  var parts=[];
+  var dietMap={ flexitarian:'mostly plant-based, occasional meat ok', pollotarian:'no red meat or fish; poultry ok', pescatarian:'pescatarian (fish/seafood ok, no other meat)', vegetarian:'vegetarian (no meat or fish)', vegan:'strictly vegan — no animal products at all (no meat, dairy, eggs, or honey)' };
+  if(p.diet && dietMap[p.diet]){
+    var d = dietMap[p.diet];
+    if(p.diet==='vegetarian'){
+      if(p.vegType==='lacto') d='lacto-vegetarian (dairy ok, NO eggs, no meat or fish)';
+      else if(p.vegType==='ovo') d='ovo-vegetarian (eggs ok, NO dairy, no meat or fish)';
+      else d='lacto-ovo vegetarian (eggs and dairy ok, no meat or fish)';
+    }
+    parts.push('Diet: '+d+'.');
+  }
+  var healthMap={ keto:'ketogenic (very low carb, high fat)', paleo:'paleo (no grains, legumes, or dairy)', lowcarb:'low-carb', mediterranean:'Mediterranean style', glutenfree:'gluten-free (no wheat, barley, rye)', dairyfree:'dairy-free', whole30:'Whole30 (no sugar, grains, legumes, dairy, alcohol)', lowsodium:'low-sodium', diabetic:'diabetic-friendly (low glycemic, limit sugar/refined carbs)', highprotein:'high-protein' };
+  if(p.health&&p.health.length) parts.push('Health goals: '+p.health.map(function(h){return healthMap[h]||h;}).join(', ')+'.');
+  if(p.allergies&&p.allergies.length) parts.push('SEVERE ALLERGIES — never include: '+p.allergies.join(', ')+'.');
+  if(p.avoid&&p.avoid.length) parts.push('Avoid entirely: '+p.avoid.join(', ').replace(/_/g,' ').replace('shellfish avoid','shellfish')+'.');
+  var prep={ kosher:'Kosher: never combine meat and dairy in the same dish.', halal:'Halal: no alcohol in cooking (incl. vanilla extract), no pork-derived gelatin.', jain:'Jain is strict: also avoid mushrooms and multi-seeded vegetables like eggplant.', rastafarian:'Ital: whole, natural, minimally processed, low salt.' };
+  if(p.tradition && prep[p.tradition]) parts.push(prep[p.tradition]);
+  if(p.spice) parts.push('Spice preference: '+p.spice+'.');
+  if(p.calories==='show') parts.push('Always include calorie counts per serving.');
+  if(p.calories==='target') parts.push('Track calories; daily goal ~'+(p.calorieGoal||'their target')+' calories.');
+  return parts.join(' ');
+}
+
+function labelList(ids, group){
+  return ids.map(function(v){
+    var c=document.querySelector('#'+group+' [data-v="'+v+'"]');
+    return c ? c.textContent.trim() : v;
+  }).join(', ');
+}
+
+function loadExistingPrefs(p){
+  if(!p) return;
+  if(p.diet){ setDietChip(p.diet); }
+  if(p.vegType){
+    var m=document.querySelector('#vegtype .mini[data-v="'+p.vegType+'"]');
+    if(m){ m.classList.add('sel'); profile.vegType=p.vegType; }
+  }
+  (p.health||[]).forEach(function(v){
+    if(profile.health.indexOf(v)>=0) return;
+    var c=document.querySelector('#health .chip[data-v="'+v+'"]');
+    if(c){ c.classList.add('sel','teal'); profile.health.push(v); }
+  });
+  (p.allergies||[]).forEach(function(v){
+    if(profile.allergies.indexOf(v)>=0) return;
+    var c=document.querySelector('#allergies .chip[data-v="'+v+'"]');
+    if(c){ c.classList.add('sel','red'); profile.allergies.push(v); }
+  });
+  if((p.allergies||[]).length) document.getElementById('allergy-warn').classList.add('show');
+  (p.avoid||[]).forEach(function(v){
+    if(profile.avoid.indexOf(v)>=0) return;
+    var c=document.querySelector('#avoid .chip[data-v="'+v+'"]');
+    if(c){ c.classList.add('sel'); profile.avoid.push(v); }
+  });
+  if(p.tradition){
+    var tc=document.querySelector('#tradition .tchip[data-v="'+p.tradition+'"]');
+    if(tc){ tc.classList.add('sel'); profile.tradition=p.tradition; }
+    var note=document.getElementById('tnote');
+    if(note && TRADITIONS[p.tradition]){ note.textContent=TRADITIONS[p.tradition].note; note.classList.add('show'); }
+  }
+  if(p.spice){
+    document.querySelectorAll('#spice .chip').forEach(function(c){c.classList.remove('sel');});
+    var sc=document.querySelector('#spice .chip[data-v="'+p.spice+'"]');
+    if(sc){ sc.classList.add('sel'); profile.spice=p.spice; }
+  }
+  if(p.calories){
+    document.querySelectorAll('#cal .cal-opt').forEach(function(c){c.classList.remove('sel');});
+    var co=document.querySelector('#cal .cal-opt[data-v="'+p.calories+'"]');
+    if(co){ co.classList.add('sel'); profile.calories=p.calories; }
+    if(p.calories==='target') document.getElementById('cal-input').classList.add('show');
+  }
+  if(p.calorieGoal){ document.getElementById('cal-goal').value=p.calorieGoal; profile.calorieGoal=p.calorieGoal; }
+}
+
+// ── Supabase ──────────────────────────────────────────────────────────────────
+var _sb = null, _session = null;
+try{
+  _sb = supabase.createClient(
+    'https://ethcmkxemjsfgvpwygub.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0aGNta3hlbWpzZmd2cHd5Z3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTIwMzYsImV4cCI6MjA5NTAyODAzNn0.Q9_IJ-8AJdEpjrruXXjvcZC7e4mvmDMRleUcbsaI5lk'
+  );
+}catch(e){}
+
+// Show back-link if arriving from update flow
+var _isUpdate = window.location.search.indexOf('update=1') >= 0;
+if(_isUpdate) document.getElementById('back-link').style.display = 'flex';
+
+window.addEventListener('load', async function(){
+  if(!_sb) return;
+  try{
+    var res = await _sb.auth.getSession();
+    _session = res.data && res.data.session;
+    if(!_session){
+      // Not logged in — just show the form (guest can still save to localStorage)
+      return;
+    }
+    // Try to load existing preferences for update flow
+    try{
+      var resp = await fetch('/.netlify/functions/save-conversation',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({action:'get_profile', token:_session.access_token, data:{}})
+      });
+      var d = await resp.json();
+      if(d.profile && d.profile.food_preferences){
+        loadExistingPrefs(d.profile.food_preferences);
+      }
+    }catch(e){}
+  }catch(e){}
+});
+
+// ── Save handler ──────────────────────────────────────────────────────────────
+document.getElementById('save').onclick = async function(){
+  var saving = document.getElementById('fp-saving');
+  saving.classList.add('show');
+
+  var ctx = buildAIContext(profile);
+
+  // Always persist to localStorage (works for guests too)
+  try{ localStorage.setItem('cs_food_prefs', JSON.stringify(profile)); }catch(e){}
+  try{ localStorage.setItem('cs_food_ctx', ctx); }catch(e){}
+
+  // Save to Supabase if logged in
+  if(_session){
+    try{
+      await fetch('/.netlify/functions/save-conversation',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({action:'save_food_profile', token:_session.access_token, data:{preferences:profile, ai_context:ctx}})
+      });
+    }catch(e){}
+  }
+
+  saving.classList.remove('show');
+
+  // Build summary
+  var s = document.getElementById('summary'); var rows='';
+  if(profile.diet){ var d=document.querySelector('#diet .chip.sel'); var dt=(d?d.textContent.trim():profile.diet); if(profile.diet==='vegetarian'&&profile.vegType){var vt=document.querySelector('#vegtype .mini.sel'); if(vt)dt+=' ('+vt.textContent.trim()+')';} rows+='<div class="row"><span class="k">Diet</span><span class="v">'+dt+'</span></div>'; }
+  if(profile.health.length) rows+='<div class="row"><span class="k">Health goals</span><span class="v">'+labelList(profile.health,'health')+'</span></div>';
+  if(profile.tradition){ var tc=document.querySelector('#tradition .tchip.sel'); rows+='<div class="row"><span class="k">Tradition</span><span class="v">'+(tc?tc.textContent.trim():profile.tradition)+'</span></div>'; }
+  if(profile.allergies.length) rows+='<div class="row"><span class="k">Allergies</span><span class="v">'+labelList(profile.allergies,'allergies')+'</span></div>';
+  if(profile.avoid.length) rows+='<div class="row"><span class="k">Avoids</span><span class="v">'+labelList(profile.avoid,'avoid')+'</span></div>';
+  if(profile.spice){ var sp=document.querySelector('#spice .chip.sel'); rows+='<div class="row"><span class="k">Spice</span><span class="v">'+(sp?sp.textContent.trim():profile.spice)+'</span></div>'; }
+  var calTxt=profile.calories==='off'?'Not tracking':profile.calories==='show'?'Show per meal':'Goal: '+(profile.calorieGoal||'set')+' cal/day';
+  rows+='<div class="row"><span class="k">Calories</span><span class="v">'+calTxt+'</span></div>';
+  if(!rows) rows='<div class="row"><span class="k">Profile</span><span class="v">No restrictions set</span></div>';
+  s.innerHTML = rows;
+
+  document.getElementById('form').style.display='none';
+  document.getElementById('footer').style.display='none';
+  document.getElementById('done').classList.add('show');
+  window.scrollTo(0,0);
+};
+
+document.getElementById('skip').onclick = function(){
+  try{ localStorage.setItem('cs_food_skipped','1'); }catch(e){}
+  window.location = '/';
+};
+</script>
+</body>
+</html>

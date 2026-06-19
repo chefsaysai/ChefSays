@@ -147,6 +147,19 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers, body: JSON.stringify({ profile, recent: recent||[] }) };
     }
 
+    if (action === 'save_food_profile') {
+      const { preferences, ai_context } = data;
+      const { error } = await supabaseAdmin
+        .from('profiles')
+        .update({ food_preferences: preferences, food_ai_context: ai_context, food_profile_set: true })
+        .eq('id', user.id);
+      if (error) {
+        console.error('Supabase error saving food profile:', error.message);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+      }
+      return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
+    }
+
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unknown action' }) };
 
   } catch (err) {
