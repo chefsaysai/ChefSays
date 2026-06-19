@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <title>ChefSays</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FFFAF6;max-width:430px;margin:0 auto;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FFFAF6;max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
 button{cursor:pointer;border:none;font-family:inherit}
 ::-webkit-scrollbar{width:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -246,13 +246,13 @@ button{cursor:pointer;border:none;font-family:inherit}
 <div id="app" style="display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden">
 
   <div class="cs-app-header">
-    <div class="cs-brand">
+    <button onclick="goTab('chat');showView('home');" class="cs-brand" style="background:none;border:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent" aria-label="Home">
       <svg class="cs-mark" width="38" height="25" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon logo">
         <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
       </svg>
       <div class="cs-word dark">Chef<span>Says</span></div>
-    </div>
+    </button>
     <button onclick="showAuthModal()" class="cs-icon-btn" aria-label="Account">👤</button>
   </div>
 
