@@ -1455,8 +1455,7 @@ function showFullCard(r,container){
   // Costs
   var costs=document.createElement('div');
   costs.style.cssText='display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #FFE0CC';
-  var isDrink=(_meal==='Drinks');
-  costs.innerHTML='<div style="padding:14px;text-align:center;border-right:1px solid #FFE0CC"><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:700;letter-spacing:.8px;margin-bottom:4px">'+(isDrink?'Make at Home':'Cook at Home')+'</div><div style="font-size:28px;font-weight:800;color:#FF6B35">$'+hc.toFixed(2)+'</div></div>'
+  costs.innerHTML='<div style="padding:14px;text-align:center;border-right:1px solid #FFE0CC"><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:700;letter-spacing:.8px;margin-bottom:4px">'+(isDrinkCard?'Make at Home':'Cook at Home')+'</div><div style="font-size:28px;font-weight:800;color:#FF6B35" class="home-cost">$'+hc.toFixed(2)+'</div></div>'
     +'<div style="padding:14px;text-align:center"><div style="font-size:10px;color:#C4956A;text-transform:uppercase;font-weight:700;letter-spacing:.8px;margin-bottom:4px">'+(isDrink?'At a Bar':'At a Restaurant')+'</div><div style="font-size:28px;font-weight:800;color:#C4956A">$'+rc.toFixed(2)+'</div></div>';
   card.appendChild(costs);
 
@@ -1488,8 +1487,13 @@ function showFullCard(r,container){
     var ingWrap=document.createElement('div');
     ingWrap.style.cssText='padding:16px 18px;border-top:1px solid #FFE0CC';
     var ingTitle=document.createElement('div');ingTitle.style.cssText='font-size:14px;font-weight:800;color:#2D1810;margin-bottom:4px';ingTitle.textContent=(_meal==='Drinks')?'What you need':'Ingredients';
-    var ingSub=document.createElement('div');ingSub.style.cssText='font-size:11px;color:#9B7B6E;margin-bottom:12px';ingSub.textContent='Tap to mark what you already have \u2713';
-    ingWrap.appendChild(ingTitle);ingWrap.appendChild(ingSub);
+    var ingSub=document.createElement('div');ingSub.style.cssText='display:flex; justify-content:space-between; align-items:center; font-size:11px;color:#9B7B6E;margin-bottom:12px;';
+    ingSub.innerHTML = '<span>Tap to mark what you already have ✓</span>'
+      + '<button class="verify-prices-btn" style="background:#FFF; border:1.5px solid #FFE0CC; color:#FF6B35; border-radius:20px; padding:4px 10px; font-size:10px; font-weight:700;">Verify Prices</button>';
+    ingWrap.appendChild(ingTitle);
+    ingWrap.appendChild(ingSub);
+
+    ingSub.querySelector('.verify-prices-btn').onclick = function() { verifyPrices(ings, card); };
 
     ings.forEach(function(ing,ii){
       var iname=String(ing.name||ing.ingredient||'');
@@ -1497,7 +1501,7 @@ function showFullCard(r,container){
       var icost=parseFloat(ing.cost||0)||0;
       var have=false;
 
-      var row=document.createElement('div');
+      var row=document.createElement('div'); row.className = 'ingredient-row';
       row.style.cssText='padding:10px 0;border-bottom:'+(ii<ings.length-1?'1px solid #FFF5F0':'none');
 
       var top=document.createElement('div');
@@ -1505,8 +1509,8 @@ function showFullCard(r,container){
       var left=document.createElement('div');
       var nm=document.createElement('div');nm.style.cssText='font-size:14px;color:#2D1810;font-weight:500';nm.textContent=iname;
       var qt=document.createElement('div');qt.style.cssText='font-size:12px;color:#C4956A';qt.textContent=iqty;
-      left.appendChild(nm);if(iqty)left.appendChild(qt);
-      var cEl=document.createElement('div');cEl.style.cssText='font-size:15px;font-weight:800;color:#FF6B35';cEl.textContent='$'+icost.toFixed(2);
+      left.appendChild(nm); if(iqty)left.appendChild(qt);
+      var cEl=document.createElement('div');cEl.className='ingredient-cost';cEl.style.cssText='font-size:15px;font-weight:800;color:#FF6B35';cEl.textContent='$'+icost.toFixed(2);
       top.appendChild(left);top.appendChild(cEl);
       row.appendChild(top);
 
@@ -1597,6 +1601,44 @@ function showFullCard(r,container){
   nb.onclick=function(){showView('home');};
   container.appendChild(nb);
   goTop();
+}
+
+function verifyPrices(ings, card){
+  if(!ings || !ings.length) return;
+  var btn = card.querySelector('.verify-prices-btn');
+  var orig = btn ? btn.textContent : '';
+  if(btn){ btn.textContent='Checking…'; btn.disabled=true; btn.style.opacity='.6'; }
+
+  var list = ings.map(function(ing){
+    var qty = String(ing.quantity||ing.amount||'').trim();
+    var nm = String(ing.name||ing.ingredient||'').trim();
+    return (qty ? qty+' ' : '') + nm;
+  });
+
+  fetch('/.netlify/functions/get-prices',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ingredients:list})
+  }).then(function(r){return r.json();}).then(function(data){
+    if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+    if(data.error || !data.items || !data.items.length){
+      if(btn) btn.textContent='Prices unavailable';
+      toast('Live prices unavailable right now');
+      return;
+    }
+    var costEls = card.querySelectorAll('.ingredient-cost');
+    data.items.forEach(function(item, i){
+      var el = costEls[i];
+      if(el && typeof item.cost==='number'){
+        el.textContent='$'+item.cost.toFixed(2);
+      }
+    });
+    if(btn) btn.textContent='Prices verified ✓';
+    if(typeof data.total==='number') toast('Verified total: $'+data.total.toFixed(2));
+  }).catch(function(){
+    if(btn){ btn.disabled=false; btn.style.opacity='1'; btn.textContent=orig||'Verify Prices'; }
+    toast('Could not verify prices');
+  });
 }
 
 // ── LOG SAVINGS ──────────────────────────────────────────────────────────────

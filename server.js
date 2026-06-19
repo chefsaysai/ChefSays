@@ -26,7 +26,7 @@ const functionsProxy = createProxyMiddleware({
   },
 });
 
-app.use(['/chat', '/save-conversation', '/create-checkout', '/stripe-webhook', '/claude'], functionsProxy);
+app.use(['/chat', '/save-conversation', '/create-checkout', '/stripe-webhook', '/claude', '/get-prices'], functionsProxy);
 
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', function() {
