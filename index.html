@@ -1088,7 +1088,7 @@ function buildFoodAIContext(p){
   if(p.diet && dietMap[p.diet]){
     var d=dietMap[p.diet];
     if(p.diet==='vegetarian'){
-      if(p.vegType==='lacto') d='lacto-vegetarian (dairy ok, NO eggs, no meat or fish)';
+      if(p.vegType==='lacto'||p.tradition==='jain') d='lacto-vegetarian (dairy ok, NO eggs — eggs are excluded, no meat or fish)';
       else if(p.vegType==='ovo') d='ovo-vegetarian (eggs ok, NO dairy, no meat or fish)';
       else d='lacto-ovo vegetarian (eggs and dairy ok, no meat or fish)';
     }
@@ -1098,12 +1098,51 @@ function buildFoodAIContext(p){
   if(p.health&&p.health.length) parts.push('Health goals: '+p.health.map(function(h){return healthMap[h]||h;}).join(', ')+'.');
   if(p.allergies&&p.allergies.length) parts.push('SEVERE ALLERGIES — never include: '+p.allergies.join(', ')+'.');
   if(p.avoid&&p.avoid.length) parts.push('Avoid entirely: '+p.avoid.join(', ').replace(/_/g,' ')+'.');
-  var prep={ kosher:'Kosher: never combine meat and dairy in the same dish.', halal:'Halal: no alcohol in cooking (incl. vanilla extract), no pork-derived gelatin.', jain:'Jain is strict: also avoid mushrooms and multi-seeded vegetables like eggplant.', rastafarian:'Ital: whole, natural, minimally processed, low salt.' };
+  var prep={
+    kosher:'Kosher: never combine meat and dairy in the same dish.',
+    halal:'Halal: no alcohol in cooking (including vanilla extract), no pork or pork-derived gelatin.',
+    jain:'JAIN DIET — all rules are absolute with zero exceptions: (1) NO eggs — Jain is strictly lacto-vegetarian, dairy is fine but eggs are completely forbidden. (2) NO onion, garlic, leeks, shallots, chives, or any allium vegetable — this is the most important Jain rule, these must never appear even as a minor ingredient. (3) NO root vegetables of any kind: no potatoes, sweet potatoes, carrots, beets, radishes, turnips, or yams. (4) NO mushrooms or any fungi. (5) NO eggplant or multi-seeded vegetables. (6) NO honey and NO alcohol. Check every single ingredient against this list before including it.',
+    rastafarian:'Ital (Rastafarian): whole, natural, plant-based foods. No pork, no shellfish, no alcohol, minimal salt and processed food.',
+    hindu:'Hindu diet: absolutely no beef or veal. Typically vegetarian — avoid meat unless user explicitly selected a meat-inclusive diet above.',
+    buddhist:'Buddhist diet: vegetarian or vegan preferred. No alcohol. Some Buddhists avoid pungent vegetables like onion and garlic — when in doubt, keep it mild and plant-based.',
+    sikh:'Sikh diet: no beef, no halal-slaughtered meat. Vegetarian preferred.',
+    adventist:'Adventist diet: lacto-ovo vegetarian preferred (eggs and dairy ok, no meat). No alcohol, no caffeine (no coffee or tea).',
+    lds:'LDS (Mormon) diet: no alcohol, no coffee, no tea. Meat in moderation — plant-based dishes are encouraged.'
+  };
   if(p.tradition && prep[p.tradition]) parts.push(prep[p.tradition]);
   if(p.spice) parts.push('Spice preference: '+p.spice+'.');
   if(p.calories==='show') parts.push('Always include calorie counts per serving.');
   if(p.calories==='target') parts.push('Track calories; daily goal ~'+(p.calorieGoal||'their target')+' calories.');
   return parts.join(' ');
+}
+
+function buildPrefTags(p){
+  if(!p) return [];
+  var tags=[];
+  var dietLabels={flexitarian:'🌿 Flexitarian',pollotarian:'🐔 No red meat/fish',pescatarian:'🐟 Pescatarian',vegetarian:'🥦 Vegetarian',vegan:'🌱 Vegan'};
+  if(p.diet && dietLabels[p.diet]){
+    var dl=dietLabels[p.diet];
+    if(p.diet==='vegetarian'){
+      if(p.vegType==='lacto') dl='🥛 Lacto-veg';
+      else if(p.vegType==='ovo') dl='🥚 Ovo-veg';
+    }
+    tags.push({text:dl,bg:'#DCFCE7',col:'#166534'});
+  }
+  var healthLabels={keto:'⚡ Keto',paleo:'🦴 Paleo',lowcarb:'📉 Low-carb',mediterranean:'🫒 Mediterranean',glutenfree:'🌾 Gluten-free',dairyfree:'🥛 Dairy-free',whole30:'💪 Whole30',lowsodium:'🧂 Low-sodium',diabetic:'🩺 Diabetic-friendly',highprotein:'🥩 High-protein'};
+  if(p.health&&p.health.length) p.health.forEach(function(h){ if(healthLabels[h]) tags.push({text:healthLabels[h],bg:'#DBEAFE',col:'#1E40AF'}); });
+  if(p.allergies&&p.allergies.length) p.allergies.forEach(function(a){ tags.push({text:'⚠ No '+a,bg:'#FEE2E2',col:'#991B1B'}); });
+  if(p.avoid&&p.avoid.length){
+    var avoidLabels={onion_garlic:'Onion & Garlic',shellfish_avoid:'Shellfish',root_veg:'Root veggies'};
+    p.avoid.slice(0,3).forEach(function(a){ tags.push({text:'✕ '+(avoidLabels[a]||a.replace(/_/g,' ')),bg:'#FEF3C7',col:'#92400E'}); });
+    if(p.avoid.length>3) tags.push({text:'+'+(p.avoid.length-3)+' more',bg:'#FEF3C7',col:'#92400E'});
+  }
+  // tradition: map ALL values from food-profile.html
+  var tradLabels={kosher:'✡ Kosher',halal:'☪ Halal',jain:'🕉 Jain',rastafarian:'🌿 Ital',hindu:'🪔 Hindu',buddhist:'☸ Buddhist',sikh:'🪯 Sikh',adventist:'✝ Adventist',lds:'⛪ LDS'};
+  if(p.tradition&&tradLabels[p.tradition]) tags.push({text:tradLabels[p.tradition],bg:'#F3E8FF',col:'#6B21A8'});
+  // spice: food-profile.html uses 'extra', not 'xhot'
+  var spiceLabels={none:'🧊 No spice',mild:'🌶 Mild',medium:'🌶🌶 Medium',hot:'🌶🌶🌶 Hot',extra:'🔥 Bring the heat',xhot:'🔥 Extra hot'};
+  if(p.spice&&spiceLabels[p.spice]) tags.push({text:spiceLabels[p.spice],bg:'#FFF7ED',col:'#C2410C'});
+  return tags;
 }
 
 function getUserContext(){
@@ -1126,6 +1165,77 @@ function getUserContext(){
   if(_userProfile.restaurant_name) ctx += 'Restaurant: '+_userProfile.restaurant_name+'. ';
   if(_userProfile.meals_cooked) ctx += 'Has cooked '+_userProfile.meals_cooked+' meals with ChefSays. ';
   return ctx;
+}
+
+var _ignorePrefs = false;
+var _prefsExcluded = false;
+var _rerunSearch = null;
+
+function chatFetch(obj){
+  var ctx = getUserContext();
+  if(!_ignorePrefs && ctx){
+    obj.userContext = ctx;
+    _prefsExcluded = false; // prefs are being applied — reset exclude state
+  }
+  _ignorePrefs = false;
+  return fetch('/.netlify/functions/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(obj)
+  });
+}
+
+function rerunWithoutPrefs(){
+  _ignorePrefs = true;
+  _prefsExcluded = true;
+  if(_rerunSearch) _rerunSearch();
+}
+
+function showPrefNote(container){
+  if(_prefsExcluded) return;
+  // Fall back to callAI(true) if _rerunSearch was cleared (e.g. after a chat turn)
+  var rerunFn = _rerunSearch || (_lastRecipes ? function(){ callAI(true); } : null);
+  if(!rerunFn) return;
+
+  var prefs = (_userProfile && _userProfile.food_preferences) || null;
+  if(!prefs){ try{ prefs = JSON.parse(localStorage.getItem('cs_food_prefs')||'null'); }catch(e){} }
+  var tags = buildPrefTags(prefs);
+  if(!tags.length) return;
+
+  var note = document.createElement('div');
+  note.style.cssText = 'background:#F0FDF4;border:1.5px dashed #22C55E;border-radius:14px;padding:12px 14px;margin-bottom:14px';
+
+  // Header
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:8px';
+  hdr.innerHTML = '<span style="font-size:16px">🥗</span>'
+    + '<span style="font-size:13px;font-weight:700;color:#166534;flex:1">Recipes matched to your food profile</span>'
+    + '<a href="/food-profile.html?update=1" style="font-size:11px;color:#16A34A;text-decoration:none;font-weight:600;white-space:nowrap">Edit ›</a>';
+  note.appendChild(hdr);
+
+  // Preference chips
+  var chipsDiv = document.createElement('div');
+  chipsDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px';
+  tags.forEach(function(t){
+    var chip = document.createElement('span');
+    chip.style.cssText = 'background:'+t.bg+';color:'+t.col+';font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;line-height:1.6';
+    chip.textContent = t.text;
+    chipsDiv.appendChild(chip);
+  });
+  note.appendChild(chipsDiv);
+
+  // Exclude button
+  var btn = document.createElement('button');
+  btn.style.cssText = 'width:100%;background:none;border:1.5px solid #86EFAC;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;color:#166534;cursor:pointer;text-align:center';
+  btn.textContent = 'Search again without these preferences →';
+  btn.onclick = function(){
+    _ignorePrefs = true;
+    _prefsExcluded = true;
+    rerunFn();
+  };
+  note.appendChild(btn);
+
+  container.insertBefore(note, container.firstChild);
 }
 
 var ps=0,pn=''; // Temporary variables for logging savings
@@ -1252,7 +1362,7 @@ function pickCuisine(cuisine,btn){
 function pickTime(label,sub,mins){
   _time=label;_timeMins=mins;
   progress(_hasPhoto?4:3);
-  callAI();
+  callAI(true);
 }
 
 // ── PHOTO ────────────────────────────────────────────────────────────────────
@@ -1280,10 +1390,11 @@ function handlePhoto(input){
 }
 
 // ── AI CALL ──────────────────────────────────────────────────────────────────
-function callAI(){
+function callAI(fresh){
   showView('results');
   progress(5);
   var content=document.getElementById('results-content');
+  var prevRecipes = fresh ? null : _lastRecipes; // capture before clearing
   while(content.firstChild)content.removeChild(content.firstChild);
 
   // Loading indicator
@@ -1294,7 +1405,10 @@ function callAI(){
   goTop();
 
   var timeCtx=_time?(_timeMins>0?' Must be ready in '+_timeMins+' minutes or less.':' Should be suitable for weekly meal prep.'):'';
-  var messages=[{role:'user',content:'Give me 3 authentic '+_cuisine+' style '+_meal+' recipes.'+timeCtx+' I want real classic '+_cuisine+' '+_meal+' dishes. Return exactly 3 recipes.'}];
+  var avoidCtx = (!_hasPhoto && prevRecipes && prevRecipes.length)
+    ? ' IMPORTANT: Do NOT suggest any of these — already shown: '+prevRecipes.map(function(r){return '"'+(r.name||'')+'"';}).join(', ')+'. Give me 3 completely different recipes.'
+    : '';
+  var messages=[{role:'user',content:'Give me 3 authentic '+_cuisine+' style '+_meal+' recipes.'+timeCtx+avoidCtx+' I want real classic '+_cuisine+' '+_meal+' dishes. Return exactly 3 recipes.'}];
 
   var body={messages:messages};
 
@@ -1303,11 +1417,8 @@ function callAI(){
     messages[0].content='Scan my '+_photoType+' photo. Only use ingredients you can CLEARLY see. Do NOT add anything not visible. Then give me 3 authentic '+_cuisine+' '+_meal+' recipes using those ingredients.'+timeCtx;
   }
 
-  fetch('/.netlify/functions/chat',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  }).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = function(){ callAI(true); };
+  chatFetch(body).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation((_meal||'Meal')+' · '+(_cuisine||'any cuisine'), data.text||'', 'recipe', _cuisine, _meal);
     if(data.error){
@@ -1320,8 +1431,15 @@ function callAI(){
       var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
       if(parsed.message){
         var msg=document.createElement('div');
-        msg.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';
-        msg.textContent=parsed.message;
+        msg.style.cssText='display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#FFF3ED,#FFF8F5);border:1.5px solid #FF6B35;border-radius:14px;padding:14px 16px;margin-bottom:12px';
+        var msgIcon=document.createElement('div');
+        msgIcon.style.cssText='font-size:22px;line-height:1;flex-shrink:0;margin-top:1px';
+        msgIcon.textContent='✨';
+        var msgText=document.createElement('div');
+        msgText.style.cssText='font-size:14px;color:#2D1810;line-height:1.6;font-weight:600';
+        msgText.textContent=parsed.message;
+        msg.appendChild(msgIcon);
+        msg.appendChild(msgText);
         content.appendChild(msg);
       }
       var recipes=parsed.recipes||[];
@@ -1349,13 +1467,14 @@ function showError(content,msg){
   var retry=document.createElement('button');
   retry.style.cssText='width:100%;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:12px';
   retry.textContent='Try Again';
-  retry.onclick=callAI;
+  retry.onclick=function(){ callAI(true); };
   content.appendChild(retry);
 }
 
 var _lastRecipes=null;
 function showRecipeOptions(recipes,container){
   _lastRecipes=recipes;
+  showPrefNote(container);
   var isDrinks=(_meal==='Drinks');
   // Header
   var isDrinkFlow=(_meal==='Drinks');
@@ -1841,10 +1960,8 @@ function runChatTurn(content, history, displayText){
   content.appendChild(loading);
   // scroll loading into view
   setTimeout(function(){loading.scrollIntoView({behavior:'smooth',block:'center'});},60);
-  fetch('/.netlify/functions/chat',{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:history})
-  }).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = null;
+  chatFetch({messages:history}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation(displayText, data.text||'', 'chat', _cuisine, _meal);
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
@@ -1970,10 +2087,8 @@ function pickDrinkBase(base){
   content.appendChild(loading);
   goTop();
   var msg='IMPORTANT: You are a bartender. Make DRINKS AND COCKTAILS ONLY. Do NOT suggest any food. I have: '+base.name+'. Give me exactly 3 cocktail or drink recipes I can make using ONLY what I listed. These must be DRINKS to sip — not food. For each drink: name, description, exact measurements, cost per ingredient, total home cost to make, typical bar price, prep time under 5 minutes. Respond in JSON with recipes array.';
-  fetch('/.netlify/functions/chat',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:'You are a professional bartender. Only suggest drinks and cocktails. Never suggest food.'},{role:'assistant',content:'I understand. I will only suggest cocktails and drinks.'},{role:'user',content:msg}]})
-  }).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = function(){ pickDrinkBase(base); };
+  chatFetch({messages:[{role:'user',content:'You are a professional bartender. Only suggest drinks and cocktails. Never suggest food.'},{role:'assistant',content:'I understand. I will only suggest cocktails and drinks.'},{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation('Drink: '+String(_drinkBase||''), data.text||'', 'drink', '', 'Drinks');
     if(data.error){showError(content,'Having trouble. Please try again.');return;}
@@ -2024,7 +2139,8 @@ function submitBuildOwn(){
     ? 'This is for a home cook feeding a family of 4. Give total cost and cost per person.'
     : 'This is for a home cook making 1-2 servings. Give cost per serving and savings vs ordering out.';
   var msg = 'Build a recipe for: "'+dish+'". '+ctx+' Include: full ingredient list with quantities and cost per ingredient, total cost, prep time, step by step instructions, how much they save vs buying it at a restaurant.';
-  fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:msg}]})}).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = function(){ submitBuildOwn(); };
+  chatFetch({messages:[{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation(dish+' ('+_buildFor+')', data.text||'', 'build_own');
     if(data.error){showError(content,'Having trouble. Try again.');return;}
@@ -2248,9 +2364,9 @@ function tiredGo(mode){
     : mode==='15min'
     ? 'Ready in 15 MINUTES MAX, one pan, minimal cleanup. '
     : 'ONE POT meal that feeds a family of 4 with leftovers for tomorrow. ';
-  var ctx = (typeof getUserContext==='function'? getUserContext():'');
-  var msg = (ctx?ctx+' ':'')+'I am exhausted and have no energy to think about dinner. Just pick ONE great dinner for me. Requirement: '+modeText+'Give me exactly one recipe (not multiple options) with: a short appetizing name, total time, full ingredient list with quantities, simple numbered steps, cost to make at home, and what it would cost to order similar takeout so I can see the savings.';
-  fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:msg}]})}).then(function(r){return r.json();}).then(function(data){
+  var msg = 'I am exhausted and have no energy to think about dinner. Just pick ONE great dinner for me. Requirement: '+modeText+'Give me exactly one recipe (not multiple options) with: a short appetizing name, total time, full ingredient list with quantities, simple numbered steps, cost to make at home, and what it would cost to order similar takeout so I can see the savings.';
+  _rerunSearch = (function(m){ return function(){ tiredGo(m); }; })(mode);
+  chatFetch({messages:[{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     if(data.error){showError(content,'Having trouble. Try again.');return;}
     try{
@@ -2341,10 +2457,8 @@ function submitCopycat(){
   content.appendChild(loading);
   goTop();
   var msg = 'Give me a copycat recipe for "'+dish+'". Show exactly how to make it at home. Include: all ingredients with exact costs per item, total home cost, what the dish costs at the actual restaurant, how much they save making it at home, prep time, and step by step instructions. Make it taste as close to the original as possible. Also tell me the exact ingredient breakdown per serving like: tortilla = $0.50, beef = $0.85, cheese = $0.35 etc.';
-  fetch('/.netlify/functions/chat',{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({messages:[{role:'user',content:msg}]})
-  }).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = function(){ startCopycat(); };
+  chatFetch({messages:[{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation(dish, data.text||'', 'chef_version');
     if(data.error){showError(content,'Having trouble. Try again.');return;}
@@ -2468,10 +2582,8 @@ function submitTimeAware(){
   goTop();
   var mealLabel = _planMeal || 'meal';
   var msg = 'It is currently '+nowStr+'. The user wants to eat '+mealLabel+' at '+eatStr+'. They are craving: "'+craving+'". Give them: 1) The best recipe for this craving that fits the time available, 2) A step by step timeline with real clock times starting from '+nowStr+' — include when to shop/gather ingredients, when to prep, when to start cooking, and when food is ready at '+eatStr+', 3) All ingredient costs per item, 4) Total home cost vs ordering the same thing out, 5) How much they save. Be specific with times like "'+nowStr+' - Pull ingredients" etc.';
-  fetch('/.netlify/functions/chat',{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({messages:[{role:'user',content:msg}]})
-  }).then(function(r){return r.json();}).then(function(data){
+  _rerunSearch = function(){ submitTimeAware(); };
+  chatFetch({messages:[{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
     loading.remove();
     saveConversation((_planMeal||'Meal')+' at '+eatStr+': '+craving, data.text||'', 'meal_plan', '', _planMeal);
     if(data.error){showError(content,'Having trouble. Try again.');return;}

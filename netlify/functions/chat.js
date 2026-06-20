@@ -15,6 +15,7 @@ exports.handler = async function(event) {
     var body = JSON.parse(event.body);
     var messages = body.messages || [];
     var image = body.image || null;
+    var userContext = body.userContext || '';
 
     var SYSTEM = 'You are ChefSays — an AI kitchen buddy, professional bartender, AND restaurant consultant. '
       + 'CRITICAL: Respond with ONLY a valid JSON object. No text outside JSON. '
@@ -28,6 +29,22 @@ exports.handler = async function(event) {
       + 'For menu/restaurant requests: {"message":"","menu":[{"item_name":"","description":"","cost":0,"sell_price":0,"profit_margin":0,"food_cost_percentage":0,"where_to_buy":""}]} '
       + 'For simple tips: {"message":"your helpful advice here"} '
       + 'NEVER use markdown. NEVER use bullet points. ONLY valid JSON.';
+
+    if (userContext) {
+      SYSTEM += '\n\nUSER FOOD PROFILE — follow STRICTLY for every recipe, no exceptions: ' + userContext;
+      SYSTEM += '\n\nMESSAGE FIELD (mandatory when a food profile is present): Always write a warm, personalized 1–2 sentence "message" in your response. '
+        + 'First, check whether the user\'s request mentions any ingredient, protein, or food item that CONFLICTS with their food profile — '
+        + 'for example: they asked for chicken but are Jain, vegan, or vegetarian; they asked for beef but follow a Hindu diet; they asked for shellfish but have a shellfish allergy; they asked for eggs but are Jain or vegan. '
+        + 'CONFLICT detected → Briefly name the specific restriction and warmly explain what you substituted. Be specific, not generic. '
+        + 'Examples: "Since you follow a Jain diet, chicken isn\'t something we can use — but here are 3 incredible paneer and veggie burgers with all the same satisfying flavors!" '
+        + '/ "Your vegan profile means no eggs or dairy, so these three breakfast bowls are completely plant-based and just as hearty!" '
+        + '/ "Shellfish is off the menu for you, so we\'ve put together 3 delicious seafood alternatives that work with your profile!" '
+        + 'NO conflict → Write a warm personalized intro that references their specific diet, tradition, or restriction by name. '
+        + 'Examples: "Here are 3 vegetarian options perfectly matched to your Jain dietary profile!" '
+        + '/ "Great choice — these 3 recipes are fully Jain-friendly: no onion, garlic, root vegetables, or eggs!" '
+        + '/ "Here are 3 halal-friendly dishes that fit your dietary preferences!" '
+        + 'NEVER write a generic message when a user profile exists — always name their specific restriction or tradition.';
+    }
 
     var openAIMessages = [{ role: 'system', content: SYSTEM }];
 

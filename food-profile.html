@@ -227,7 +227,7 @@ var TRADITIONS = {
     note:"Kosher set: no pork, no shellfish, and we won't mix meat with dairy in a dish." },
   hindu:       { diet:'vegetarian', avoid:['beef'],
     note:"Hindu set: no beef, vegetarian-leaning. Adjust the diet above if you eat some meat." },
-  jain:        { diet:'vegetarian', avoid:['onion_garlic','root_veg','alcohol','honey'],
+  jain:        { diet:'vegetarian', vegType:'lacto', avoid:['onion_garlic','root_veg','alcohol','honey'],
     note:"Jain set: no meat/fish/eggs, no onion, garlic, potatoes or root vegetables, no honey or alcohol. The strictest profile — we've got it." },
   buddhist:    { diet:'vegetarian', avoid:['alcohol'],
     note:"Buddhist set: vegetarian-leaning, no alcohol. Many Buddhists eat some fish — adjust above if so." },
@@ -296,6 +296,10 @@ document.querySelectorAll('#tradition .tchip').forEach(function(tchip){
     clearAutoAvoid();
     var t=TRADITIONS[v];
     if(t.diet) setDietChip(t.diet);
+    if(t.vegType){
+      profile.vegType=t.vegType;
+      document.querySelectorAll('#vegtype .mini').forEach(function(c){c.classList.toggle('sel',c.dataset.v===t.vegType);});
+    }
     t.avoid.forEach(function(av){
       var c=document.querySelector('#avoid .chip[data-v="'+av+'"]');
       if(c && !c.classList.contains('sel')){ c.classList.add('sel','auto'); c.dataset.auto='1'; if(profile.avoid.indexOf(av)<0) profile.avoid.push(av); }
