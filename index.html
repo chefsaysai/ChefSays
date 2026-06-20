@@ -806,7 +806,6 @@ async function initAuth(){
     _user = session.user;
     _token = session.access_token;
     await loadProfile();
-    showAccountModal(); // Update account modal with fetched profile data
     renderSav(); // Update savings tab with fetched savings data
   }
   _sb.auth.onAuthStateChange(async function(event, session){ // Added async to the callback
