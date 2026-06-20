@@ -829,7 +829,7 @@ async function initAuth(){
       _userConversations = [];
       renderSav();
       renderHistory();
-      showAccountModal(); // Update account modal to reflect logged-out state
+      closeAccountModal();
       try{localStorage.removeItem('cs_signed_in');}catch(e){}
     }
   });
@@ -1308,8 +1308,8 @@ function launch(){
   },d);});
   updateDDBadge();
   initAuth();
-  // Show auth modal after 3 seconds if not signed in
-  setTimeout(function(){ if(!_user) showAuthModal(); }, 3000);
+  // Show auth modal after 3 seconds only if not signed in (check both runtime and localStorage)
+  setTimeout(function(){ if(!_user && localStorage.getItem('cs_signed_in')!=='true') showAuthModal(); }, 3000);
   getTrialStart();
   showView('home');
   showPlan('family',document.getElementById('pt-fam'));
@@ -2634,7 +2634,7 @@ function findEBT(){document.getElementById('ebt-sheet').className='sheet on';}
     }, 1450);
   });
 
-
+if(new URLSearchParams(window.location.search).get('launch')==='1'){launch();}
 </script>
 </body>
 </html>
