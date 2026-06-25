@@ -3259,6 +3259,28 @@ var _alarmCtx=null;
 var _alarmTimeout=null;
 var _alarmActive=false;
 
+// iOS requires AudioContext to be created/resumed during a user gesture.
+// We unlock it on the first tap anywhere, then keep it alive for timer-fired alarms.
+function _ensureAudioCtx(){
+  if(!_alarmCtx){
+    try{ _alarmCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; }
+  }
+  return _alarmCtx;
+}
+function _unlockAudio(){
+  var ctx=_ensureAudioCtx();
+  if(!ctx) return;
+  // Play a silent 1-sample buffer — this gesture-unlocks the context on iOS
+  try{
+    var buf=ctx.createBuffer(1,1,22050);
+    var src=ctx.createBufferSource();
+    src.buffer=buf; src.connect(ctx.destination); src.start(0);
+    if(ctx.state==='suspended') ctx.resume();
+  }catch(e){}
+}
+document.addEventListener('touchstart',_unlockAudio,{once:true,passive:true});
+document.addEventListener('click',_unlockAudio,{once:true});
+
 function _beepPattern(){
   if(!_alarmActive||!_alarmCtx) return;
   var t=_alarmCtx.currentTime;
@@ -3277,10 +3299,17 @@ function _beepPattern(){
 function startAlarm(s){
   if(_alarmActive) return;
   _alarmActive=true;
-  try{
-    _alarmCtx=new (window.AudioContext||window.webkitAudioContext)();
-    _beepPattern();
-  }catch(e){}
+  var ctx=_ensureAudioCtx();
+  if(ctx){
+    var play=function(){ _beepPattern(); };
+    // On iOS the context may still be suspended if the user never tapped —
+    // resume() returns a Promise; fall back gracefully if it fails.
+    if(ctx.state==='suspended'){
+      ctx.resume().then(play).catch(play);
+    } else {
+      play();
+    }
+  }
   var banner=document.getElementById('alarm-banner');
   if(banner){
     document.getElementById('alarm-dish').textContent=s.dish_name||'Your recipe';
@@ -3292,7 +3321,7 @@ function startAlarm(s){
 function stopAlarm(){
   _alarmActive=false;
   if(_alarmTimeout){clearTimeout(_alarmTimeout);_alarmTimeout=null;}
-  if(_alarmCtx){try{_alarmCtx.close();}catch(e){}_alarmCtx=null;}
+  // Keep _alarmCtx alive — closing it would require a new user gesture to recreate on iOS
   var banner=document.getElementById('alarm-banner');
   if(banner) banner.style.display='none';
 }
