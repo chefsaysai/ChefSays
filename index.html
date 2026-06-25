@@ -57,16 +57,24 @@ button{cursor:pointer;border:none;font-family:inherit}
 @keyframes logoPop{0%{opacity:0;transform:scale(.55) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
 @keyframes fadeUp{0%{opacity:0;transform:translateY(6px)}100%{opacity:.55;transform:translateY(0)}}
 
-/* ===== LANDING HOOK SECTION ===== */
-.logo-head{text-align:center;padding:30px 22px 0}
-.logo-name{font-family:Georgia,serif;font-weight:800;font-size:24px;letter-spacing:-.5px;margin-top:6px;color:#FFF}
-.logo-name span{color:#FF6B35}
-.hook-sec{padding:24px 22px 20px}
-.hook-head{text-align:center;margin-bottom:24px}
-.hook-head .k{font-size:11px;font-weight:800;letter-spacing:2px;color:#FF6B35;text-transform:uppercase;margin-bottom:8px}
-.hook-head h2{font-family:Georgia,serif;font-size:24px;font-weight:800;line-height:1.25;color:#FFF}
-.hook-head h2 .g{color:#22C55E}
-.tease-sav{background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(21,128,61,.08));border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:20px;text-align:center;margin-bottom:14px}
+/* ===== LANDING PAGE ===== */
+.lp-hero{position:relative;background:linear-gradient(160deg,#0D0800,#1A0E00,#2D1500);padding:40px 22px 36px;overflow:hidden}
+.lp-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,107,53,.18),transparent 70%);border-radius:50%}
+.lp-brand{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.lp-brand .nm{font-family:Georgia,serif;font-size:30px;font-weight:800;letter-spacing:-.5px;margin-top:8px;color:#FFF}
+.lp-brand .nm span{color:#FF6B35}
+.lp-brand .tagline{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-top:8px;font-weight:600}
+.lp-head{margin-top:30px;text-align:center}
+.lp-head h1{font-family:Georgia,serif;font-size:32px;font-weight:800;line-height:1.2;color:#FFF}
+.lp-head h1 .o{color:#FF6B35}
+.lp-head p{font-size:16px;color:rgba(255,255,255,.7);line-height:1.6;margin-top:14px;padding:0 4px;font-weight:600}
+.lp-freebadge{display:inline-block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:7px 15px;font-size:12px;font-weight:700;color:#22C55E;margin-top:18px}
+.lp-sec{padding:32px 22px}
+.lp-sec-k{font-size:11px;font-weight:800;letter-spacing:2px;color:#FF6B35;text-transform:uppercase;text-align:center;margin-bottom:8px}
+.lp-sec-h{font-family:Georgia,serif;font-size:23px;font-weight:800;line-height:1.25;text-align:center;margin-bottom:6px;color:#FFF}
+.lp-sec-h .g{color:#22C55E}
+.lp-sec-sub{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;text-align:center;margin-bottom:22px;padding:0 6px}
+.tease-sav{background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(21,128,61,.08));border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:20px;text-align:center}
 .tease-sav .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(34,197,94,.8);margin-bottom:14px}
 .compare{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
 .cside{flex:1;max-width:120px}
@@ -80,29 +88,39 @@ button{cursor:pointer;border:none;font-family:inherit}
 .carrow{font-size:22px;color:rgba(255,255,255,.35);font-weight:700}
 .keep{font-size:14px;color:rgba(255,255,255,.7);line-height:1.5}
 .keep b{color:#22C55E;font-weight:900;font-size:17px}
+.realprice{display:flex;align-items:flex-start;gap:12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:14px 16px;margin-top:14px}
+.realprice .rp-ic{font-size:22px;flex-shrink:0}
+.realprice .rp-t{font-size:14px;font-weight:800;color:#38BDF8;margin-bottom:3px}
+.realprice .rp-s{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5;text-align:left}
+.lp-vs-intro{font-family:Georgia,serif;font-size:21px;font-weight:800;text-align:center;line-height:1.35;margin-bottom:6px;color:#FFF}
+.lp-vs-intro .o{color:#FF6B35}
+.lp-vs-table{margin-top:18px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.lp-vs-row{display:flex;border-bottom:1px solid rgba(255,255,255,.08)}
+.lp-vs-row:last-child{border-bottom:none}
+.lp-vs-row.head{background:rgba(255,255,255,.04)}
+.lp-vs-cell{flex:1;padding:13px 12px;font-size:12.5px;line-height:1.4}
+.lp-vs-cell.them{color:rgba(255,255,255,.45);border-right:1px solid rgba(255,255,255,.08)}
+.lp-vs-cell.us{color:#FFF;font-weight:600;background:rgba(255,107,53,.06)}
+.lp-vs-row.head .lp-vs-cell{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.6)}
+.lp-vs-row.head .lp-vs-cell.us{color:#FF8C42}
+.lp-vs-knockout{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.25);border-radius:16px;padding:16px 18px;margin-top:18px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.85);text-align:center}
+.lp-vs-knockout b{color:#FF8C42}
 .tease-row{display:flex;gap:12px;margin-bottom:14px}
 .tease-mini{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 14px;text-align:center}
 .tease-mini .ic{font-size:30px;margin-bottom:8px}
 .tease-mini .t{font-size:14px;font-weight:800;margin-bottom:3px;color:#FFF}
 .tease-mini .s{font-size:11px;color:rgba(255,255,255,.5);line-height:1.4}
-.tease-time{background:linear-gradient(135deg,#7C3AED,#6D28D9);border-radius:18px;padding:18px;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.tease-time{background:linear-gradient(135deg,#7C3AED,#6D28D9);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}
 .tease-time .em{font-size:32px}
 .tease-time .t{font-size:15px;font-weight:800;margin-bottom:2px;color:#FFF}
 .tease-time .s{font-size:12px;opacity:.9;line-height:1.45;color:#FFF}
-.tease-badges{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px;margin-bottom:24px}
-.tease-badges .bt{font-size:12px;font-weight:700;color:rgba(255,255,255,.6);text-align:center;margin-bottom:14px}
-.brow{display:flex;justify-content:space-around}
-.bdg{text-align:center;width:72px}
-.bdg .c{width:54px;height:54px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);filter:grayscale(.5);opacity:.7}
-.bdg .l{font-size:9px;color:rgba(255,255,255,.45);line-height:1.2}
-.realprice{display:flex;align-items:flex-start;gap:12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.3);border-radius:16px;padding:14px 16px;margin-bottom:14px}
-.realprice .rp-ic{font-size:22px;flex-shrink:0}
-.realprice .rp-t{font-size:14px;font-weight:800;color:#38BDF8;margin-bottom:3px}
-.realprice .rp-s{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5}
-.landing-cta{display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#FFF;border:none;border-radius:16px;padding:17px;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 8px 24px rgba(255,107,53,.4)}
-.landing-cta:active{transform:scale(.98)}
-.cta-sub{text-align:center;font-size:12px;color:rgba(255,255,255,.45);margin-top:12px}
-.lplan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px 20px;margin-bottom:22px}
+.lp-free-card{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(21,128,61,.05));border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:22px}
+.lp-free-tag{display:inline-block;background:#22C55E;color:#06270F;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;padding:4px 11px;border-radius:8px;margin-bottom:12px}
+.lp-free-h{font-family:Georgia,serif;font-size:19px;font-weight:800;margin-bottom:6px;color:#FFF}
+.lp-free-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;margin-bottom:14px}
+.lp-free-list .fl{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.5;padding:5px 0}
+.lp-free-list .fl .c{color:#22C55E;font-weight:900;flex-shrink:0}
+.lplan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px 20px}
 .lplan-head{text-align:center;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:16px;margin-bottom:16px}
 .lplan-k{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px}
 .lplan-price{font-weight:900;color:#FFF;line-height:1;font-size:52px;letter-spacing:-2px}
@@ -117,6 +135,10 @@ button{cursor:pointer;border:none;font-family:inherit}
 .founder-tag{font-size:13px;font-weight:800;color:#FF8C42;margin-bottom:4px}
 .founder-txt{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
 .founder-txt b{color:#FFF}
+.landing-cta{display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#FFF;border:none;border-radius:16px;padding:17px;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 8px 24px rgba(255,107,53,.4)}
+.landing-cta:active{transform:scale(.98)}
+.cta-sub{text-align:center;font-size:12px;color:rgba(255,255,255,.45);margin-top:12px}
+.lp-divider{height:1px;background:rgba(255,255,255,.08);margin:0 22px}
 /* ===== END LANDING ===== */
 
 /* CHEFSAYS BRAND LOGO */
@@ -130,6 +152,14 @@ button{cursor:pointer;border:none;font-family:inherit}
 .cs-app-header{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;flex-shrink:0}
 .cs-app-header .cs-word{font-size:17px;letter-spacing:-.3px}
 .cs-icon-btn{background:none;border:none;font-size:22px;cursor:pointer}
+
+/* ── DESKTOP SCROLL FIX ── */
+@media (min-width:431px){
+  body{height:auto;min-height:100dvh;overflow-y:auto}
+  #app{overflow:visible}
+  .page.on{flex:none;overflow:visible;min-height:calc(100dvh - 112px)}
+  .scr{overflow-y:visible;height:auto}
+}
 </style>
 </head>
 <body>
@@ -149,97 +179,145 @@ button{cursor:pointer;border:none;font-family:inherit}
 <!-- ═══════════════════ SPLASH ═══════════════════ -->
 <div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto;padding-bottom:40px">
 
-  <div class="logo-head">
-    <svg width="58" height="36" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
-    <div class="logo-name">Chef<span>Says</span></div>
+  <!-- HERO -->
+  <div class="lp-hero">
+    <div class="lp-brand">
+      <svg width="64" height="40" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+      <div class="nm">Chef<span>Says</span></div>
+      <div class="tagline">The Chef Who Solves Dinner</div>
+    </div>
+    <div class="lp-head">
+      <h1>What's for dinner?<br/><span class="o">Solved.</span></h1>
+      <p>Personalized recipes. Save money. Save time. Eat better.</p>
+      <div class="lp-freebadge">✓ Free to start &nbsp;·&nbsp; No card needed</div>
+    </div>
   </div>
 
-  <div class="hook-sec">
-    <div class="hook-head">
-      <div class="k">Here's what you unlock</div>
-      <h2>Cook a little. <span class="g">Save a lot.</span><br/>Watch it add up.</h2>
-    </div>
-
+  <!-- SAVINGS COMPARISON -->
+  <div class="lp-sec">
+    <div class="lp-sec-k">The point of all this</div>
+    <div class="lp-sec-h">Cook a little. <span class="g">Keep a lot.</span></div>
+    <div class="lp-sec-sub">Restaurants mark food up 3x. ChefSays helps you make the same meal at home — and shows you the difference.</div>
     <div class="tease-sav">
       <div class="lbl">💰 The same dinner</div>
       <div class="compare">
-        <div class="cside out">
-          <div class="cemoji">🍔</div>
-          <div class="cwho">Takeout</div>
-          <div class="cnum strike">$18</div>
-        </div>
+        <div class="cside out"><div class="cemoji">🍔</div><div class="cwho">Takeout</div><div class="cnum strike">$18</div></div>
         <div class="carrow">→</div>
-        <div class="cside home">
-          <div class="cemoji">🏠</div>
-          <div class="cwho">ChefSays</div>
-          <div class="cnum">$6</div>
+        <div class="cside home"><div class="cemoji">🏠</div><div class="cwho">ChefSays</div><div class="cnum">$6</div></div>
+      </div>
+      <div class="keep">You keep <b>$12</b> — every single dinner</div>
+      <div class="realprice">
+        <span class="rp-ic">💡</span>
+        <div>
+          <div class="rp-t">Real prices, not guesses</div>
+          <div class="rp-s">ChefSays uses real ingredient pricing data — so your savings are based on actual costs, not made-up numbers.</div>
         </div>
       </div>
-      <div class="keep">You keep <b id="keepnum">$12</b> — every single dinner</div>
     </div>
+  </div>
 
-    <div class="realprice">
-      <span class="rp-ic">📍</span>
-      <div>
-        <div class="rp-t">Real prices, not guesses</div>
-        <div class="rp-s">ChefSays uses real ingredient pricing data — so your savings are based on actual costs, not made-up numbers.</div>
+  <div class="lp-divider"></div>
+
+  <!-- VS GENERIC AI -->
+  <div class="lp-sec">
+    <div class="lp-sec-k">Why not just use a chatbot?</div>
+    <div class="lp-vs-intro">A generic AI app writes a recipe.<br/><span class="o">ChefSays runs your whole kitchen.</span></div>
+    <div class="lp-vs-table">
+      <div class="lp-vs-row head">
+        <div class="lp-vs-cell them">A generic AI app</div>
+        <div class="lp-vs-cell us">ChefSays</div>
+      </div>
+      <div class="lp-vs-row">
+        <div class="lp-vs-cell them">You type a prompt every time</div>
+        <div class="lp-vs-cell us">One tap — it already knows you</div>
+      </div>
+      <div class="lp-vs-row">
+        <div class="lp-vs-cell them">Forgets you instantly</div>
+        <div class="lp-vs-cell us">Remembers your diet, allergies &amp; history</div>
+      </div>
+      <div class="lp-vs-row">
+        <div class="lp-vs-cell them">Guesses at prices</div>
+        <div class="lp-vs-cell us">Tracks your real savings, month after month</div>
+      </div>
+      <div class="lp-vs-row">
+        <div class="lp-vs-cell them">Gives you words</div>
+        <div class="lp-vs-cell us">Builds your grocery list, ready to shop</div>
       </div>
     </div>
+    <div class="lp-vs-knockout">
+      A chatbot can write a recipe. It can't remember you're allergic to peanuts, track the money you saved this month, or build your grocery list in one tap. <b>ChefSays does all of it — without you typing a thing.</b>
+    </div>
+  </div>
 
+  <div class="lp-divider"></div>
+
+  <!-- HABIT HOOKS -->
+  <div class="lp-sec">
+    <div class="lp-sec-k">Built to become a habit</div>
+    <div class="lp-sec-h">A little better, <span class="g">every day.</span></div>
+    <div class="lp-sec-sub">ChefSays meets you at every meal — and makes cooking something you look forward to.</div>
     <div class="tease-row">
-      <div class="tease-mini">
-        <div class="ic">🔥</div>
-        <div class="t">Build a streak</div>
-        <div class="s">Cook daily, watch your streak grow</div>
-      </div>
-      <div class="tease-mini">
-        <div class="ic">🎯</div>
-        <div class="t">Daily Dish</div>
-        <div class="s">A new guess-the-cost game every day</div>
-      </div>
+      <div class="tease-mini"><div class="ic">🔥</div><div class="t">Build a streak</div><div class="s">Cook daily, watch your streak grow</div></div>
+      <div class="tease-mini"><div class="ic">🎯</div><div class="t">Daily Dish</div><div class="s">A new guess-the-cost game every day</div></div>
     </div>
-
     <div class="tease-time">
       <div class="em">🍽️</div>
-      <div>
-        <div class="t">"What's for dinner?"</div>
-        <div class="s">Every meal, every day — ChefSays asks, and has an answer in seconds.</div>
+      <div><div class="t">"What's for dinner?"</div><div class="s">Every meal, every day — ChefSays asks, and has an answer in seconds.</div></div>
+    </div>
+  </div>
+
+  <div class="lp-divider"></div>
+
+  <!-- FREE TIER -->
+  <div class="lp-sec">
+    <div class="lp-sec-k">Always free, for everyone</div>
+    <div class="lp-free-card">
+      <div class="lp-free-tag">Free forever</div>
+      <div class="lp-free-h">Everyone deserves to eat well</div>
+      <div class="lp-free-sub">Some things should never be behind a paywall. These stay free for everyone, always — no account required.</div>
+      <div class="lp-free-list">
+        <div class="fl"><span class="c">✓</span> Find food banks &amp; free food near you</div>
+        <div class="fl"><span class="c">✓</span> EBT / SNAP store locator</div>
+        <div class="fl"><span class="c">✓</span> The Daily Dish game</div>
+        <div class="fl"><span class="c">✓</span> A few fresh recipes every day</div>
       </div>
     </div>
+  </div>
 
-    <div class="tease-badges">
-      <div class="bt">Unlock milestones as you go</div>
-      <div class="brow">
-        <div class="bdg"><div class="c">🔥</div><div class="l">First Cook</div></div>
-        <div class="bdg"><div class="c">⭐</div><div class="l">7-Day Streak</div></div>
-        <div class="bdg"><div class="c">💵</div><div class="l">$100 Saved</div></div>
-        <div class="bdg"><div class="c">🏆</div><div class="l">$500 Saved</div></div>
-      </div>
-    </div>
+  <div class="lp-divider"></div>
 
+  <!-- PRICING -->
+  <div class="lp-sec">
+    <div class="lp-sec-k">Go all in</div>
+    <div class="lp-sec-h">The full <span class="g">personal chef.</span></div>
+    <div class="lp-sec-sub">For when you want ChefSays to do the thinking — and the planning, pricing, and remembering — for you.</div>
     <div class="lplan">
       <div class="lplan-head">
-        <div class="lplan-k">Everything for one price</div>
+        <div class="lplan-k">Everything, one price</div>
         <div class="lplan-price"><span class="pd">$</span>9<span class="pc">.99</span><span class="pm">/month</span></div>
-        <div class="lplan-payoff">One dinner can save you more than a whole month costs. The app pays for itself fast.</div>
+        <div class="lplan-payoff">One dinner can save you more than a whole month costs. It pays for itself fast.</div>
       </div>
       <div class="lplan-list">
         <div class="pl-item"><span class="ck">✓</span> Unlimited recipes from whatever's in your fridge</div>
         <div class="pl-item"><span class="ck">✓</span> Restaurant dishes made at home, fully costed</div>
-        <div class="pl-item"><span class="ck">✓</span> "Too tired" one-tap dinner + instant grocery cart</div>
+        <div class="pl-item"><span class="ck">✓</span> "Too tired" one-tap dinner + a ready-made grocery list</div>
         <div class="pl-item"><span class="ck">✓</span> Your savings tracked automatically, every meal</div>
-        <div class="pl-item"><span class="ck">✓</span> A food profile so every recipe fits your diet</div>
-        <div class="pl-item"><span class="ck">✓</span> Daily Dish game, streaks &amp; milestones</div>
+        <div class="pl-item"><span class="ck">✓</span> A food profile so every recipe fits your diet &amp; allergies</div>
+        <div class="pl-item"><span class="ck">✓</span> Daily streaks, milestones &amp; meal planning</div>
       </div>
       <div class="founder">
-        <div class="founder-tag">🎉 Founder Deal</div>
+        <div class="founder-tag">🌟 Founder Deal</div>
         <div class="founder-txt">Lock in <b>$5.99/mo for 6 months</b>, then $9.99. Limited to early members.</div>
       </div>
     </div>
-
-    <button class="landing-cta" onclick="launch()">Start cooking free →</button>
-    <div class="cta-sub">No card needed · 90-day free trial · Cancel anytime</div>
   </div>
+
+  <!-- CTA -->
+  <div style="padding:8px 22px 40px">
+    <button class="landing-cta" onclick="launch()">Start cooking free →</button>
+    <div class="cta-sub">No card needed &nbsp;·&nbsp; 90-day free trial &nbsp;·&nbsp; Cancel anytime</div>
+  </div>
+
 </div>
 
 <!-- ═══════════════════ APP ═══════════════════ --><!-- ═══════════════════ APP ═══════════════════ -->
@@ -253,7 +331,10 @@ button{cursor:pointer;border:none;font-family:inherit}
       </svg>
       <div class="cs-word dark">Chef<span>Says</span></div>
     </button>
-    <button onclick="showAuthModal()" class="cs-icon-btn" aria-label="Account">👤</button>
+    <div style="display:flex;align-items:center;gap:2px">
+      <button onclick="goTab('chat');showView('home');" class="cs-icon-btn" aria-label="Home" title="Start over">🏠</button>
+      <button onclick="showAuthModal()" class="cs-icon-btn" aria-label="Account">👤</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -261,6 +342,7 @@ button{cursor:pointer;border:none;font-family:inherit}
     <button class="tab" id="tb-sav" onclick="goTab('sav')"><span style="font-size:20px">💰</span>Savings</button>
     <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Meal Prep</button>
     <button class="tab" id="tb-cat" onclick="goTab('cat')"><span style="font-size:20px">🍳</span>Catering</button>
+    <button class="tab" id="tb-bkm" onclick="goTab('bkm')"><span style="font-size:20px">📖</span>History</button>
   </div>
 
   <!-- PROGRESS BAR -->
@@ -278,15 +360,7 @@ button{cursor:pointer;border:none;font-family:inherit}
 
       <!-- HOME VIEW -->
       <div id="home-view">
-        <div id="history-container" style="display:none; margin-bottom: 16px;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-            <div style="flex:1;height:1px;background:#FFE0CC"></div>
-            <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">RECENT ACTIVITY</div>
-            <div style="flex:1;height:1px;background:#FFE0CC"></div>
-          </div>
-          <div id="history-list" style="display:flex; flex-direction:column; gap:8px;"></div>
-        </div>
-        <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
+<input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
         <button onclick="startDailyDish()" style="display:flex;width:100%;align-items:center;gap:12px;background:linear-gradient(135deg,#16A34A,#15803D);border:none;border-radius:16px;padding:13px 16px;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 14px rgba(22,163,74,.3);text-align:left">
           <span style="font-size:26px">&#127919;</span>
           <div style="flex:1"><div style="font-size:14px;font-weight:800;color:#FFF;line-height:1.2">Daily Dish &mdash; Guess the Cost</div><div id="dd-home-sub" style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px">Free to play &middot; No account needed &middot; New dish daily</div></div>
@@ -642,6 +716,18 @@ button{cursor:pointer;border:none;font-family:inherit}
     </div>
   </div>
 
+  <!-- SAVED RECIPES PAGE -->
+  <div id="pg-bkm" class="page">
+    <div class="scr">
+      <div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:22px;padding:24px 20px;color:#FFF;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Your Kitchen Journal</div>
+        <div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">Chat History</div>
+        <div style="font-size:13px;opacity:.85">Past conversations &amp; recipes you saved</div>
+      </div>
+      <div id="bkm-list"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ═══════════════════ SHEETS ═══════════════════ -->
@@ -705,6 +791,34 @@ button{cursor:pointer;border:none;font-family:inherit}
   </div>
 </div>
 
+<!-- SCHEDULE SHEET -->
+<div id="schedsheet" class="logsheet" onclick="if(event.target===this)this.className='logsheet'">
+  <div style="background:#FFF;border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%">
+    <div style="text-align:center;font-size:40px;margin-bottom:6px">📅</div>
+    <div style="font-weight:800;font-size:20px;color:#2D1810;font-family:Georgia,serif;text-align:center;margin-bottom:4px">Schedule This Recipe</div>
+    <div id="sched-dish-name" style="font-size:13px;color:#C4956A;text-align:center;margin-bottom:20px"></div>
+
+    <label style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;display:block">Occasion / Event <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+    <input id="sched-occasion" type="text" placeholder="e.g. Sunday dinner, Birthday party…" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 14px;font-size:14px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit;box-sizing:border-box"/>
+
+    <label style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;display:block">Date &amp; Time to Cook</label>
+    <input id="sched-datetime" type="datetime-local" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 14px;font-size:14px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit;box-sizing:border-box"/>
+
+    <label style="font-size:11px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;display:block">Remind me</label>
+    <select id="sched-reminder" style="width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 14px;font-size:14px;color:#2D1810;outline:none;margin-bottom:20px;font-family:inherit;box-sizing:border-box">
+      <option value="30">30 minutes before</option>
+      <option value="60" selected>1 hour before</option>
+      <option value="120">2 hours before</option>
+      <option value="1440">1 day before</option>
+    </select>
+
+    <div style="display:flex;gap:10px">
+      <button onclick="saveSchedule()" style="flex:1;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#FFF;border:none;border-radius:14px;padding:15px;font-weight:700;font-size:15px;cursor:pointer">Set Reminder ✓</button>
+      <button onclick="document.getElementById('schedsheet').className='logsheet'" style="flex:1;background:#FFF8F0;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:14px;padding:15px;font-weight:600;font-size:14px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- AUTH MODAL -->
 <div id="auth-modal" style="display:none;position:fixed;inset:0;max-width:430px;margin:0 auto;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:20px">
   <div style="background:#FFF;border-radius:24px;padding:24px 22px;width:100%;max-height:88vh;overflow-y:auto">
@@ -713,29 +827,54 @@ button{cursor:pointer;border:none;font-family:inherit}
       <div style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin:6px 0 4px">Welcome to ChefSays</div>
       <div id="auth-subtitle" style="font-size:13px;color:#9B7B6E">Sign up to save your recipes, savings and chat history</div>
     </div>
-    <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
-    <div id="auth-extra">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <input id="auth-first" type="text" placeholder="First name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
-        <input id="auth-last" type="text" placeholder="Last name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
-      </div>
-      <div style="font-size:10px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin:0 2px 4px">Date of birth <span style="font-weight:400;text-transform:none">(21+ unlocks drinks)</span></div>
-      <input id="auth-dob" type="date" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:11px 13px;font-size:14px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <input id="auth-zip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP code" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
-        <select id="auth-gender" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 10px;font-size:14px;color:#2D1810;outline:none;font-family:inherit">
-          <option value="">Gender</option><option value="male">Male</option><option value="female">Female</option><option value="na">Prefer not to say</option>
-        </select>
-      </div>
-      <div style="font-size:10px;color:#C4956A;margin:0 2px 10px">ZIP helps us use real local grocery prices for your recipes.</div>
+    <!-- Success panel — shown after signup instead of redirecting -->
+    <div id="auth-success" style="display:none;text-align:center;padding:8px 0 4px">
+      <div style="font-size:48px;margin-bottom:14px">🎉</div>
+      <div id="auth-success-name" style="font-size:20px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:10px">Welcome!</div>
+      <div style="font-size:14px;color:#9B7B6E;line-height:1.7;margin-bottom:22px">Your account is created! Check your inbox to confirm your email, then sign in to start cooking.</div>
+      <button onclick="showSignInFromSuccess()" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Sign In to Continue →</button>
+      <button onclick="document.getElementById('auth-modal').style.display='none'" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">I'll sign in later</button>
     </div>
-    <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
-    <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
-    <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Create Free Account →</button>
-    <button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px">Sign In →</button>
-    <button id="auth-signin-link" onclick="setAuthMode('login')" style="width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">Already have an account? Sign In</button>
-    <button id="auth-signup-link" onclick="setAuthMode('signup')" style="display:none;width:100%;background:none;border:none;font-size:13px;color:#FF6B35;font-weight:700;cursor:pointer;margin-bottom:8px">New here? Create a free account</button>
-    <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
+    <!-- Form — hidden when success panel is shown -->
+    <div id="auth-form-content">
+      <div id="auth-error" style="display:none;background:#FFF5F5;border:1px solid #FECACA;border-radius:10px;padding:10px;font-size:13px;color:#DC2626;margin-bottom:12px;text-align:center"></div>
+      <div id="auth-extra">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <input id="auth-first" type="text" placeholder="First name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+          <input id="auth-last" type="text" placeholder="Last name" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:#C4956A;text-transform:uppercase;letter-spacing:.8px;margin:0 2px 4px">Date of birth <span style="font-weight:400;text-transform:none">(21+ unlocks drinks)</span></div>
+        <input id="auth-dob" type="date" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:11px 13px;font-size:14px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <input id="auth-zip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP code" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 13px;font-size:14px;color:#2D1810;outline:none;font-family:inherit"/>
+          <select id="auth-gender" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:12px 10px;font-size:14px;color:#2D1810;outline:none;font-family:inherit">
+            <option value="">Gender</option><option value="male">Male</option><option value="female">Female</option><option value="na">Prefer not to say</option>
+          </select>
+        </div>
+        <div style="font-size:10px;color:#C4956A;margin:0 2px 10px">ZIP helps us use real local grocery prices for your recipes.</div>
+      </div>
+      <input id="auth-email" type="email" placeholder="Your email address" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:10px;font-family:inherit"/>
+      <input id="auth-password" type="password" placeholder="Password (min 6 characters)" style="display:block;width:100%;background:#FFF8F0;border:1.5px solid #FFE0CC;border-radius:12px;padding:13px 14px;font-size:15px;color:#2D1810;outline:none;margin-bottom:14px;font-family:inherit"/>
+      <button onclick="doAuth('signup')" id="auth-signup-btn" style="display:block;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:14px">Create Free Account →</button>
+      <button onclick="doAuth('login')" id="auth-login-btn" style="display:none;width:100%;background:linear-gradient(135deg,#FF6B35,#FF4500);color:#FFF;border:none;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;margin-bottom:14px">Sign In →</button>
+      <div id="auth-signin-link" style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+          <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">ALREADY HAVE AN ACCOUNT?</div>
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+        </div>
+        <button onclick="setAuthMode('login')" style="display:block;width:100%;background:#FFF;border:2px solid #FF6B35;border-radius:14px;padding:13px;font-weight:700;font-size:15px;color:#FF6B35;cursor:pointer">Sign In →</button>
+      </div>
+      <div id="auth-signup-link" style="display:none;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+          <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">NEW HERE?</div>
+          <div style="flex:1;height:1px;background:#FFE0CC"></div>
+        </div>
+        <button onclick="setAuthMode('signup')" style="display:block;width:100%;background:#FFF;border:2px solid #FF6B35;border-radius:14px;padding:13px;font-weight:700;font-size:15px;color:#FF6B35;cursor:pointer">Create a free account →</button>
+      </div>
+      <button onclick="continueAsGuest()" style="width:100%;background:none;border:none;font-size:13px;color:#C4956A;cursor:pointer;text-decoration:underline">Continue without account</button>
+    </div>
     <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:12px">Your data stays private. Cancel anytime.</div>
   </div>
 </div>
@@ -788,6 +927,10 @@ var _user = null; // Supabase user object
 var _token = null; // Supabase access token
 var _userProfile = null; // User profile data fetched from Supabase
 var _userSavings = []; // User savings data fetched from Supabase
+var _currentConvoQuestion = ''; // tracks which conversation is active when saving a recipe
+var _userSchedules = [];
+var _pendingScheduleRecipe = null;
+var _reschedulingId = null; // id of schedule being replaced
 var _userConversations = []; // User conversation history fetched from Supabase
 try {
   if(typeof supabase !== 'undefined'){
@@ -858,6 +1001,13 @@ async function loadProfile(){
       if(d.profile.food_preferences){
         try{ localStorage.setItem('cs_food_prefs', JSON.stringify(d.profile.food_preferences)); }catch(e){}
       }
+      // On first login (flag set by doAuth login), redirect to food profile setup
+      if(!d.profile.food_profile_set && localStorage.getItem('cs_just_logged_in')==='1'){
+        try{ localStorage.removeItem('cs_just_logged_in'); }catch(e){}
+        setTimeout(function(){ window.location='/food-profile.html'; }, 600);
+        return;
+      }
+      try{ localStorage.removeItem('cs_just_logged_in'); }catch(e){}
       // Show a nudge badge on the food profile button if profile not yet set
       var fpBtn = document.getElementById('acct-food-profile-btn');
       if(fpBtn && !d.profile.food_profile_set){
@@ -866,24 +1016,32 @@ async function loadProfile(){
         fpBtn.style.borderColor = '#FF6B35';
       }
     }
-    if(d.recent) _userConversations = d.recent; // Assign recent conversations
+    if(d.recent) _userConversations = d.recent; // quick seed for AI context
 
-    // Fetch full savings history separately
-    var savingsResp = await fetch('/.netlify/functions/save-conversation', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'get_history', token:_token, data:{type:'savings'}})
-    });
+    // Fetch full conversation history (with saved_recipes) + savings in parallel
+    var results = await Promise.all([
+      fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_history',token:_token,data:{type:'conversation'}})}),
+      fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_history',token:_token,data:{type:'savings'}})})
+    ]);
 
-    if (!savingsResp.ok) {
-      const errorData = await savingsResp.json();
-      throw new Error(errorData.error || `Server error: ${savingsResp.status}`);
-    }
+    var histData = await results[0].json();
+    if(histData.conversations) _userConversations = histData.conversations;
 
-    var savingsData = await savingsResp.json();
+    var savingsData = await results[1].json();
     if(savingsData.savings) _userSavings = savingsData.savings;
 
-    renderSav(); // Render savings after fetching
-    renderHistory(); // Render the fetched conversation history
+    // Fetch scheduled recipes
+    if(_token&&_sb){
+      fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_schedules',token:_token,data:{}})})
+        .then(function(r){return r.json();})
+        .then(function(d){if(d.schedules){_userSchedules=d.schedules;checkUpcomingReminders();}})
+        .catch(function(){});
+    }
+
+    renderSav();
+    renderHistory();
+    var bkmPage=document.getElementById('pg-bkm');
+    if(bkmPage&&bkmPage.className==='page on') renderBookmarks();
 
   }catch(e){
     console.error("Error loading profile or history:", e.message);
@@ -944,13 +1102,82 @@ function renderHistory() {
       const icon = convo.type === 'recipe' ? '🍳' : (convo.type === 'drink' ? '🍹' : '💬');
       const text = convo.question.length > 40 ? convo.question.substring(0, 40) + '...' : convo.question;
       item.innerHTML = `<span style="font-size:20px">${icon}</span><div style="flex:1; font-size:13px; font-weight:600; color:#2D1810;">${text}</div><span style="font-size:11px; color:#C4956A;">${new Date(convo.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
-      // TODO: Add onclick to re-open the conversation result
+      item.onclick = function(){ openConversation(convo); };
       list.appendChild(item);
     });
   } else {
     container.style.display = 'none';
   }
 }
+function openConversation(convo){
+  if(checkLimit()) return;
+  _currentConvoQuestion = convo.question;
+  goTab('chat');
+  showView('results');
+  progress(5);
+  var content = document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  goTop();
+
+  // User question bubble
+  var userMsg = document.createElement('div');
+  userMsg.style.cssText = 'background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px 18px 4px 18px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#FFF;line-height:1.5;max-width:85%;margin-left:auto';
+  userMsg.textContent = convo.question;
+  content.appendChild(userMsg);
+
+  // Render stored AI response
+  var responseText = convo.response || '';
+  var rendered = false;
+  try {
+    var raw = responseText.replace(/```json/g,'').replace(/```/g,'').trim();
+    var s = raw.indexOf('{'), e = raw.lastIndexOf('}');
+    var parsed = JSON.parse(s>=0 ? raw.substring(s,e+1) : raw);
+    if(parsed.message){
+      var msg = document.createElement('div');
+      msg.style.cssText = 'display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#FFF3ED,#FFF8F5);border:1.5px solid #FF6B35;border-radius:14px;padding:14px 16px;margin-bottom:12px';
+      var mi = document.createElement('div'); mi.style.cssText='font-size:22px;line-height:1;flex-shrink:0;margin-top:1px'; mi.textContent='✨';
+      var mt = document.createElement('div'); mt.style.cssText='font-size:14px;color:#2D1810;line-height:1.6;font-weight:600'; mt.textContent=parsed.message;
+      msg.appendChild(mi); msg.appendChild(mt); content.appendChild(msg); rendered=true;
+    }
+    if(parsed.menu && parsed.menu.length>=1){
+      renderMenuCards(parsed.menu, content); rendered=true;
+    } else {
+      var recipes = parsed.recipes||[];
+      if(parsed.recipe) recipes=[parsed.recipe];
+      if(recipes.length>0){ showRecipeOptions(recipes,content); rendered=true; }
+    }
+  } catch(err){}
+  if(!rendered && responseText){
+    var rm = document.createElement('div');
+    rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';
+    rm.textContent=responseText.replace(/```json/g,'').replace(/```/g,'').replace(/\*\*/g,'').replace(/\*/g,'');
+    content.appendChild(rm);
+  }
+
+  // Follow-up bar — continues the conversation from where it left off
+  var history=[{role:'user',content:convo.question},{role:'assistant',content:responseText}];
+  var bar=document.createElement('div');
+  bar.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px;margin-bottom:4px';
+  var bi=document.createElement('textarea');
+  bi.rows=1; bi.placeholder='Continue the conversation...';
+  bi.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px';
+  bi.addEventListener('input',function(){this.style.height='auto';this.style.height=this.scrollHeight+'px';});
+  var bb=document.createElement('button');
+  bb.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';
+  bb.innerHTML='&#x2192;';
+  function sendFollowUp(){
+    var t=bi.value.trim(); if(!t) return;
+    bar.remove();
+    runChatTurn(content, history.concat([{role:'user',content:t}]), t);
+  }
+  bb.onclick=sendFollowUp;
+  bi.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();sendFollowUp();}});
+  bar.appendChild(bi); bar.appendChild(bb);
+  content.appendChild(bar);
+  _rerunSearch=null;
+  setTimeout(function(){bar.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+}
+
 function getAge(dobStr){
   if(!dobStr) return 0;
   var dob=new Date(dobStr); var now=new Date();
@@ -996,12 +1223,17 @@ async function doAuth(type){
         try{localStorage.setItem('cs_profile',JSON.stringify({first:first,last:last,dob:dob,zip:zip,gender:gender}));}catch(e){}
       }
       // localStorage.setItem('cs_signed_in','true') is now handled by onAuthStateChange
-      document.getElementById('auth-modal').style.display='none';
       var pw=document.getElementById('paywall'); if(pw)pw.className='paywall';
       if(type==='signup'){
-        toast('Welcome to ChefSays, '+(first||'chef')+'! 🎉 90-day beta trial started');
-        setTimeout(function(){ window.location='/food-profile.html'; }, 1400);
+        // Show success panel — don't redirect yet; food profile opens on first login
+        var sn=document.getElementById('auth-success-name');
+        if(sn) sn.textContent='Welcome, '+(first||'chef')+'!';
+        document.getElementById('auth-form-content').style.display='none';
+        document.getElementById('auth-success').style.display='block';
+        document.getElementById('auth-modal').style.display='flex';
       } else {
+        document.getElementById('auth-modal').style.display='none';
+        try{ localStorage.setItem('cs_just_logged_in','1'); }catch(e){}
         toast('Welcome back! 👨‍🍳');
       }
     }
@@ -1020,9 +1252,14 @@ function continueAsGuest(){
   document.getElementById('auth-modal').style.display='none';
   toast('Look around! Create a free account when you\'re ready to cook 👨‍🍳');
 }
+function showSignInFromSuccess(){
+  document.getElementById('auth-success').style.display='none';
+  document.getElementById('auth-form-content').style.display='block';
+  setAuthMode('login');
+}
 
 function showAuthModal(){
-  if(_user){ showAccountModal(); return; }
+  if(_user || localStorage.getItem('cs_signed_in')==='true'){ showAccountModal(); return; }
   document.getElementById('auth-modal').style.display='flex';
 }
 function showAccountModal(){
@@ -1046,6 +1283,11 @@ async function signOut(){
 }
 
 async function saveConversation(question, response, type, cuisine, mealType){
+  _currentConvoQuestion = question;
+  // Keep local array in sync so History tab and saveBookmark() see this conversation immediately
+  if(!_userConversations.some(function(c){return c.question===question&&c.type===(type||'chat');})){
+    _userConversations.unshift({question:question,response:response,type:type||'chat',created_at:new Date().toISOString(),saved_recipes:[]});
+  }
   try{
     if(!_sb) return;
     if(!_token){
@@ -1060,12 +1302,12 @@ async function saveConversation(question, response, type, cuisine, mealType){
   }catch(e){}
 }
 
-async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost){
+async function saveSavingsToCloud(dishName, amount, homeCost, restaurantCost, recipe){
   if(!_token || !_sb) return;
   try {
     fetch('/.netlify/functions/save-conversation',{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'save_savings', token:_token, data:{dish_name:dishName, amount_saved:amount, home_cost:homeCost, restaurant_cost:restaurantCost, cuisine:_cuisine, meal_type:_meal}})
+      body: JSON.stringify({action:'save_savings', token:_token, data:{dish_name:dishName, amount_saved:amount, home_cost:homeCost, restaurant_cost:restaurantCost, cuisine:_cuisine, meal_type:_meal, recipe_json:recipe?JSON.stringify(recipe):null}})
     });
   }catch(e){}
 }
@@ -1169,19 +1411,29 @@ function getUserContext(){
 var _ignorePrefs = false;
 var _prefsExcluded = false;
 var _rerunSearch = null;
+var _pendingLogRecipe = null;
 
-function chatFetch(obj){
+function chatFetch(obj, _isRetry){
   var ctx = getUserContext();
   if(!_ignorePrefs && ctx){
     obj.userContext = ctx;
-    _prefsExcluded = false; // prefs are being applied — reset exclude state
+    _prefsExcluded = false;
   }
   _ignorePrefs = false;
+  var ctrl = new AbortController();
+  var tid = setTimeout(function(){ ctrl.abort(); }, 29000);
   return fetch('/.netlify/functions/chat',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(obj)
-  });
+    body:JSON.stringify(obj),
+    signal:ctrl.signal
+  }).then(function(r){ clearTimeout(tid); return r; })
+    .catch(function(err){
+      clearTimeout(tid);
+      if(_isRetry) throw err;
+      return new Promise(function(res){ setTimeout(res, 1800); })
+        .then(function(){ return chatFetch(obj, true); });
+    });
 }
 
 function rerunWithoutPrefs(){
@@ -1308,8 +1560,13 @@ function launch(){
   },d);});
   updateDDBadge();
   initAuth();
-  // Show auth modal after 3 seconds only if not signed in (check both runtime and localStorage)
-  setTimeout(function(){ if(!_user && localStorage.getItem('cs_signed_in')!=='true') showAuthModal(); }, 3000);
+  // Check reminders every minute
+  setInterval(checkUpcomingReminders, 60000);
+  // Show auth modal after 3 seconds only for truly new/logged-out visitors
+  setTimeout(function(){
+    var fromProfile = new URLSearchParams(window.location.search).get('launch')==='1';
+    if(!_user && localStorage.getItem('cs_signed_in')!=='true' && !fromProfile) showAuthModal();
+  }, 3000);
   getTrialStart();
   showView('home');
   showPlan('family',document.getElementById('pt-fam'));
@@ -1317,13 +1574,14 @@ function launch(){
 }
 
 function goTab(t){
-  ['chat','sav','prep','cat'].forEach(function(x){
+  ['chat','sav','prep','cat','bkm'].forEach(function(x){
     var p=document.getElementById('pg-'+x);if(p)p.className='page';
     var b=document.getElementById('tb-'+x);if(b)b.className='tab';
   });
   document.getElementById('pg-'+t).className='page on';
   document.getElementById('tb-'+t).className='tab on';
   if(t==='sav')renderSav();
+  if(t==='bkm') renderBookmarks();
 }
 
 function showView(v){
@@ -1482,12 +1740,20 @@ function showRecipeOptions(recipes,container){
   hdr.innerHTML='<div style="font-size:22px;margin-bottom:4px">'+(isDrinkFlow?'🍹':'👨‍🍳')+'</div><div style="font-size:17px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:2px">'+(isDrinkFlow?'Pick your drink':'Pick your recipe')+'</div><div style="font-size:12px;color:#9B7B6E">'+(isDrinkFlow?'Made from: '+_drinkBase:_meal+(_cuisine?' \u00b7 '+_cuisine:'')+(_time?' \u00b7 '+_time:''))+'</div>';
   container.appendChild(hdr);
 
+  // Build set of already-saved recipe names for this conversation
+  var _savedNames=[];
+  var _curConvo=_currentConvoQuestion&&_userConversations?_userConversations.find(function(c){return c.question===_currentConvoQuestion;}):null;
+  if(_curConvo&&_curConvo.saved_recipes)_savedNames=_curConvo.saved_recipes.map(function(s){return s.name;});
+
   // 3 recipe option cards
   recipes.forEach(function(r){
     var sv=Math.max(0,+(parseFloat(r.restaurantCost||0)-parseFloat(r.homeCost||0)).toFixed(2));
+    var isSaved=_savedNames.indexOf(r.name||'')>=0;
+    var wrap=document.createElement('div');
+    wrap.style.cssText='position:relative;margin-bottom:10px';
     var card=document.createElement('button');
-    card.style.cssText='display:block;width:100%;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:16px;margin-bottom:10px;text-align:left;cursor:pointer';
-    card.innerHTML='<div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">'+(r.name||'Recipe')+'</div>'
+    card.style.cssText='display:block;width:100%;background:'+(isSaved?'#F0FDF4':'#FFF')+';border:1.5px solid '+(isSaved?'#22C55E':'#FFE0CC')+';border-radius:16px;padding:16px;padding-right:52px;text-align:left;cursor:pointer';
+    card.innerHTML='<div style="font-size:16px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:4px">'+(r.name||'Recipe')+(isSaved?' <span style="font-size:12px;font-weight:700;color:#22C55E;vertical-align:middle">✓ Saved</span>':'')+'</div>'
       +'<div style="font-size:13px;color:#9B7B6E;margin-bottom:10px;line-height:1.4">'+(r.description||r.desc||'')+'</div>'
       +'<div style="display:flex;gap:12px;flex-wrap:wrap">'
       +'<span style="font-size:13px;font-weight:700;color:'+(isDrinks?'#A855F7':'#FF6B35')+'">🏠 $'+parseFloat(r.homeCost||0).toFixed(2)+(isDrinks?' to make':' at home')+'</span>'
@@ -1495,7 +1761,24 @@ function showRecipeOptions(recipes,container){
       +(r.prepTime?'<span style="font-size:12px;color:#C4956A">⏱ '+r.prepTime+'</span>':'')
       +'</div>';
     (function(recipe){card.onclick=function(){showFullCard(recipe,container);};})(r);
-    container.appendChild(card);
+    var sbtn=document.createElement('button');
+    sbtn.style.cssText='position:absolute;top:10px;right:10px;width:36px;height:36px;background:'+(isSaved?'#DCFCE7':'#FFF8F0')+';border:1.5px solid '+(isSaved?'#22C55E':'#FFE0CC')+';border-radius:10px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1';
+    sbtn.title=isSaved?'Already saved':'Save recipe';
+    sbtn.textContent=isSaved?'✓':'📌';
+    (function(recipe,btn,wrapEl){sbtn.onclick=function(e){
+      e.stopPropagation();
+      if(btn.textContent==='✓'){toast('Already saved in this conversation!');return;}
+      saveBookmark(recipe);
+      btn.textContent='✓';
+      btn.style.background='#DCFCE7';
+      btn.style.borderColor='#22C55E';
+      btn.title='Already saved';
+      wrapEl.querySelector('button').style.borderColor='#22C55E';
+      wrapEl.querySelector('button').style.background='#F0FDF4';
+    };})(r,sbtn,wrap);
+    wrap.appendChild(card);
+    wrap.appendChild(sbtn);
+    container.appendChild(wrap);
   });
 
   // Try 3 more button
@@ -1702,8 +1985,20 @@ function showFullCard(r,container){
   var lb=document.createElement('button');
   lb.style.cssText='display:block;width:calc(100% - 32px);margin:0 16px 16px;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border:none;border-radius:14px;padding:16px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 4px 16px rgba(34,197,94,.3)';
   lb.textContent=(isDrinkCard?'I Made This! Log My $':'I Made This! Log My $')+sv.toFixed(2)+(isDrinkCard?' Bar Savings':' Savings');
-  (function(s,n){lb.onclick=function(){ps=s;pn=n;document.getElementById('ls-val').textContent='$'+s.toFixed(2);document.getElementById('ls-eq').textContent=eq(s);document.getElementById('logsheet').className='logsheet on';};})(sv,name);
+  (function(s,n,rec){lb.onclick=function(){ps=s;pn=n;_pendingLogRecipe=rec;document.getElementById('ls-val').textContent='$'+s.toFixed(2);document.getElementById('ls-eq').textContent=eq(s);document.getElementById('logsheet').className='logsheet on';};})(sv,name,r);
   card.appendChild(lb);
+  // Save Recipe button
+  var saveBtn=document.createElement('button');
+  saveBtn.style.cssText='display:block;width:calc(100% - 32px);margin:0 16px 8px;background:#FFF;border:1.5px solid #FF6B35;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer';
+  saveBtn.textContent='📌 Save Recipe';
+  (function(recipe){saveBtn.onclick=function(){saveBookmark(recipe);};})(r);
+  card.appendChild(saveBtn);
+  // Schedule button
+  var schedBtn=document.createElement('button');
+  schedBtn.style.cssText='display:block;width:calc(100% - 32px);margin:0 16px 16px;background:#FFF;border:1.5px solid #FF6B35;color:#FF6B35;border-radius:14px;padding:14px;font-weight:700;font-size:15px;cursor:pointer';
+  schedBtn.textContent='📅 Schedule & Set Reminder';
+  (function(recipe){schedBtn.onclick=function(){openScheduleSheet(recipe);};})(r);
+  card.appendChild(schedBtn);
   container.appendChild(card);
 
   // New recipe button
@@ -1855,9 +2150,9 @@ function locateEBT(ingName, btn) {
 
 // ── LOG SAVINGS ──────────────────────────────────────────────────────────────
 function doLog(){
-  _userSavings.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps}); // Add to global array
-  // No longer saving to local storage 'cs' directly, relying on cloud sync
-  saveSavingsToCloud(pn,ps,0,0);
+  _userSavings.unshift({name:pn,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),saved:ps,recipe:_pendingLogRecipe||null}); // Add to global array
+  saveSavingsToCloud(pn,ps,0,0,_pendingLogRecipe||null);
+  _pendingLogRecipe=null;
   document.getElementById('logsheet').className='logsheet';
   renderSav();
   toast('Logged! You saved $'+ps.toFixed(2)+'!');
@@ -1873,7 +2168,330 @@ function renderSav(){
   document.getElementById('sav-sub').textContent=total>=200?'You could take a trip with this!':total>=100?'That is your groceries for a week!':total>=50?'That is a tank of gas!':total>=20?'That is a nice dinner saved!':total>0?'Every dollar adds up!':'Start cooking to grow your savings!';
   var list=document.getElementById('sav-list');while(list.firstChild)list.removeChild(list.firstChild);
   if(!_userSavings.length){var e=document.createElement('div');e.style.cssText='text-align:center;padding:40px 20px;font-size:13px;color:#C4956A;line-height:1.7';e.textContent='Cook something and tap I Made This to start logging!';list.appendChild(e);}
-  else{_userSavings.forEach(function(l){var row=document.createElement('div');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';row.innerHTML='<div><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif">'+l.name+'</div><div style="font-size:12px;color:#C4956A;margin-top:2px">'+l.date+'</div></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';list.appendChild(row);});}
+  else{_userSavings.forEach(function(l){var row=document.createElement('button');row.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-left:4px solid #FF6B35;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;width:100%;text-align:left;cursor:pointer';row.innerHTML='<div style="flex:1;min-width:0"><div style="font-weight:700;font-size:15px;color:#2D1810;font-family:Georgia,serif;margin-bottom:2px">'+l.name+'</div><div style="font-size:12px;color:#C4956A;">'+l.date+' &nbsp;·&nbsp; <span style="color:#FF6B35;font-weight:600">View recipe →</span></div></div><div style="text-align:right;flex-shrink:0;margin-left:12px"><div style="font-size:20px;font-weight:800;color:#22C55E">$'+l.saved.toFixed(2)+'</div><div style="font-size:10px;color:#C4956A">saved</div></div>';row.onclick=(function(entry){return function(){openSavedRecipe(entry.name,entry.recipe);};})(l);list.appendChild(row);});}
+}
+
+function saveBookmark(recipe){
+  if(!recipe||!recipe.name) return;
+  // Find the matching conversation in local array and add recipe there
+  var q=_currentConvoQuestion||'';
+  var convo=_userConversations&&q?_userConversations.find(function(c){return c.question===q;}):null;
+  if(convo){
+    if(!convo.saved_recipes) convo.saved_recipes=[];
+    if(convo.saved_recipes.some(function(r){return r.name===recipe.name;})){
+      toast('Already saved in this conversation!');
+      return;
+    }
+    convo.saved_recipes.push(recipe);
+  }
+  if(_token&&_sb&&q){
+    try{
+      fetch('/.netlify/functions/save-conversation',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'save_recipe_to_conversation',token:_token,data:{question:q,recipe:recipe}})
+      });
+    }catch(e){}
+  }
+  toast('Recipe saved! View in History tab 📖');
+}
+
+function openScheduleSheet(recipe, existing){
+  _pendingScheduleRecipe=recipe;
+  _reschedulingId=existing?existing.id:null;
+  document.getElementById('sched-dish-name').textContent=recipe.name||'';
+  var pad=function(n){return String(n).padStart(2,'0');};
+  if(existing){
+    document.getElementById('sched-occasion').value=existing.occasion||'';
+    var ed=new Date(existing.scheduled_for);
+    document.getElementById('sched-datetime').value=ed.getFullYear()+'-'+pad(ed.getMonth()+1)+'-'+pad(ed.getDate())+'T'+pad(ed.getHours())+':'+pad(ed.getMinutes());
+    document.getElementById('sched-reminder').value=String(existing.reminder_minutes||60);
+  } else {
+    document.getElementById('sched-occasion').value='';
+    var d=new Date(Date.now()+86400000);d.setSeconds(0,0);
+    document.getElementById('sched-datetime').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+    document.getElementById('sched-reminder').value='60';
+  }
+  document.getElementById('schedsheet').className='logsheet on';
+}
+
+function deleteSchedule(id){
+  _userSchedules=_userSchedules.filter(function(s){return s.id!==id;});
+  if(_token&&_sb&&id&&!String(id).startsWith('local-')){
+    try{fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete_schedule',token:_token,data:{id:id}})});}catch(e){}
+  }
+  renderBookmarks();
+  toast('Reminder removed.');
+}
+
+function saveSchedule(){
+  var recipe=_pendingScheduleRecipe;
+  if(!recipe) return;
+  var dtVal=document.getElementById('sched-datetime').value;
+  if(!dtVal){toast('Please pick a date and time.');return;}
+  var scheduledFor=new Date(dtVal);
+  if(scheduledFor<=new Date()){toast('Please pick a future date and time.');return;}
+  var occasion=document.getElementById('sched-occasion').value.trim();
+  var reminderMin=parseInt(document.getElementById('sched-reminder').value)||60;
+
+  // Remove old entry if rescheduling
+  if(_reschedulingId){
+    var oldId=_reschedulingId;
+    _userSchedules=_userSchedules.filter(function(s){return s.id!==oldId;});
+    if(_token&&_sb&&!String(oldId).startsWith('local-')){
+      try{fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete_schedule',token:_token,data:{id:oldId}})});}catch(e){}
+    }
+    _reschedulingId=null;
+  }
+  var entry={id:'local-'+Date.now(),dish_name:recipe.name,recipe_json:recipe,scheduled_for:scheduledFor.toISOString(),occasion:occasion,reminder_minutes:reminderMin,notified:false};
+  _userSchedules.push(entry);
+  _userSchedules.sort(function(a,b){return new Date(a.scheduled_for)-new Date(b.scheduled_for);});
+
+  // Request notification permission
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+
+  if(_token&&_sb){
+    try{
+      fetch('/.netlify/functions/save-conversation',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'save_schedule',token:_token,data:{dish_name:recipe.name,recipe_json:JSON.stringify(recipe),scheduled_for:scheduledFor.toISOString(),occasion:occasion,reminder_minutes:reminderMin}})
+      });
+    }catch(e){}
+  }
+
+  document.getElementById('schedsheet').className='logsheet';
+  _pendingScheduleRecipe=null;
+  var dateStr=scheduledFor.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  toast('⏰ Reminder set for '+dateStr+'!');
+  renderBookmarks();
+}
+
+function checkUpcomingReminders(){
+  var now=new Date();
+  _userSchedules.forEach(function(s){
+    if(s.notified) return;
+    var schedTime=new Date(s.scheduled_for);
+    var remindAt=new Date(schedTime.getTime()-s.reminder_minutes*60000);
+    if(now>=remindAt){
+      var minsLeft=Math.max(0,Math.round((schedTime-now)/60000));
+      var msg=minsLeft===0?'Time to cook '+s.dish_name+'!':(minsLeft<60?'Start cooking '+s.dish_name+' in '+minsLeft+' min':'Start cooking '+s.dish_name+' in '+Math.round(minsLeft/60)+' hr');
+      if(s.occasion) msg+=' for '+s.occasion;
+      // Browser notification
+      if('Notification' in window && Notification.permission==='granted'){
+        new Notification('⏰ ChefSays Reminder',{body:msg,icon:'/favicon.ico'});
+      }
+      // In-app alarm (sound + banner)
+      startAlarm(s);
+      s.notified=true;
+      if(_token&&_sb&&s.id&&!s.id.startsWith('local-')){
+        try{fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'mark_schedule_notified',token:_token,data:{id:s.id}})});}catch(e){}
+      }
+    }
+  });
+}
+
+function renderBookmarks(){
+  var list=document.getElementById('bkm-list');
+  if(!list) return;
+  while(list.firstChild)list.removeChild(list.firstChild);
+
+  // Upcoming scheduled recipes
+  var upcoming=_userSchedules.filter(function(s){return new Date(s.scheduled_for)>new Date()&&!s.notified;});
+  if(upcoming.length){
+    var uSec=document.createElement('div');
+    uSec.style.cssText='margin-bottom:14px';
+    var uHdr=document.createElement('div');
+    uHdr.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:8px';
+    uHdr.innerHTML='<div style="flex:1;height:1px;background:#FFE0CC"></div><div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px;white-space:nowrap">⏰ UPCOMING</div><div style="flex:1;height:1px;background:#FFE0CC"></div>';
+    uSec.appendChild(uHdr);
+    upcoming.forEach(function(s){
+      var schedTime=new Date(s.scheduled_for);
+      var dateStr=schedTime.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+      var timeStr=schedTime.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      var remLabel=s.reminder_minutes>=1440?'1 day':s.reminder_minutes>=120?(s.reminder_minutes/60)+'hr':s.reminder_minutes+'min';
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#FFF8F0,#FFF3E8);border:1.5px solid #FFD4B8;border-left:4px solid #FF6B35;border-radius:14px;padding:12px 14px;margin-bottom:8px';
+      var info=document.createElement('div');
+      info.style.cssText='display:flex;align-items:flex-start;gap:12px;margin-bottom:10px';
+      info.innerHTML='<div style="font-size:26px;flex-shrink:0;margin-top:2px">📅</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:#2D1810">'+(s.dish_name||'Recipe')+'</div>'+(s.occasion?'<div style="font-size:12px;color:#FF6B35;font-weight:600;margin-top:2px">'+s.occasion+'</div>':'')+'<div style="font-size:11px;color:#C4956A;margin-top:3px">'+dateStr+' at '+timeStr+'</div><div style="font-size:11px;color:#C4956A;margin-top:1px">⏰ Remind '+remLabel+' before</div></div>';
+      card.appendChild(info);
+      var btns=document.createElement('div');
+      btns.style.cssText='display:flex;gap:8px';
+      var reschedBtn=document.createElement('button');
+      reschedBtn.style.cssText='flex:1;background:#FFF;border:1.5px solid #FF6B35;color:#FF6B35;border-radius:10px;padding:9px;font-size:13px;font-weight:700;cursor:pointer';
+      reschedBtn.textContent='📅 Reschedule';
+      reschedBtn.onclick=(function(entry){return function(){
+        var recipe=entry.recipe_json||{name:entry.dish_name};
+        openScheduleSheet(recipe,entry);
+      };})(s);
+      var delBtn=document.createElement('button');
+      delBtn.style.cssText='flex:1;background:#FFF;border:1.5px solid #FFE0CC;color:#9B7B6E;border-radius:10px;padding:9px;font-size:13px;font-weight:700;cursor:pointer';
+      delBtn.textContent='🗑 Remove';
+      delBtn.onclick=(function(id){return function(){deleteSchedule(id);};})(s.id);
+      btns.appendChild(reschedBtn);
+      btns.appendChild(delBtn);
+      card.appendChild(btns);
+      uSec.appendChild(card);
+    });
+    list.appendChild(uSec);
+  }
+
+  if(!_userConversations||!_userConversations.length){
+    var empty=document.createElement('div');
+    empty.style.cssText='text-align:center;padding:50px 20px;font-size:13px;color:#C4956A;line-height:1.8';
+    if(_token&&_sb){
+      // Still loading — show spinner instead of "nothing here"
+      empty.innerHTML='<div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px"><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.15s"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.3s"></div></div><div style="font-size:13px;color:#C4956A">Loading your history…</div>';
+    } else {
+      empty.innerHTML='<div style="font-size:48px;margin-bottom:12px">📖</div><div style="font-weight:700;font-size:16px;color:#2D1810;margin-bottom:8px">Nothing here yet</div>Start chatting and save recipes to build your history';
+    }
+    list.appendChild(empty);
+    return;
+  }
+
+  _userConversations.forEach(function(convo){
+    var icon=convo.type==='recipe'?'🍳':(convo.type==='drink'?'🍹':(convo.type==='chef_version'?'👨‍🍳':'💬'));
+    var text=convo.question.length>42?convo.question.substring(0,42)+'…':convo.question;
+    var date=new Date(convo.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    var saved=Array.isArray(convo.saved_recipes)?convo.saved_recipes:[];
+
+    var wrap=document.createElement('div');
+    wrap.style.cssText='margin-bottom:10px';
+
+    // Conversation row — same style as old history list
+    var row=document.createElement('button');
+    row.style.cssText='display:flex;align-items:center;gap:10px;width:100%;background:#FFF;border:1.5px solid #FFE0CC;border-radius:'+(saved.length?'12px 12px 0 0':'12px')+';padding:12px 14px;text-align:left;cursor:pointer';
+    row.innerHTML='<span style="font-size:20px;flex-shrink:0">'+icon+'</span>'
+      +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#2D1810;line-height:1.4">'+text+'</div>'
+      +(saved.length?'<div style="font-size:11px;color:#22C55E;font-weight:600;margin-top:2px">📌 '+saved.length+' recipe'+(saved.length>1?'s':'')+' saved</div>':'')
+      +'</div>'
+      +'<span style="font-size:11px;color:#C4956A;flex-shrink:0">'+date+'</span>';
+    row.onclick=(function(c){return function(){openConversation(c);};})(convo);
+    wrap.appendChild(row);
+
+    // Saved recipes — green highlighted rows directly below
+    if(saved.length){
+      var savedWrap=document.createElement('div');
+      savedWrap.style.cssText='border:1.5px solid #22C55E;border-top:none;border-radius:0 0 12px 12px;overflow:hidden';
+      saved.forEach(function(recipe,idx){
+        var rrow=document.createElement('button');
+        var isLast=idx===saved.length-1;
+        rrow.style.cssText='display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px 10px 14px;background:#F0FDF4;border:none;'+(isLast?'':'border-bottom:1px solid #DCFCE7;')+'text-align:left;cursor:pointer';
+        rrow.innerHTML='<span style="font-size:14px;flex-shrink:0">📌</span>'
+          +'<div style="flex:1;min-width:0;font-size:13px;font-weight:600;color:#166534">'+(recipe.name||'Recipe')+'</div>'
+          +'<span style="font-size:12px;font-weight:700;color:#22C55E;flex-shrink:0">View →</span>';
+        rrow.onclick=(function(r){return function(e){
+          e.stopPropagation();
+          _currentConvoQuestion=convo.question;
+          goTab('chat');showView('results');progress(5);goTop();
+          var content=document.getElementById('results-content');
+          while(content.firstChild)content.removeChild(content.firstChild);
+          showRecipeOptions([r],content);
+        };})(recipe);
+        savedWrap.appendChild(rrow);
+      });
+      wrap.appendChild(savedWrap);
+    }
+
+    list.appendChild(wrap);
+  });
+}
+
+
+function openSavedRecipe(dishName, storedRecipe){
+  goTab('chat');
+  showView('results');
+  progress(5);
+  var content=document.getElementById('results-content');
+  while(content.firstChild)content.removeChild(content.firstChild);
+  goTop();
+
+  // If we have a stored recipe object, render it directly — no AI call needed
+  if(storedRecipe){
+    var recipe=storedRecipe;
+    if(typeof recipe==='string'){try{recipe=JSON.parse(recipe);}catch(e){recipe=null;}}
+    if(recipe){
+      var recipes=recipe.recipes||[];
+      if(recipe.recipe)recipes=[recipe.recipe];
+      if(recipe.name&&!recipes.length)recipes=[recipe]; // single recipe object
+      if(recipes.length>0){
+        showRecipeOptions(recipes,content);
+        // Follow-up bar
+        var questionText=dishName;
+        var histText=JSON.stringify(storedRecipe);
+        var bar=document.createElement('div');
+        bar.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px;margin-bottom:4px';
+        var bi=document.createElement('textarea');
+        bi.rows=1;bi.placeholder='Ask anything about this recipe...';
+        bi.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px';
+        bi.addEventListener('input',function(){this.style.height='auto';this.style.height=this.scrollHeight+'px';});
+        var bb=document.createElement('button');
+        bb.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';
+        bb.innerHTML='&#x2192;';
+        var history=[{role:'user',content:questionText},{role:'assistant',content:histText}];
+        function sendFollowUpS(){var t=bi.value.trim();if(!t)return;bar.remove();runChatTurn(content,history.concat([{role:'user',content:t}]),t);}
+        bb.onclick=sendFollowUpS;
+        bi.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();sendFollowUpS();}});
+        bar.appendChild(bi);bar.appendChild(bb);
+        content.appendChild(bar);
+        setTimeout(function(){bar.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+        return;
+      }
+    }
+  }
+
+  // No stored recipe — fall back to AI call
+  if(checkLimit()) return;
+  var loading=document.createElement('div');
+  loading.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML='<div style="font-size:28px;margin-bottom:8px">💰</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:8px">Loading '+dishName+'...</div><div style="display:flex;gap:6px;justify-content:center"><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.15s"></div><div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;animation:pulse .8s ease infinite;animation-delay:.3s"></div></div>';
+  content.appendChild(loading);
+
+  var question='Give me the complete recipe for "'+dishName+'". Include all ingredients with exact costs per item, step-by-step instructions, prep time, difficulty, servings, calories, total home cost, and what it would cost at a restaurant. Return exactly 3 recipe variations.';
+  _rerunSearch=function(){openSavedRecipe(dishName,null);};
+  chatFetch({messages:[{role:'user',content:question}]}).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    if(data.error){showError(content,'Having trouble. Please try again.');return;}
+    var rendered=false;
+    try{
+      var raw=(data.text||'').replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
+      if(parsed.message){
+        var msg=document.createElement('div');
+        msg.style.cssText='display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#FFF3ED,#FFF8F5);border:1.5px solid #FF6B35;border-radius:14px;padding:14px 16px;margin-bottom:12px';
+        var mi=document.createElement('div');mi.style.cssText='font-size:22px;line-height:1;flex-shrink:0;margin-top:1px';mi.textContent='✨';
+        var mt=document.createElement('div');mt.style.cssText='font-size:14px;color:#2D1810;line-height:1.6;font-weight:600';mt.textContent=parsed.message;
+        msg.appendChild(mi);msg.appendChild(mt);content.appendChild(msg);rendered=true;
+      }
+      var recipes=parsed.recipes||[];
+      if(parsed.recipe)recipes=[parsed.recipe];
+      if(recipes.length>0){showRecipeOptions(recipes,content);rendered=true;}
+    }catch(err){}
+    if(!rendered){
+      var rm=document.createElement('div');
+      rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px 16px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';
+      rm.textContent=(data.text||'').replace(/```json/g,'').replace(/```/g,'').replace(/\*\*/g,'').replace(/\*/g,'');
+      content.appendChild(rm);
+    }
+    var history=[{role:'user',content:question},{role:'assistant',content:data.text||''}];
+    var bar=document.createElement('div');
+    bar.style.cssText='display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px;margin-bottom:4px';
+    var bi=document.createElement('textarea');
+    bi.rows=1;bi.placeholder='Ask anything about this recipe...';
+    bi.style.cssText='flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px';
+    bi.addEventListener('input',function(){this.style.height='auto';this.style.height=this.scrollHeight+'px';});
+    var bb=document.createElement('button');
+    bb.style.cssText='width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0';
+    bb.innerHTML='&#x2192;';
+    function sendFollowUp(){var t=bi.value.trim();if(!t)return;bar.remove();runChatTurn(content,history.concat([{role:'user',content:t}]),t);}
+    bb.onclick=sendFollowUp;
+    bi.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();sendFollowUp();}});
+    bar.appendChild(bi);bar.appendChild(bb);
+    content.appendChild(bar);
+    setTimeout(function(){bar.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
 }
 
 // ── MEAL PREP ────────────────────────────────────────────────────────────────
@@ -2400,7 +3018,7 @@ function tiredGo(mode){
 }
 
 function addCartButton(content, recipe){
-  if(!recipe) return;
+  return; // hidden per product decision
   var ings = recipe.ingredients||[];
   var names = ings.map(function(i){ return typeof i==='string'? i : (i.name||i.ingredient||''); }).filter(Boolean);
   if(!names.length) return;
@@ -2452,7 +3070,7 @@ function submitCopycat(){
   while(content.firstChild) content.removeChild(content.firstChild);
   var loading = document.createElement('div');
   loading.style.cssText = 'background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
-  loading.innerHTML = '<div style="font-size:28px;margin-bottom:8px">🔴</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Building your copycat recipe...</div><div style="font-size:13px;color:#9B7B6E">Calculating what it costs vs the restaurant</div>';
+  loading.innerHTML = '<div style="font-size:28px;margin-bottom:8px">🔴</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Making your craving at home...</div><div style="font-size:13px;color:#9B7B6E">Calculating what it costs vs the restaurant</div>';
   content.appendChild(loading);
   goTop();
   var msg = 'Give me a copycat recipe for "'+dish+'". Show exactly how to make it at home. Include: all ingredients with exact costs per item, total home cost, what the dish costs at the actual restaurant, how much they save making it at home, prep time, and step by step instructions. Make it taste as close to the original as possible. Also tell me the exact ingredient breakdown per serving like: tortilla = $0.50, beef = $0.85, cheese = $0.35 etc.';
@@ -2635,6 +3253,64 @@ function findEBT(){document.getElementById('ebt-sheet').className='sheet on';}
   });
 
 if(new URLSearchParams(window.location.search).get('launch')==='1'){launch();}
+
+// ── ALARM ────────────────────────────────────────────────────────────────────
+var _alarmCtx=null;
+var _alarmTimeout=null;
+var _alarmActive=false;
+
+function _beepPattern(){
+  if(!_alarmActive||!_alarmCtx) return;
+  var t=_alarmCtx.currentTime;
+  [0,0.25,0.5].forEach(function(offset){
+    var osc=_alarmCtx.createOscillator();
+    var gain=_alarmCtx.createGain();
+    osc.connect(gain);gain.connect(_alarmCtx.destination);
+    osc.frequency.value=880;osc.type='sine';
+    gain.gain.setValueAtTime(0.45,t+offset);
+    gain.gain.exponentialRampToValueAtTime(0.001,t+offset+0.18);
+    osc.start(t+offset);osc.stop(t+offset+0.2);
+  });
+  _alarmTimeout=setTimeout(_beepPattern,1800);
+}
+
+function startAlarm(s){
+  if(_alarmActive) return;
+  _alarmActive=true;
+  try{
+    _alarmCtx=new (window.AudioContext||window.webkitAudioContext)();
+    _beepPattern();
+  }catch(e){}
+  var banner=document.getElementById('alarm-banner');
+  if(banner){
+    document.getElementById('alarm-dish').textContent=s.dish_name||'Your recipe';
+    document.getElementById('alarm-occasion').textContent=s.occasion?'For: '+s.occasion:'';
+    banner.style.display='flex';
+  }
+}
+
+function stopAlarm(){
+  _alarmActive=false;
+  if(_alarmTimeout){clearTimeout(_alarmTimeout);_alarmTimeout=null;}
+  if(_alarmCtx){try{_alarmCtx.close();}catch(e){}_alarmCtx=null;}
+  var banner=document.getElementById('alarm-banner');
+  if(banner) banner.style.display='none';
+}
 </script>
+
+<!-- ALARM BANNER -->
+<div id="alarm-banner" style="display:none;position:fixed;inset:0 0 auto 0;max-width:430px;margin:0 auto;z-index:3000;flex-direction:column;align-items:stretch">
+  <div style="background:linear-gradient(135deg,#FF4500,#FF6B35);padding:20px 20px 24px;box-shadow:0 8px 32px rgba(255,69,0,.5)">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="font-size:36px;animation:pulse .6s ease infinite">⏰</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Time to Cook!</div>
+        <div id="alarm-dish" style="font-size:20px;font-weight:800;color:#FFF;font-family:Georgia,serif;line-height:1.2"></div>
+        <div id="alarm-occasion" style="font-size:13px;color:rgba(255,255,255,.85);margin-top:3px;font-weight:600"></div>
+      </div>
+    </div>
+    <button onclick="stopAlarm()" style="width:100%;background:#FFF;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;color:#FF4500;cursor:pointer;letter-spacing:.3px">⏹ Stop Alarm</button>
+  </div>
+</div>
 </body>
 </html>
