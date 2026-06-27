@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+<meta name="color-scheme" content="light">
+<title>Profile – ChefSays</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#FFFAF6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#2D1810;overflow-x:hidden}
+body{display:flex;flex-direction:column;max-width:430px;margin:0 auto}
+
+/* Appbar */
+.hs-appbar{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:space-between;padding:7px 20px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.app-back-btn{width:34px;height:34px;border-radius:50%;background:#FFF;border:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:center;font-size:18px;color:#9B7B6E;flex-shrink:0;text-decoration:none}
+.hs-brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.hs-brand .w{font-family:Georgia,serif;font-weight:800;font-size:18px;color:#2D1810}
+.hs-brand .w span{color:#FF6B35}
+
+/* Scroll area */
+.scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:48px}
+
+/* Avatar */
+.who{text-align:center;padding:20px 20px 16px}
+.avatar{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#FF6B35,#FF8C42);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#FFF;margin:0 auto 10px;box-shadow:0 6px 18px rgba(255,107,53,.3)}
+.who .nm{font-size:19px;font-weight:800;color:#2D1810}
+.who .em{font-size:13px;color:#9B7B6E;margin-top:2px}
+
+/* Trial banner */
+.trial{margin:0 20px 14px;border-radius:18px;padding:18px;color:#FFF;background:linear-gradient(135deg,#16A34A,#15803D)}
+.trial .tlbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.85}
+.trial .tbig{font-size:24px;font-weight:900;margin-top:4px}
+.trial .tsub{font-size:12px;opacity:.9;margin-top:4px;line-height:1.5}
+.trial .tbtn{display:inline-block;margin-top:12px;background:#FFF;border:none;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;color:#15803D}
+
+/* Cards */
+.card{background:#FFF;border:1.5px solid #FFE0CC;border-radius:18px;margin:0 20px 14px;overflow:hidden}
+.card-h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
+.card-h .lbl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#C4956A}
+.card-h .edit-btn{font-size:12px;font-weight:700;color:#FF6B35;cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+.row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid #FFF5F0}
+.row .k{font-size:13px;color:#9B7B6E}
+.row .v{font-size:14px;font-weight:600;color:#2D1810;text-align:right;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Food profile chips */
+.sublabel{padding:8px 16px 2px;font-size:11px;color:#C4956A;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;padding:6px 16px 12px}
+.chip{background:#FFF8F0;border:1px solid #FFE0CC;border-radius:11px;padding:7px 12px;font-size:12px;font-weight:600;color:#2D1810}
+.chip.red{background:#FEF2F2;border-color:#FECACA;color:#DC2626}
+.chip.green{background:#F0FDF4;border-color:#BBF7D0;color:#16A34A}
+.empty-chips{padding:4px 16px 14px;font-size:12px;color:#C4B8AE;font-style:italic}
+
+/* Link rows */
+.link{display:flex;align-items:center;gap:13px;padding:14px 16px;border-top:1px solid #FFF5F0;cursor:pointer}
+.link:first-child{border-top:none}
+.link:active{background:#FFF8F0}
+.link .li{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.link .lt{font-size:14px;font-weight:600;flex:1;color:#2D1810}
+.link .lar{color:#C4B8AE;font-size:18px}
+
+/* Sign out */
+.signout{margin:4px 20px 40px;text-align:center}
+.signout button{background:none;border:none;color:#DC2626;font-size:14px;font-weight:700;cursor:pointer;padding:12px;font-family:inherit}
+
+/* States */
+.loading{text-align:center;padding:60px 20px;color:#9B7B6E;font-size:14px}
+.auth-gate{text-align:center;padding:60px 24px}
+.auth-gate .em{font-size:56px;margin-bottom:14px}
+.auth-gate h2{font-family:Georgia,serif;font-size:20px;font-weight:800;color:#2D1810;margin-bottom:8px}
+.auth-gate p{font-size:13px;color:#9B7B6E;line-height:1.6;margin-bottom:24px}
+.auth-gate button{width:100%;background:#FF6B35;color:#FFF;border:none;border-radius:14px;padding:14px;font-size:16px;font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="hs-appbar">
+  <a class="app-back-btn" href="home.html" aria-label="Back">&#x2039;</a>
+  <div class="hs-brand">
+    <svg width="30" height="19" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+    <div class="w">Chef<span>Says</span></div>
+  </div>
+  <div style="width:34px"></div>
+</div>
+
+<div class="scr" id="main-scr">
+  <div class="loading">Loading your profile…</div>
+</div>
+
+<script>
+var _sb=null,_user=null,_token=null,_profile=null;
+
+try{
+  _sb=supabase.createClient(
+    'https://ethcmkxemjsfgvpwygub.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0aGNta3hlbWpzZmd2cHd5Z3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NTIwMzYsImV4cCI6MjA5NTAyODAzNn0.Q9_IJ-8AJdEpjrruXXjvcZC7e4mvmDMRleUcbsaI5lk'
+  );
+}catch(e){}
+
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function initial(name){
+  if(!name) return '?';
+  return name.trim().split(' ').map(function(w){return w[0];}).join('').toUpperCase().substring(0,2);
+}
+
+function trialDaysLeft(){
+  var ts=null;
+  if(_profile&&_profile.trial_start) ts=new Date(_profile.trial_start);
+  else if(_user&&_user.created_at) ts=new Date(_user.created_at);
+  if(!ts||isNaN(ts.getTime())) return 90;
+  return Math.max(1, 90-Math.floor((Date.now()-ts.getTime())/864e5));
+}
+
+function chips(arr, cls){
+  return (arr||[]).map(function(i){return '<div class="chip'+(cls?' '+cls:'')+'">'+esc(i)+'</div>';}).join('');
+}
+
+function render(){
+  var p=_profile||{};
+  var name=p.full_name||(_user&&_user.email?_user.email.split('@')[0]:'You');
+  var email=_user&&_user.email?_user.email:'';
+  var prefs=p.food_preferences||{};
+  var diets=prefs.diets||[];
+  var allergies=prefs.allergies||[];
+  var avoids=prefs.avoids||[];
+  var traditions=prefs.traditions||[];
+  var days=trialDaysLeft();
+  var paid=p.is_paid;
+
+  var html='';
+
+  // Avatar block
+  html+='<div class="who">';
+  html+='<div class="avatar">'+esc(initial(name))+'</div>';
+  html+='<div class="nm">'+esc(name)+'</div>';
+  html+='<div class="em">'+esc(email)+'</div>';
+  html+='</div>';
+
+  // Trial / subscription banner
+  if(paid){
+    html+='<div class="trial" style="background:linear-gradient(135deg,#7C3AED,#6D28D9)">';
+    html+='<div class="tlbl">⭐ Subscription Active</div>';
+    html+='<div class="tbig">Premium Member</div>';
+    html+='<div class="tsub">Thanks for supporting ChefSays! You have full access to everything.</div>';
+    html+='</div>';
+  } else {
+    html+='<div class="trial">';
+    html+='<div class="tlbl">🎁 Free Trial</div>';
+    html+='<div class="tbig">'+days+' days left</div>';
+    html+='<div class="tsub">You\'re on your 90-day free trial. Lock in the Founder Deal — $5.99/mo for 6 months — before it ends.</div>';
+    html+='<button class="tbtn">Upgrade →</button>';
+    html+='</div>';
+  }
+
+  // Account card
+  html+='<div class="card">';
+  html+='<div class="card-h"><span class="lbl">Account</span></div>';
+  html+='<div class="row"><span class="k">Name</span><span class="v">'+esc(name)+'</span></div>';
+  html+='<div class="row"><span class="k">Email</span><span class="v">'+esc(email)+'</span></div>';
+  if(p.zip_code) html+='<div class="row"><span class="k">ZIP Code</span><span class="v">'+esc(p.zip_code)+'</span></div>';
+  html+='</div>';
+
+  // Food Profile card
+  html+='<div class="card">';
+  html+='<div class="card-h"><span class="lbl">Food Profile</span><button class="edit-btn" onclick="window.location=\'food-profile.html\'">Edit</button></div>';
+  if(diets.length){
+    html+='<div class="row" style="border-top:none"><span class="k">How you eat</span><span class="v">'+esc(diets.join(', '))+'</span></div>';
+  }
+  if(allergies.length){
+    html+='<div class="sublabel">Allergies</div><div class="chips">'+chips(allergies,'red')+'</div>';
+  }
+  if(avoids.length){
+    html+='<div class="sublabel">Avoids</div><div class="chips">'+chips(avoids,'')+'</div>';
+  }
+  if(traditions.length){
+    html+='<div class="sublabel">Tradition</div><div class="chips">'+chips(traditions,'green')+'</div>';
+  }
+  if(!diets.length&&!allergies.length&&!avoids.length&&!traditions.length){
+    html+='<div class="empty-chips">No food profile set yet — tap Edit to add your preferences.</div>';
+  }
+  html+='</div>';
+
+  // Your ChefSays card
+  html+='<div class="card">';
+  html+='<div class="card-h"><span class="lbl">Your ChefSays</span></div>';
+  html+='<div class="link" onclick="window.location=\'home.html\'"><div class="li" style="background:#FFF4EF">📌</div><div class="lt">My Saved Recipes</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="window.location=\'my-chats.html\'"><div class="li" style="background:#F0FDFA">💬</div><div class="lt">Chat & Recipe History</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="window.location=\'home.html\'"><div class="li" style="background:#F0FDF4">💰</div><div class="lt">My Savings</div><div class="lar">›</div></div>';
+  html+='<div class="link"><div class="li" style="background:#FFF7ED">🔥</div><div class="lt">Streak & Milestones</div><div class="lar">›</div></div>';
+  html+='</div>';
+
+  // Settings card
+  html+='<div class="card">';
+  html+='<div class="card-h"><span class="lbl">Settings</span></div>';
+  html+='<div class="link"><div class="li" style="background:#F5F3FF">🔔</div><div class="lt">Notifications</div><div class="lar">›</div></div>';
+  html+='<div class="link"><div class="li" style="background:#EFF6FF">🔒</div><div class="lt">Privacy & Terms</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="window.open(\'mailto:hello@chefsays.app\')"><div class="li" style="background:#FEF2F2">❓</div><div class="lt">Help & Support</div><div class="lar">›</div></div>';
+  html+='</div>';
+
+  // Sign out
+  html+='<div class="signout"><button onclick="doSignOut()">Sign Out</button></div>';
+
+  document.getElementById('main-scr').innerHTML=html;
+}
+
+function showAuthGate(){
+  document.getElementById('main-scr').innerHTML='<div class="auth-gate"><div class="em">👤</div><h2>Sign in to view your profile</h2><p>Your profile, food preferences, and savings are all saved to your account.</p><button onclick="window.location=\'home.html\'">Go to ChefSays →</button></div>';
+}
+
+async function doSignOut(){
+  if(!_sb) return;
+  try{
+    await _sb.auth.signOut();
+    try{localStorage.removeItem('cs_signed_in');}catch(e){}
+    window.location='home.html';
+  }catch(e){alert('Error signing out: '+e.message);}
+}
+
+async function loadProfile(){
+  try{
+    var resp=await fetch('/.netlify/functions/save-conversation',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'get_profile',token:_token,data:{}})
+    });
+    var d=await resp.json();
+    if(d.profile) _profile=d.profile;
+    render();
+  }catch(e){
+    document.getElementById('main-scr').innerHTML='<div class="loading">Error: '+e.message+'</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded',async function(){
+  if(!_sb){showAuthGate();return;}
+  try{
+    var s=await _sb.auth.getSession();
+    if(s.data&&s.data.session){
+      _user=s.data.session.user;
+      _token=s.data.session.access_token;
+      await loadProfile();
+    } else {
+      showAuthGate();
+    }
+  }catch(e){showAuthGate();}
+});
+</script>
+</body>
+</html>

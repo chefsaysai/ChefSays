@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="color-scheme" content="light">
 <title>ChefSays</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -160,259 +161,168 @@ button{cursor:pointer;border:none;font-family:inherit}
   .page.on{flex:none;overflow:visible;min-height:calc(100dvh - 112px)}
   .scr{overflow-y:visible;height:auto}
 }
+/* ── NEW HOME SCREEN ── */
+#home-screen{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#home-scr-inner{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.hs-appbar{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;flex-shrink:0}
+.app-back-btn{width:34px;height:34px;border-radius:50%;background:#FFF;border:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:#9B7B6E;flex-shrink:0;margin-right:4px;font-family:inherit;-webkit-appearance:none;appearance:none}
+.hs-brand{display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0}
+.hs-brand .w{font-family:Georgia,serif;font-weight:800;font-size:18px;color:#2D1810}
+.hs-brand .w span{color:#FF6B35}
+.hs-icons{display:flex;gap:10px;align-items:center}
+.hs-hbtn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;padding:4px}
+.hs-hbtn .ic{width:38px;height:38px;border-radius:50%;background:#FFE8DD;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hs-hbtn .lb{font-size:10px;font-weight:700;color:#9B7B6E}
+.meal-tabs{display:flex;gap:5px;padding:9px 14px;background:#2D1810;flex-shrink:0;position:sticky;top:0;z-index:50}
+.meal-tab{flex:1;background:#4A2C1A !important;border:none;border-radius:8px;padding:5px 4px;font-size:11px;font-weight:700;color:#FFF !important;cursor:pointer;text-align:center;font-family:inherit;-webkit-appearance:none;appearance:none;outline:none;white-space:nowrap}
+.meal-tab.active{background:#FF6B35 !important;color:#FFF !important}
+.hs-greet{padding:16px 20px 0}
+.hs-greet .hi{font-family:Georgia,serif;font-size:22px;font-weight:800;color:#2D1810}
+.hs-greet .streak-line{font-size:13px;color:#FF6B35;font-weight:700;margin-top:2px}
+.hs-hero{margin:16px 20px 0;border-radius:24px;padding:24px 20px;color:#FFF;cursor:pointer;transition:transform .15s;text-align:center;border:none;width:calc(100% - 40px);background:linear-gradient(135deg,#7C3AED,#6D28D9)}
+.hs-hero:active{transform:scale(.98)}
+.hs-hero .em{font-size:40px;margin-bottom:8px;display:block}
+.hs-hero .q{font-size:24px;font-weight:800;font-family:Georgia,serif;margin-bottom:6px;line-height:1.15;color:#FFF}
+.hs-hero .sub{font-size:13px;opacity:.9;line-height:1.5;margin-bottom:14px;color:#FFF}
+.hs-hero .btn{background:#FFF;border-radius:14px;padding:13px;font-size:15px;font-weight:800;display:block;color:#6D28D9}
+.hs-chatbar{display:flex;align-items:center;gap:10px;margin:14px 20px 4px;background:#FFF;border:2px solid #FF6B35;border-radius:16px;padding:10px 12px;box-shadow:0 4px 14px rgba(255,107,53,.15)}
+.hs-chatbar textarea{flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px;padding:4px 0}
+.hs-chatbar textarea::placeholder{color:#9B7B6E}
+.hs-chatbar .go{width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.hs-or{text-align:center;font-size:12px;color:#C4B8AE;margin:14px 0 0;font-weight:600}
+.hs-tiles{display:flex;gap:12px;padding:12px 20px 0}
+.hs-tile{flex:1;background:#FFF;border:1.5px solid #FFE0CC;border-radius:18px;padding:15px 12px;text-align:center;cursor:pointer}
+.hs-tile:active{transform:scale(.97)}
+.hs-tile .ic{font-size:26px}
+.hs-tile .t{font-size:13px;font-weight:800;margin-top:6px;color:#2D1810}
+.hs-tile .s{font-size:11px;color:#9B7B6E;margin-top:2px}
+.hs-savings-btn{margin:16px 20px 0;background:linear-gradient(135deg,#16A34A,#15803D);border-radius:18px;padding:15px 20px;color:#FFF;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:none;width:calc(100% - 40px)}
+.hs-savings-btn .lb{font-size:12px;opacity:.85;text-align:left}
+.hs-savings-btn .num{font-size:26px;font-weight:900}
+.hs-more-toggle{margin:18px 20px 0;text-align:center}
+.hs-more-toggle button{background:none;border:none;color:#FF6B35;font-size:14px;font-weight:700;cursor:pointer;padding:8px;display:inline-flex;align-items:center;gap:6px}
+.hs-more-panel{display:none;padding:0 20px}
+.hs-more-inner{padding-top:6px;padding-bottom:36px}
+.hs-mbtn{display:flex;width:100%;align-items:center;gap:13px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:13px;cursor:pointer;margin-bottom:10px;text-align:left}
+.hs-mbtn:active{transform:scale(.99)}
+.hs-mbtn .mi{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hs-mbtn .mt{font-size:14px;font-weight:800;color:#2D1810}
+.hs-mbtn .ms{font-size:11px;color:#9B7B6E;margin-top:1px}
+/* Back bar for inner screens */
+.hs-back-bar{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;gap:12px;padding:11px 16px;flex-shrink:0}
+.hs-back-btn{width:32px;height:32px;border-radius:50%;background:#FFF;border:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:#9B7B6E;flex-shrink:0}
+.hs-back-title{font-family:Georgia,serif;font-size:18px;font-weight:800;color:#2D1810}
 </style>
 </head>
 <body>
-<!-- CLEAN OPENING LOGO SPLASH -->
-<div id="brand-loader">
-  <div class="brand-loader-inner">
-    <svg class="cs-mark" width="122" height="82" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon mark">
-      <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
-    </svg>
-    <div class="brand-loader-word">Chef<span>Says</span></div>
-    <div class="brand-loader-sub">Your AI kitchen buddy</div>
+
+
+
+<div id="app" style="display:flex;flex:1;flex-direction:column;overflow:hidden">
+
+  <!-- ══ MEAL-TIME TAB BAR (top of app, home only) ══ -->
+  <div class="meal-tabs" id="meal-tabs">
+    <button class="meal-tab" data-meal="breakfast" onclick="setMeal('breakfast')">Morning</button>
+    <button class="meal-tab" data-meal="brunch" onclick="setMeal('brunch')">Brunch</button>
+    <button class="meal-tab" data-meal="lunch" onclick="setMeal('lunch')">Lunch</button>
+    <button class="meal-tab" data-meal="snack" onclick="setMeal('snack')">Snack</button>
+    <button class="meal-tab" data-meal="dinner" onclick="setMeal('dinner')">Dinner</button>
+    <button class="meal-tab" data-meal="latenight" onclick="setMeal('latenight')">Late Night</button>
   </div>
-</div>
 
-
-<!-- ═══════════════════ SPLASH ═══════════════════ -->
-<div id="splash" style="background:#0A0A0A;min-height:100vh;overflow-y:auto;padding-bottom:40px">
-
-  <!-- HERO -->
-  <div class="lp-hero">
-    <div class="lp-brand">
-      <svg width="64" height="40" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
-      <div class="nm">Chef<span>Says</span></div>
-      <div class="tagline">The Chef Who Solves Dinner</div>
-    </div>
-    <div class="lp-head">
-      <h1>What's for dinner?<br/><span class="o">Solved.</span></h1>
-      <p>Personalized recipes. Save money. Save time. Eat better.</p>
-      <div class="lp-freebadge">✓ Free to start &nbsp;·&nbsp; No card needed</div>
+  <!-- ══ PERSISTENT APP BAR ══ -->
+  <div class="hs-appbar" id="global-appbar">
+    <button class="app-back-btn" id="app-back-btn" onclick="showHomeScreen()" style="display:none" aria-label="Back">&#x2190;</button>
+    <button class="hs-brand" onclick="showHomeScreen()" aria-label="Home">
+      <svg width="30" height="19" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+      <div class="w">Chef<span>Says</span></div>
+    </button>
+    <div class="hs-icons">
+      <button class="hs-hbtn" onclick="showSavedScreen()"><div class="ic">💬</div><div class="lb">Chats</div></button>
+      <button class="hs-hbtn" onclick="goToProfile()"><div class="ic">👤</div><div class="lb">Profile</div></button>
     </div>
   </div>
 
-  <!-- SAVINGS COMPARISON -->
-  <div class="lp-sec">
-    <div class="lp-sec-k">The point of all this</div>
-    <div class="lp-sec-h">Cook a little. <span class="g">Keep a lot.</span></div>
-    <div class="lp-sec-sub">Restaurants mark food up 3x. ChefSays helps you make the same meal at home — and shows you the difference.</div>
-    <div class="tease-sav">
-      <div class="lbl">💰 The same dinner</div>
-      <div class="compare">
-        <div class="cside out"><div class="cemoji">🍔</div><div class="cwho">Takeout</div><div class="cnum strike">$18</div></div>
-        <div class="carrow">→</div>
-        <div class="cside home"><div class="cemoji">🏠</div><div class="cwho">ChefSays</div><div class="cnum">$6</div></div>
+  <!-- ══ HOME SCREEN ══ -->
+  <div id="home-screen">
+    <div id="home-scr-inner">
+      <div class="hs-greet">
+        <div class="hi" id="hs-greeting">Good evening!</div>
+        <div class="streak-line" id="hs-streak"></div>
       </div>
-      <div class="keep">You keep <b>$12</b> — every single dinner</div>
-      <div class="realprice">
-        <span class="rp-ic">💡</span>
-        <div>
-          <div class="rp-t">Real prices, not guesses</div>
-          <div class="rp-s">ChefSays uses real ingredient pricing data — so your savings are based on actual costs, not made-up numbers.</div>
+
+      <button class="hs-hero" id="hs-hero" onclick="heroTap()">
+        <span class="em" id="hs-em">🍽️</span>
+        <div class="q" id="hs-q">What's for dinner?</div>
+        <div class="sub" id="hs-sub">Tap once. I'll suggest something good and show you the recipe.</div>
+        <div class="btn" id="hs-btn">Get tonight's dinner →</div>
+      </button>
+
+      <div class="hs-chatbar">
+        <textarea id="hs-chat-input" rows="1" placeholder="Ask me anything… what's in your fridge?" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHeroChat();}"></textarea>
+        <button class="go" onclick="sendHeroChat()">&#x2192;</button>
+      </div>
+
+      <div class="hs-or">or do something quick</div>
+
+      <div class="hs-tiles">
+        <div class="hs-tile" onclick="showChatScreen();startDailyDish();">
+          <div class="ic">🎯</div><div class="t">Daily Dish</div><div class="s">Play today's game</div>
+        </div>
+        <div class="hs-tile" onclick="showSavedScreen()">
+          <div class="ic">📌</div><div class="t">My Saved Recipes</div><div class="s">Everything you've kept</div>
+        </div>
+      </div>
+
+      <button class="hs-savings-btn" onclick="showSavingsScreen()">
+        <div><div class="lb">💰 You've saved so far</div></div>
+        <div class="num" id="hs-savings">$0</div>
+      </button>
+
+      <div class="hs-more-toggle">
+        <button onclick="toggleHsMore()" id="hs-more-btn">＋ More ways to cook</button>
+      </div>
+      <div class="hs-more-panel" id="hs-more-panel">
+        <div class="hs-more-inner">
+          <button class="hs-mbtn" onclick="showChatScreen();showPhotoMenu()"><div class="mi" style="background:#FFF4EF">📷</div><div><div class="mt">Snap My Fridge</div><div class="ms">Photo → recipes from what you have</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();startTired()"><div class="mi" style="background:#F5F3FF">😴</div><div><div class="mt">Too Tired to Think</div><div class="ms">One tap → dinner + grocery list</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();startCopycat()"><div class="mi" style="background:#FEF2F2">🔴</div><div><div class="mt">Chef's Version</div><div class="ms">Restaurant dishes made at home</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();startBuildOwn()"><div class="mi" style="background:#EFF6FF">🔨</div><div><div class="mt">Build My Own</div><div class="ms">Any dish, your way with full costing</div></div></button>
+          <button class="hs-mbtn" onclick="showMealPrepScreen()"><div class="mi" style="background:#F0FDFA">📅</div><div><div class="mt">Plan My Meals</div><div class="ms">Map out the week ahead</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();startDrinks()"><div class="mi" style="background:#FAF5FF">🍹</div><div><div class="mt">Drinks &amp; Cocktails</div><div class="ms">From the bottles you have</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();pickMeal('Dessert',null)"><div class="mi" style="background:#FDF2F8">🍰</div><div><div class="mt">Dessert</div><div class="ms">Something sweet to finish</div></div></button>
+          <button class="hs-mbtn" onclick="window.location='catering-soon.html'"><div class="mi" style="background:#FEF9EE">👨‍🍳</div><div><div class="mt">For Caterers</div><div class="ms">Bulk recipes &amp; event tools — coming soon</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();findFreeFood()"><div class="mi" style="background:#F0FDF4">🗺️</div><div><div class="mt">Free Food Near Me</div><div class="ms">Food banks &amp; community resources</div></div></button>
+          <button class="hs-mbtn" onclick="showChatScreen();findEBT()"><div class="mi" style="background:#EFF6FF">🏪</div><div><div class="mt">EBT Stores Near Me</div><div class="ms">Find SNAP-accepting stores</div></div></button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="lp-divider"></div>
-
-  <!-- VS GENERIC AI -->
-  <div class="lp-sec">
-    <div class="lp-sec-k">Why not just use a chatbot?</div>
-    <div class="lp-vs-intro">A generic AI app writes a recipe.<br/><span class="o">ChefSays runs your whole kitchen.</span></div>
-    <div class="lp-vs-table">
-      <div class="lp-vs-row head">
-        <div class="lp-vs-cell them">A generic AI app</div>
-        <div class="lp-vs-cell us">ChefSays</div>
-      </div>
-      <div class="lp-vs-row">
-        <div class="lp-vs-cell them">You type a prompt every time</div>
-        <div class="lp-vs-cell us">One tap — it already knows you</div>
-      </div>
-      <div class="lp-vs-row">
-        <div class="lp-vs-cell them">Forgets you instantly</div>
-        <div class="lp-vs-cell us">Remembers your diet, allergies &amp; history</div>
-      </div>
-      <div class="lp-vs-row">
-        <div class="lp-vs-cell them">Guesses at prices</div>
-        <div class="lp-vs-cell us">Tracks your real savings, month after month</div>
-      </div>
-      <div class="lp-vs-row">
-        <div class="lp-vs-cell them">Gives you words</div>
-        <div class="lp-vs-cell us">Builds your grocery list, ready to shop</div>
-      </div>
+  <!-- ══ CHAT / RECIPE SCREEN ══ -->
+  <div id="pg-chat" class="page">
+    <!-- PROGRESS BAR -->
+    <div id="prog" class="progress" style="display:none">
+      <div class="ps" id="ps1"></div>
+      <div class="ps" id="ps2"></div>
+      <div class="ps" id="ps3"></div>
+      <div class="ps" id="ps4"></div>
+      <div class="ps" id="ps5"></div>
     </div>
-    <div class="lp-vs-knockout">
-      A chatbot can write a recipe. It can't remember you're allergic to peanuts, track the money you saved this month, or build your grocery list in one tap. <b>ChefSays does all of it — without you typing a thing.</b>
-    </div>
-  </div>
-
-  <div class="lp-divider"></div>
-
-  <!-- HABIT HOOKS -->
-  <div class="lp-sec">
-    <div class="lp-sec-k">Built to become a habit</div>
-    <div class="lp-sec-h">A little better, <span class="g">every day.</span></div>
-    <div class="lp-sec-sub">ChefSays meets you at every meal — and makes cooking something you look forward to.</div>
-    <div class="tease-row">
-      <div class="tease-mini"><div class="ic">🔥</div><div class="t">Build a streak</div><div class="s">Cook daily, watch your streak grow</div></div>
-      <div class="tease-mini"><div class="ic">🎯</div><div class="t">Daily Dish</div><div class="s">A new guess-the-cost game every day</div></div>
-    </div>
-    <div class="tease-time">
-      <div class="em">🍽️</div>
-      <div><div class="t">"What's for dinner?"</div><div class="s">Every meal, every day — ChefSays asks, and has an answer in seconds.</div></div>
-    </div>
-  </div>
-
-  <div class="lp-divider"></div>
-
-  <!-- FREE TIER -->
-  <div class="lp-sec">
-    <div class="lp-sec-k">Always free, for everyone</div>
-    <div class="lp-free-card">
-      <div class="lp-free-tag">Free forever</div>
-      <div class="lp-free-h">Everyone deserves to eat well</div>
-      <div class="lp-free-sub">Some things should never be behind a paywall. These stay free for everyone, always — no account required.</div>
-      <div class="lp-free-list">
-        <div class="fl"><span class="c">✓</span> Find food banks &amp; free food near you</div>
-        <div class="fl"><span class="c">✓</span> EBT / SNAP store locator</div>
-        <div class="fl"><span class="c">✓</span> The Daily Dish game</div>
-        <div class="fl"><span class="c">✓</span> A few fresh recipes every day</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="lp-divider"></div>
-
-  <!-- PRICING -->
-  <div class="lp-sec">
-    <div class="lp-sec-k">Go all in</div>
-    <div class="lp-sec-h">The full <span class="g">personal chef.</span></div>
-    <div class="lp-sec-sub">For when you want ChefSays to do the thinking — and the planning, pricing, and remembering — for you.</div>
-    <div class="lplan">
-      <div class="lplan-head">
-        <div class="lplan-k">Everything, one price</div>
-        <div class="lplan-price"><span class="pd">$</span>9<span class="pc">.99</span><span class="pm">/month</span></div>
-        <div class="lplan-payoff">One dinner can save you more than a whole month costs. It pays for itself fast.</div>
-      </div>
-      <div class="lplan-list">
-        <div class="pl-item"><span class="ck">✓</span> Unlimited recipes from whatever's in your fridge</div>
-        <div class="pl-item"><span class="ck">✓</span> Restaurant dishes made at home, fully costed</div>
-        <div class="pl-item"><span class="ck">✓</span> "Too tired" one-tap dinner + a ready-made grocery list</div>
-        <div class="pl-item"><span class="ck">✓</span> Your savings tracked automatically, every meal</div>
-        <div class="pl-item"><span class="ck">✓</span> A food profile so every recipe fits your diet &amp; allergies</div>
-        <div class="pl-item"><span class="ck">✓</span> Daily streaks, milestones &amp; meal planning</div>
-      </div>
-      <div class="founder">
-        <div class="founder-tag">🌟 Founder Deal</div>
-        <div class="founder-txt">Lock in <b>$5.99/mo for 6 months</b>, then $9.99. Limited to early members.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div style="padding:8px 22px 40px">
-    <button class="landing-cta" onclick="window.location='home.html'">Start cooking free →</button>
-    <div class="cta-sub">No card needed &nbsp;·&nbsp; 90-day free trial &nbsp;·&nbsp; Cancel anytime</div>
-  </div>
-
-</div>
-
-<!-- ═══════════════════ APP ═══════════════════ --><!-- ═══════════════════ APP ═══════════════════ -->
-<div id="app" style="display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden">
-
-  <div class="cs-app-header">
-    <button onclick="goTab('chat');showView('home');" class="cs-brand" style="background:none;border:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent" aria-label="Home">
-      <svg class="cs-mark" width="38" height="25" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChefSays spoon logo">
-        <path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/>
-      </svg>
-      <div class="cs-word dark">Chef<span>Says</span></div>
-    </button>
-    <div style="display:flex;align-items:center;gap:2px">
-      <button onclick="goTab('chat');showView('home');" class="cs-icon-btn" aria-label="Home" title="Start over">🏠</button>
-      <button onclick="showAuthModal()" class="cs-icon-btn" aria-label="Account">👤</button>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <button class="tab on" id="tb-chat" onclick="goTab('chat')"><span style="font-size:20px">💬</span>Chat</button>
-    <button class="tab" id="tb-sav" onclick="goTab('sav')"><span style="font-size:20px">💰</span>Savings</button>
-    <button class="tab" id="tb-prep" onclick="goTab('prep')"><span style="font-size:20px">📅</span>Meal Prep</button>
-    <button class="tab" id="tb-cat" onclick="goTab('cat')"><span style="font-size:20px">🍳</span>Catering</button>
-    <button class="tab" id="tb-bkm" onclick="goTab('bkm')"><span style="font-size:20px">📖</span>History</button>
-  </div>
-
-  <!-- PROGRESS BAR -->
-  <div id="prog" class="progress" style="display:none">
-    <div class="ps" id="ps1"></div>
-    <div class="ps" id="ps2"></div>
-    <div class="ps" id="ps3"></div>
-    <div class="ps" id="ps4"></div>
-    <div class="ps" id="ps5"></div>
-  </div>
-
-  <!-- CHAT PAGE -->
-  <div id="pg-chat" class="page on">
     <div id="chat-scr" class="scr">
 
-      <!-- HOME VIEW -->
+      <!-- HOME VIEW (meal picker + ask bar — entry point for chat flow) -->
       <div id="home-view">
 <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)"/>
-        <button onclick="startDailyDish()" style="display:flex;width:100%;align-items:center;gap:12px;background:linear-gradient(135deg,#16A34A,#15803D);border:none;border-radius:16px;padding:13px 16px;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 14px rgba(22,163,74,.3);text-align:left">
-          <span style="font-size:26px">&#127919;</span>
-          <div style="flex:1"><div style="font-size:14px;font-weight:800;color:#FFF;line-height:1.2">Daily Dish &mdash; Guess the Cost</div><div id="dd-home-sub" style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px">Free to play &middot; No account needed &middot; New dish daily</div></div>
-          <div id="dd-streak-badge" style="background:rgba(255,255,255,.18);border-radius:14px;padding:4px 10px;font-size:11px;font-weight:800;color:#FFF;white-space:nowrap">&#128293; 0</div>
-        </button>
-        <button onclick="showPhotoMenu()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:18px;padding:18px;cursor:pointer;margin-bottom:16px;box-shadow:0 4px 16px rgba(255,107,53,.3);text-align:left">
-          <span style="font-size:36px">📷</span>
-          <div>
-            <div style="font-size:16px;font-weight:800;color:#FFF">Snap Your Fridge or Pantry</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:2px">I will build recipes from exactly what I see</div>
-          </div>
-        </button>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-bottom:14px">
+          <textarea id="home-chat-input" rows="1" placeholder="Ask me anything… what's in your fridge?" style="flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHomeChat();}"></textarea>
+          <button onclick="sendHomeChat()" style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0">&#x2192;</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
           <div style="flex:1;height:1px;background:#FFE0CC"></div>
           <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">OR CHOOSE YOUR MEAL</div>
           <div style="flex:1;height:1px;background:#FFE0CC"></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-          <button onclick="startCopycat()" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#EF4444,#DC2626);border:none;border-radius:14px;padding:14px;cursor:pointer;text-align:left;box-shadow:0 4px 14px rgba(239,68,68,.25)">
-            <span style="font-size:26px">🔴</span>
-            <div><div style="font-size:13px;font-weight:800;color:#FFF;line-height:1.2">Chef's Version</div><div style="font-size:10px;color:rgba(255,255,255,.8)">Restaurant quality at home</div></div>
-          </button>
-          <button onclick="startTimeAware()" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F59E0B,#D97706);border:none;border-radius:14px;padding:14px;cursor:pointer;text-align:left;box-shadow:0 4px 14px rgba(245,158,11,.25)">
-            <span style="font-size:26px">⏰</span>
-            <div><div style="font-size:13px;font-weight:800;color:#FFF;line-height:1.2">Plan My Meal</div><div style="font-size:10px;color:rgba(255,255,255,.8)">Pick a meal &amp; eat time</div></div>
-          </button>
-        </div>
-        <!-- CHAT BAR -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <div style="flex:1;height:1px;background:#FFE0CC"></div>
-          <div style="font-size:11px;font-weight:700;color:#C4956A;letter-spacing:1px">OR JUST ASK ME ANYTHING</div>
-          <div style="flex:1;height:1px;background:#FFE0CC"></div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:10px 12px;margin-top:8px">
-          <textarea id="home-chat-input" rows="1" placeholder="e.g. how do I make a delicious hot link hot dog..." style="flex:1;background:none;border:none;outline:none;font-size:14px;color:#2D1810;resize:none;font-family:inherit;line-height:1.4;max-height:80px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHomeChat();}"></textarea>
-          <button onclick="sendHomeChat()" style="width:38px;height:38px;background:linear-gradient(135deg,#FF6B35,#FF8C42);border:none;border-radius:12px;color:#FFF;font-size:18px;cursor:pointer;flex-shrink:0">&#x2192;</button>
-        </div>
-        <div style="font-size:11px;color:#C4956A;text-align:center;margin-top:6px;margin-bottom:4px">Hot dogs · Meal tips · Recipe ideas · Anything food</div>
-        <button onclick="startTired()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#7C3AED,#6D28D9);border:none;border-radius:14px;padding:15px 16px;cursor:pointer;margin-bottom:10px;text-align:left;box-shadow:0 4px 14px rgba(124,58,237,.3)">
-          <span style="font-size:30px">&#128564;</span>
-          <div style="flex:1">
-            <div style="font-size:15px;font-weight:800;color:#FFF;line-height:1.2">Too Tired to Think</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.85);margin-top:2px">One tap &rarr; tonight's dinner + grocery cart ready</div>
-          </div>
-        </button>
-        <button onclick="startBuildOwn()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#0EA5E9,#0284C7);border:none;border-radius:14px;padding:14px;cursor:pointer;margin-bottom:12px;text-align:left;box-shadow:0 4px 14px rgba(14,165,233,.25)">
-          <span style="font-size:28px">🔨</span>
-          <div>
-            <div style="font-size:14px;font-weight:800;color:#FFF;line-height:1.2">Build My Own</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:2px">Get full costing · Home cook or restaurant</div>
-          </div>
-        </button>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px" id="meal-grid">
           <button onclick="pickMeal('Breakfast',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px"><span style="font-size:22px">🌅</span><span style="font-size:14px;font-weight:700;color:#2D1810">Breakfast</span></button>
           <button onclick="pickMeal('Brunch',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px"><span style="font-size:22px">🥂</span><span style="font-size:14px;font-weight:700;color:#2D1810">Brunch</span></button>
@@ -422,18 +332,8 @@ button{cursor:pointer;border:none;font-family:inherit}
           <button onclick="pickMeal('Late Night',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px"><span style="font-size:22px">🌃</span><span style="font-size:14px;font-weight:700;color:#2D1810">Late Night</span></button>
           <button onclick="pickMeal('Dessert',this)" style="background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px;grid-column:span 2"><span style="font-size:22px">🍰</span><span style="font-size:14px;font-weight:700;color:#2D1810">Dessert</span></button>
         </div>
-        <button onclick="startDrinks()" style="display:flex;width:100%;align-items:center;gap:14px;background:linear-gradient(135deg,#A855F7,#7C3AED);border:none;border-radius:16px;padding:16px;cursor:pointer;margin-bottom:10px;text-align:left;box-shadow:0 4px 16px rgba(168,85,247,.3)">
-          <span style="font-size:32px">🍹</span>
-          <div>
-            <div style="font-size:16px;font-weight:800;color:#FFF">Drinks</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:2px">Quick cocktails, mocktails, smoothies and more</div>
-          </div>
-        </button>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <button onclick="findFreeFood()" style="flex:1;background:linear-gradient(135deg,#22C55E,#16A34A);color:#FFF;border:none;border-radius:12px;padding:12px;font-weight:700;font-size:13px;cursor:pointer">🗺️ Free Food Near Me</button>
-          <button onclick="findEBT()" style="flex:1;background:linear-gradient(135deg,#3B82F6,#1D4ED8);color:#FFF;border:none;border-radius:12px;padding:12px;font-weight:700;font-size:13px;cursor:pointer">🏪 EBT Stores Near Me</button>
-        </div>
-        
+        <div id="dd-home-sub" style="display:none"></div>
+        <div id="dd-streak-badge" style="display:none"></div>
       </div>
 
       <!-- BUILD MY OWN VIEW -->
@@ -1043,6 +943,19 @@ async function loadProfile(){
     var bkmPage=document.getElementById('pg-bkm');
     if(bkmPage&&bkmPage.className==='page on') renderBookmarks();
 
+    // Refresh home screen display with loaded data
+    if(_userProfile){
+      var nameEl=document.getElementById('hs-greeting');
+      if(nameEl){
+        var hr=new Date().getHours();
+        var greet=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+        nameEl.textContent=greet+(_userProfile.full_name?', '+_userProfile.full_name.split(' ')[0]+'!':'!');
+      }
+      var streak=_userProfile.streak_days||0;
+      var streakEl=document.getElementById('hs-streak');
+      if(streakEl) streakEl.textContent=streak>0?'🔥 '+streak+'-day streak — keep it going!':'';
+    }
+
   }catch(e){
     console.error("Error loading profile or history:", e.message);
     toast(`Error: ${e.message}`); // Show the exact error in a toast
@@ -1112,8 +1025,7 @@ function renderHistory() {
 function openConversation(convo){
   if(checkLimit()) return;
   _currentConvoQuestion = convo.question;
-  goTab('chat');
-  showView('results');
+  showChatScreen('results');
   progress(5);
   var content = document.getElementById('results-content');
   while(content.firstChild) content.removeChild(content.firstChild);
@@ -1549,39 +1461,179 @@ function progress(step){
 
 // ── NAVIGATION ───────────────────────────────────────────────────────────────
 
-function launch(){
-  document.getElementById('splash').style.display='none';
-  document.getElementById('app').style.display='flex';
-  [0,120,350,700].forEach(function(d){setTimeout(function(){
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop=0;
-    document.body.scrollTop=0;
-    document.querySelectorAll('.scr').forEach(function(s){s.scrollTop=0;});
-  },d);});
+// Auto-detect meal time and configure hero
+var _MEAL_CONFIG = {
+  breakfast:  {h:[5,10], em:'🌅', q:"What's for breakfast?", sub:"Something warm and energizing to start your day.", btn:"Get breakfast ideas →", meal:'Breakfast'},
+  brunch:     {h:[10,12],em:'🥂', q:"Brunch time!",          sub:"Late morning, great food. Let me find something special.", btn:"Get brunch ideas →", meal:'Brunch'},
+  lunch:      {h:[12,15],em:'☀️', q:"What's for lunch?",     sub:"Midday fuel. Quick, tasty, and satisfying.", btn:"Get lunch ideas →", meal:'Lunch'},
+  snack:      {h:[15,17],em:'🍿', q:"Snack time!",           sub:"Something to tide you over without spoiling dinner.", btn:"Find a snack →", meal:'Snack'},
+  dinner:     {h:[17,21],em:'🍽️', q:"What's for dinner?",    sub:"Tap once. I'll suggest something good and show you the recipe.", btn:"Get tonight's dinner →", meal:'Dinner'},
+  latenight:  {h:[21,24],em:'🌃', q:"Late night cravings?",  sub:"Something quick and satisfying — I've got you.", btn:"Find late night eats →", meal:'Late Night'},
+  latenight2: {h:[0,5],  em:'🌙', q:"Night owl?",            sub:"Let's find something easy for this hour.", btn:"Find something quick →", meal:'Late Night'}
+};
+
+function setMeal(key){
+  var cfg=_MEAL_CONFIG[key]||_MEAL_CONFIG.dinner;
+  var eEl=document.getElementById('hs-em');if(eEl)eEl.textContent=cfg.em;
+  var qEl=document.getElementById('hs-q');if(qEl)qEl.textContent=cfg.q;
+  var sEl=document.getElementById('hs-sub');if(sEl)sEl.textContent=cfg.sub;
+  var bEl=document.getElementById('hs-btn');if(bEl)bEl.textContent=cfg.btn;
+  window._heroMeal=cfg.meal;
+  var bgMap={breakfast:'linear-gradient(135deg,#F59E0B,#F97316)',brunch:'linear-gradient(135deg,#FB923C,#EA580C)',lunch:'linear-gradient(135deg,#0EA5E9,#0284C7)',snack:'linear-gradient(135deg,#10B981,#059669)',dinner:'linear-gradient(135deg,#7C3AED,#6D28D9)',latenight:'linear-gradient(135deg,#1E293B,#0F172A)',latenight2:'linear-gradient(135deg,#1E293B,#0F172A)'};
+  var btnColorMap={breakfast:'#F97316',brunch:'#EA580C',lunch:'#0284C7',snack:'#059669',dinner:'#6D28D9',latenight:'#334155',latenight2:'#334155'};
+  var hh=document.getElementById('hs-hero');
+  if(hh) hh.style.background=bgMap[key]||'linear-gradient(135deg,#7C3AED,#6D28D9)';
+  if(bEl) bEl.style.color=btnColorMap[key]||'#6D28D9';
+  document.querySelectorAll('.meal-tab').forEach(function(t){t.classList.remove('active');});
+  var tab=document.querySelector('.meal-tab[data-meal="'+key+'"]');
+  if(tab){tab.classList.add('active');tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+}
+
+function homeInit(){
+  // Set greeting
+  var hr = new Date().getHours();
+  var greet = hr<12 ? 'Good morning' : hr<17 ? 'Good afternoon' : 'Good evening';
+  var nameEl = document.getElementById('hs-greeting');
+  if(nameEl) nameEl.textContent = greet + (_userProfile && _userProfile.full_name ? ', '+_userProfile.full_name.split(' ')[0]+'!' : '!');
+
+  // Auto-select meal tab and hero from current time
+  var activeKey='dinner';
+  for(var k in _MEAL_CONFIG){
+    var c=_MEAL_CONFIG[k];
+    if(hr>=c.h[0]&&hr<c.h[1]){activeKey=k;break;}
+  }
+  setMeal(activeKey);
+
+  // Show streak
+  var streak = _userProfile && _userProfile.streak_days ? _userProfile.streak_days : 0;
+  var streakEl = document.getElementById('hs-streak');
+  if(streakEl) streakEl.textContent = streak>0 ? '🔥 '+streak+'-day streak — keep it going!' : '';
+
+  // Show savings total
+  var total = _userProfile && _userProfile.total_saved ? parseFloat(_userProfile.total_saved) : 0;
+  var savEl = document.getElementById('hs-savings');
+  if(savEl) savEl.textContent = '$'+total.toFixed(2);
+
   updateDDBadge();
-  initAuth();
-  // Check reminders every minute
   setInterval(checkUpcomingReminders, 60000);
-  // Show auth modal after 3 seconds only for truly new/logged-out visitors
+  // Show auth nudge for new visitors
   setTimeout(function(){
-    var fromProfile = new URLSearchParams(window.location.search).get('launch')==='1';
-    if(!_user && localStorage.getItem('cs_signed_in')!=='true' && !fromProfile) showAuthModal();
+    if(!_user && localStorage.getItem('cs_signed_in')!=='true') showAuthModal();
   }, 3000);
   getTrialStart();
-  showView('home');
   showPlan('family',document.getElementById('pt-fam'));
   renderSav();
 }
 
-function goTab(t){
-  ['chat','sav','prep','cat','bkm'].forEach(function(x){
+function _setBackBtn(show){
+  var b=document.getElementById('app-back-btn');
+  if(b) b.style.display=show?'':'none';
+}
+
+function _setMealBar(show){
+  var mt=document.getElementById('meal-tabs');
+  if(mt) mt.style.display=show?'':'none';
+}
+
+function showHomeScreen(){
+  _setBackBtn(false);
+  _setMealBar(true);
+  var hs=document.getElementById('home-screen');
+  if(hs){hs.style.display='';}
+  ['chat','sav','prep','bkm'].forEach(function(x){
     var p=document.getElementById('pg-'+x);if(p)p.className='page';
-    var b=document.getElementById('tb-'+x);if(b)b.className='tab';
   });
-  document.getElementById('pg-'+t).className='page on';
-  document.getElementById('tb-'+t).className='tab on';
-  if(t==='sav')renderSav();
-  if(t==='bkm') renderBookmarks();
+  window.scrollTo(0,0);
+}
+
+function showChatScreen(view){
+  _setBackBtn(true);
+  _setMealBar(false);
+  var hs=document.getElementById('home-screen');
+  if(hs) hs.style.display='none';
+  ['sav','prep','bkm','cat'].forEach(function(x){
+    var p=document.getElementById('pg-'+x);if(p)p.className='page';
+  });
+  var pg=document.getElementById('pg-chat');
+  if(pg) pg.className='page on';
+  showView(view||'home');
+}
+
+function showSavingsScreen(){
+  _setBackBtn(true);
+  _setMealBar(false);
+  var hs=document.getElementById('home-screen');
+  if(hs) hs.style.display='none';
+  ['chat','prep','bkm'].forEach(function(x){
+    var p=document.getElementById('pg-'+x);if(p)p.className='page';
+  });
+  var pg=document.getElementById('pg-sav');
+  if(pg) pg.className='page on';
+  renderSav();
+}
+
+function showMealPrepScreen(){
+  _setBackBtn(true);
+  _setMealBar(false);
+  var hs=document.getElementById('home-screen');
+  if(hs) hs.style.display='none';
+  ['chat','sav','bkm'].forEach(function(x){
+    var p=document.getElementById('pg-'+x);if(p)p.className='page';
+  });
+  var pg=document.getElementById('pg-prep');
+  if(pg) pg.className='page on';
+  showPlan('family',document.getElementById('pt-fam'));
+}
+
+function showSavedScreen(){
+  _setBackBtn(true);
+  _setMealBar(false);
+  var hs=document.getElementById('home-screen');
+  if(hs) hs.style.display='none';
+  ['chat','sav','prep'].forEach(function(x){
+    var p=document.getElementById('pg-'+x);if(p)p.className='page';
+  });
+  var pg=document.getElementById('pg-bkm');
+  if(pg) pg.className='page on';
+  renderBookmarks();
+}
+
+function heroTap(){
+  showChatScreen('home');
+  if(window._heroMeal) pickMeal(window._heroMeal, null);
+}
+
+function openChatBar(){
+  showChatScreen('home');
+  setTimeout(function(){
+    var inp=document.getElementById('home-chat-input');
+    if(inp) inp.focus();
+  },100);
+}
+
+function toggleHsMore(){
+  var panel=document.getElementById('hs-more-panel');
+  var btn=document.getElementById('hs-more-btn');
+  if(!panel) return;
+  var isOpen=panel.style.display==='block';
+  panel.style.display=isOpen?'none':'block';
+  if(btn) btn.textContent=isOpen?'＋ More ways to cook':'− Less';
+}
+
+function goToProfile(){
+  if(_user){
+    window.location='profile.html';
+  } else {
+    showAuthModal();
+  }
+}
+
+function goTab(t){
+  if(t==='chat'){ showChatScreen(); return; }
+  if(t==='sav'){  showSavingsScreen(); return; }
+  if(t==='prep'){ showMealPrepScreen(); return; }
+  if(t==='bkm'){  showSavedScreen(); return; }
+  if(t==='cat'){  window.location='catering-soon.html'; return; }
 }
 
 function showView(v){
@@ -2159,8 +2211,10 @@ function doLog(){
   goTab('sav');
 }
 function renderSav(){
-  // Use _userSavings instead of savLog (from localStorage)
   var total=_userSavings.reduce(function(s,l){return s+l.saved;},0);
+  // Sync home screen savings button
+  var hsSav=document.getElementById('hs-savings');
+  if(hsSav) hsSav.textContent='$'+total.toFixed(2);
   document.getElementById('sav-total').textContent='$'+total.toFixed(2);
   document.getElementById('sav-meals').textContent=_userSavings.length;
   document.getElementById('sav-streak').textContent=Math.min(_userSavings.length,7);
@@ -2384,7 +2438,8 @@ function renderBookmarks(){
         rrow.onclick=(function(r){return function(e){
           e.stopPropagation();
           _currentConvoQuestion=convo.question;
-          goTab('chat');showView('results');progress(5);goTop();
+          showChatScreen('results');
+          progress(5);goTop();
           var content=document.getElementById('results-content');
           while(content.firstChild)content.removeChild(content.firstChild);
           showRecipeOptions([r],content);
@@ -2400,8 +2455,7 @@ function renderBookmarks(){
 
 
 function openSavedRecipe(dishName, storedRecipe){
-  goTab('chat');
-  showView('results');
+  showChatScreen('results');
   progress(5);
   var content=document.getElementById('results-content');
   while(content.firstChild)content.removeChild(content.firstChild);
@@ -2548,6 +2602,20 @@ var NA_BASES=[
   {emoji:'🌿',name:'Mocktail',desc:'Fancy non-alcoholic cocktails'},
   {emoji:'✨',name:'Surprise Me',desc:'Chef picks something refreshing'},
 ];
+
+function sendHeroChat(){
+  var inp = document.getElementById('hs-chat-input');
+  var text = inp ? inp.value.trim() : '';
+  if(!text) return;
+  if(checkLimit()) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  showChatScreen('results');
+  progress(3);
+  var content = document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  runChatTurn(content, [{role:'user',content:text}], text);
+}
 
 function sendHomeChat(){
   var inp = document.getElementById('home-chat-input');
@@ -3252,7 +3320,35 @@ function findEBT(){document.getElementById('ebt-sheet').className='sheet on';}
     }, 1450);
   });
 
-if(new URLSearchParams(window.location.search).get('launch')==='1'){launch();}
+// Page-load init: show app, auth, then render home screen
+document.addEventListener('DOMContentLoaded', function(){
+  // Set hero colour immediately — no auth needed
+  (function(){
+    var hr=new Date().getHours();
+    var activeKey='dinner';
+    for(var k in _MEAL_CONFIG){var c=_MEAL_CONFIG[k];if(hr>=c.h[0]&&hr<c.h[1]){activeKey=k;break;}}
+    setMeal(activeKey);
+  })();
+
+  initAuth().then(function(){
+    homeInit();
+    // If coming back from my-chats.html with a conversation to open
+    var params=new URLSearchParams(window.location.search);
+    if(params.get('openConvo')==='1'){
+      try{
+        var raw=sessionStorage.getItem('cs_open_convo');
+        sessionStorage.removeItem('cs_open_convo');
+        if(raw){
+          var convo=JSON.parse(raw);
+          // Wait a tick so DOM is ready, then open
+          setTimeout(function(){ openConversation(convo); }, 100);
+        }
+      }catch(e){}
+      // Clean URL without reload
+      history.replaceState(null,'',window.location.pathname);
+    }
+  }).catch(function(){ homeInit(); });
+});
 
 // ── ALARM ────────────────────────────────────────────────────────────────────
 var _alarmCtx=null;

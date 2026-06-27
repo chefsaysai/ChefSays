@@ -8,6 +8,13 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FFFAF6;max-width:430px;margin:0 auto;min-height:100vh;color:#2D1810}
+.hs-appbar{background:#FFF;border-bottom:1.5px solid #FFE0CC;display:flex;align-items:center;justify-content:space-between;padding:7px 20px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.hs-brand{display:flex;align-items:center;gap:8px;text-decoration:none;background:none;border:none;cursor:pointer;padding:0}
+.hs-brand .w{font-family:Georgia,serif;font-weight:800;font-size:18px;color:#2D1810}
+.hs-brand .w span{color:#FF6B35}
+.hs-hbtn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;padding:4px;text-decoration:none}
+.hs-hbtn .ic{width:38px;height:38px;border-radius:50%;background:#FFE8DD;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hs-hbtn .lb{font-size:10px;font-weight:700;color:#9B7B6E}
 .wrap{padding:22px 20px 130px}
 .back-link{display:flex;align-items:center;gap:6px;color:#FF6B35;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:16px}
 .spoon{display:block;margin:0 auto 6px}
@@ -74,6 +81,17 @@ h1{text-align:center;font-family:Georgia,serif;font-size:25px;font-weight:800;ma
 </style>
 </head>
 <body>
+
+<div class="hs-appbar">
+  <a class="hs-brand" href="home.html" aria-label="Home">
+    <svg width="30" height="19" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
+    <div class="w">Chef<span>Says</span></div>
+  </a>
+  <a class="hs-hbtn" href="profile.html" aria-label="Profile">
+    <div class="ic">👤</div>
+    <div class="lb">Profile</div>
+  </a>
+</div>
 
 <div id="fp-saving">Saving your profile…</div>
 
@@ -476,7 +494,7 @@ document.getElementById('save').onclick = async function(){
 
 document.getElementById('skip').onclick = function(){
   try{ localStorage.setItem('cs_food_skipped','1'); }catch(e){}
-  window.location = '/?launch=1';
+  window.location = 'home.html';
 };
 </script>
 </body>
