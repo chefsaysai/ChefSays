@@ -118,22 +118,33 @@ function chips(arr, cls){
 
 function render(){
   var p=_profile||{};
-  var name=p.full_name||(_user&&_user.email?_user.email.split('@')[0]:'You');
+  // Name: prefer first_name+last_name from profile, then auth metadata, then email prefix
+  var meta=(_user&&_user.user_metadata)||{};
+  var firstName=p.first_name||meta.first_name||'';
+  var lastName=p.last_name||meta.last_name||'';
+  var fullName=(firstName+' '+lastName).trim()||p.full_name||(_user&&_user.email?_user.email.split('@')[0]:'Chef');
+  var displayFirst=firstName||fullName.split(' ')[0]||'Chef';
   var email=_user&&_user.email?_user.email:'';
+
+  // Food prefs — actual field names saved by food-profile.html
   var prefs=p.food_preferences||{};
-  var diets=prefs.diets||[];
-  var allergies=prefs.allergies||[];
-  var avoids=prefs.avoids||[];
-  var traditions=prefs.traditions||[];
+  var diet=prefs.diet||'';          // string e.g. "vegan"
+  var vegType=prefs.vegType||'';
+  var health=prefs.health||[];      // array
+  var allergies=prefs.allergies||[];// array
+  var avoid=prefs.avoid||[];        // array (NOT avoids)
+  var tradition=prefs.tradition||'';// string (NOT traditions)
+
   var days=trialDaysLeft();
   var paid=p.is_paid;
+  var hasFood=!!(diet||vegType||health.length||allergies.length||avoid.length||tradition);
 
   var html='';
 
   // Avatar block
   html+='<div class="who">';
-  html+='<div class="avatar">'+esc(initial(name))+'</div>';
-  html+='<div class="nm">'+esc(name)+'</div>';
+  html+='<div class="avatar">'+esc(initial(fullName))+'</div>';
+  html+='<div class="nm">Welcome Chef '+esc(displayFirst)+'</div>';
   html+='<div class="em">'+esc(email)+'</div>';
   html+='</div>';
 
@@ -156,7 +167,7 @@ function render(){
   // Account card
   html+='<div class="card">';
   html+='<div class="card-h"><span class="lbl">Account</span></div>';
-  html+='<div class="row"><span class="k">Name</span><span class="v">'+esc(name)+'</span></div>';
+  html+='<div class="row"><span class="k">Name</span><span class="v">'+esc(fullName)+'</span></div>';
   html+='<div class="row"><span class="k">Email</span><span class="v">'+esc(email)+'</span></div>';
   if(p.zip_code) html+='<div class="row"><span class="k">ZIP Code</span><span class="v">'+esc(p.zip_code)+'</span></div>';
   html+='</div>';
@@ -164,29 +175,33 @@ function render(){
   // Food Profile card
   html+='<div class="card">';
   html+='<div class="card-h"><span class="lbl">Food Profile</span><button class="edit-btn" onclick="window.location=\'food-profile.html\'">Edit</button></div>';
-  if(diets.length){
-    html+='<div class="row" style="border-top:none"><span class="k">How you eat</span><span class="v">'+esc(diets.join(', '))+'</span></div>';
-  }
-  if(allergies.length){
-    html+='<div class="sublabel">Allergies</div><div class="chips">'+chips(allergies,'red')+'</div>';
-  }
-  if(avoids.length){
-    html+='<div class="sublabel">Avoids</div><div class="chips">'+chips(avoids,'')+'</div>';
-  }
-  if(traditions.length){
-    html+='<div class="sublabel">Tradition</div><div class="chips">'+chips(traditions,'green')+'</div>';
-  }
-  if(!diets.length&&!allergies.length&&!avoids.length&&!traditions.length){
+  if(!hasFood){
     html+='<div class="empty-chips">No food profile set yet — tap Edit to add your preferences.</div>';
+  } else {
+    if(diet||vegType){
+      html+='<div class="row" style="border-top:none"><span class="k">How you eat</span><span class="v">'+esc([diet,vegType].filter(Boolean).join(', '))+'</span></div>';
+    }
+    if(health.length){
+      html+='<div class="sublabel">Health Goals</div><div class="chips">'+chips(health,'')+'</div>';
+    }
+    if(allergies.length){
+      html+='<div class="sublabel">Allergies</div><div class="chips">'+chips(allergies,'red')+'</div>';
+    }
+    if(avoid.length){
+      html+='<div class="sublabel">Avoids</div><div class="chips">'+chips(avoid,'')+'</div>';
+    }
+    if(tradition){
+      html+='<div class="sublabel">Tradition</div><div class="chips"><div class="chip green">'+esc(tradition)+'</div></div>';
+    }
   }
   html+='</div>';
 
   // Your ChefSays card
   html+='<div class="card">';
   html+='<div class="card-h"><span class="lbl">Your ChefSays</span></div>';
-  html+='<div class="link" onclick="window.location=\'home.html\'"><div class="li" style="background:#FFF4EF">📌</div><div class="lt">My Saved Recipes</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="window.location=\'home.html?page=bkm\'"><div class="li" style="background:#FFF4EF">📌</div><div class="lt">My Saved Recipes</div><div class="lar">›</div></div>';
   html+='<div class="link" onclick="window.location=\'my-chats.html\'"><div class="li" style="background:#F0FDFA">💬</div><div class="lt">Chat & Recipe History</div><div class="lar">›</div></div>';
-  html+='<div class="link" onclick="window.location=\'home.html\'"><div class="li" style="background:#F0FDF4">💰</div><div class="lt">My Savings</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="window.location=\'home.html?page=sav\'"><div class="li" style="background:#F0FDF4">💰</div><div class="lt">My Savings</div><div class="lar">›</div></div>';
   html+='<div class="link"><div class="li" style="background:#FFF7ED">🔥</div><div class="lt">Streak & Milestones</div><div class="lar">›</div></div>';
   html+='</div>';
 
@@ -225,6 +240,18 @@ async function loadProfile(){
     });
     var d=await resp.json();
     if(d.profile) _profile=d.profile;
+    // If food_preferences missing from API response, fall back to localStorage
+    // (food-profile.html always writes cs_food_prefs on save)
+    if(_profile && !_profile.food_preferences){
+      try{
+        var lsPrefs=localStorage.getItem('cs_food_prefs');
+        if(lsPrefs) _profile.food_preferences=JSON.parse(lsPrefs);
+      }catch(e){}
+    }
+    // Defensive: parse food_preferences if it came back as a JSON string
+    if(_profile && typeof _profile.food_preferences==='string'){
+      try{ _profile.food_preferences=JSON.parse(_profile.food_preferences); }catch(e){}
+    }
     render();
   }catch(e){
     document.getElementById('main-scr').innerHTML='<div class="loading">Error: '+e.message+'</div>';

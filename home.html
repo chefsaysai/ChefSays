@@ -874,6 +874,7 @@ async function initAuth(){
       renderHistory();
       closeAccountModal();
       try{localStorage.removeItem('cs_signed_in');}catch(e){}
+      try{sessionStorage.removeItem('cs_sav_cache');sessionStorage.removeItem('cs_conv_cache');}catch(e){}
     }
   });
   }catch(e){ console.log('Auth init error:', e.message); }
@@ -925,10 +926,16 @@ async function loadProfile(){
     ]);
 
     var histData = await results[0].json();
-    if(histData.conversations) _userConversations = histData.conversations;
+    if(histData.conversations){
+      _userConversations = histData.conversations;
+      try{sessionStorage.setItem('cs_conv_cache',JSON.stringify(_userConversations));}catch(e){}
+    }
 
     var savingsData = await results[1].json();
-    if(savingsData.savings) _userSavings = savingsData.savings;
+    if(savingsData.savings){
+      _userSavings = savingsData.savings;
+      try{sessionStorage.setItem('cs_sav_cache',JSON.stringify(_userSavings));}catch(e){}
+    }
 
     // Fetch scheduled recipes
     if(_token&&_sb){
@@ -2328,21 +2335,25 @@ function checkUpcomingReminders(){
     var schedTime=new Date(s.scheduled_for);
     var remindAt=new Date(schedTime.getTime()-s.reminder_minutes*60000);
     if(now>=remindAt){
-      var minsLeft=Math.max(0,Math.round((schedTime-now)/60000));
-      var msg=minsLeft===0?'Time to cook '+s.dish_name+'!':(minsLeft<60?'Start cooking '+s.dish_name+' in '+minsLeft+' min':'Start cooking '+s.dish_name+' in '+Math.round(minsLeft/60)+' hr');
-      if(s.occasion) msg+=' for '+s.occasion;
-      // Browser notification
-      if('Notification' in window && Notification.permission==='granted'){
-        new Notification('⏰ ChefSays Reminder',{body:msg,icon:'/favicon.ico'});
+      if(_alarmsBoot){
+        // Live alarm — fired during an active session by the 60s interval
+        var minsLeft=Math.max(0,Math.round((schedTime-now)/60000));
+        var msg=minsLeft===0?'Time to cook '+s.dish_name+'!':(minsLeft<60?'Start cooking '+s.dish_name+' in '+minsLeft+' min':'Start cooking '+s.dish_name+' in '+Math.round(minsLeft/60)+' hr');
+        if(s.occasion) msg+=' for '+s.occasion;
+        if('Notification' in window && Notification.permission==='granted'){
+          new Notification('⏰ ChefSays Reminder',{body:msg,icon:'/favicon.ico'});
+        }
+        startAlarm(s);
       }
-      // In-app alarm (sound + banner)
-      startAlarm(s);
+      // Always mark notified — silently on boot (cleans up stale DB rows),
+      // with alarm on live ticks
       s.notified=true;
       if(_token&&_sb&&s.id&&!s.id.startsWith('local-')){
         try{fetch('/.netlify/functions/save-conversation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'mark_schedule_notified',token:_token,data:{id:s.id}})});}catch(e){}
       }
     }
   });
+  _alarmsBoot=true; // first pass complete; all future calls may ring
 }
 
 function renderBookmarks(){
@@ -3330,6 +3341,21 @@ document.addEventListener('DOMContentLoaded', function(){
     setMeal(activeKey);
   })();
 
+  // Restore cached data so screens render instantly before auth resolves
+  try{
+    var _sc=sessionStorage.getItem('cs_sav_cache');
+    if(_sc) _userSavings=JSON.parse(_sc);
+    var _cc=sessionStorage.getItem('cs_conv_cache');
+    if(_cc) _userConversations=JSON.parse(_cc);
+  }catch(e){}
+
+  // Switch to the requested inner screen immediately so home never flashes
+  var _initParams=new URLSearchParams(window.location.search);
+  var _initPage=_initParams.get('page');
+  if(_initPage==='sav') showSavingsScreen();
+  if(_initPage==='bkm') showSavedScreen();
+  if(_initPage) history.replaceState(null,'',window.location.pathname);
+
   initAuth().then(function(){
     homeInit();
     // If coming back from my-chats.html with a conversation to open
@@ -3340,11 +3366,9 @@ document.addEventListener('DOMContentLoaded', function(){
         sessionStorage.removeItem('cs_open_convo');
         if(raw){
           var convo=JSON.parse(raw);
-          // Wait a tick so DOM is ready, then open
           setTimeout(function(){ openConversation(convo); }, 100);
         }
       }catch(e){}
-      // Clean URL without reload
       history.replaceState(null,'',window.location.pathname);
     }
   }).catch(function(){ homeInit(); });
@@ -3354,6 +3378,11 @@ document.addEventListener('DOMContentLoaded', function(){
 var _alarmCtx=null;
 var _alarmTimeout=null;
 var _alarmActive=false;
+// True after the first checkUpcomingReminders() call on page load.
+// The first call is a silent sweep — it marks stale past-due reminders without
+// ringing, so restarting the dev server / refreshing never re-triggers an alarm
+// the user already dismissed. Only interval ticks after boot can ring the alarm.
+var _alarmsBoot=false;
 
 // iOS requires AudioContext to be created/resumed during a user gesture.
 // We unlock it on the first tap anywhere, then keep it alive for timer-fired alarms.
