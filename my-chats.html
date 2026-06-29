@@ -21,35 +21,15 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow:h
 
 .scr{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:16px}
 
-.intro{font-size:13px;color:#9B7B6E;line-height:1.5;margin-bottom:14px}
-
-.search-bar{display:flex;align-items:center;gap:10px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:10px 14px;margin-bottom:20px}
+.search-bar{display:flex;align-items:center;gap:10px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:10px 14px;margin-bottom:14px}
 .search-bar input{flex:1;border:none;outline:none;font-size:14px;color:#2D1810;background:none;font-family:inherit}
 .search-bar .si{font-size:16px;color:#C4956A}
-
-.group-label{font-size:11px;font-weight:800;color:#C4956A;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px}
-
-.chat-item{display:flex;align-items:center;gap:12px;background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer;text-decoration:none;color:inherit;transition:transform .12s}
-.chat-item:active{transform:scale(.98)}
-.chat-icon{width:40px;height:40px;border-radius:12px;background:#FFF4EF;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.chat-body{flex:1;min-width:0}
-.chat-title{font-size:14px;font-weight:800;color:#2D1810;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat-preview{font-size:12px;color:#9B7B6E;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
-.chat-date{font-size:11px;color:#C4956A}
-.chat-arrow{font-size:16px;color:#FF6B35;font-weight:800}
-
-.saved-badge{background:#FFF4EF;border:1px solid #FFE0CC;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:#FF6B35}
 
 .empty{text-align:center;padding:48px 20px}
 .empty .em{font-size:48px;margin-bottom:12px}
 .empty .t{font-size:18px;font-weight:800;color:#2D1810;font-family:Georgia,serif;margin-bottom:6px}
 .empty .s{font-size:13px;color:#9B7B6E;line-height:1.5}
 .empty .cta{display:inline-block;margin-top:20px;background:#FF6B35;color:#FFF;border-radius:14px;padding:13px 24px;font-size:15px;font-weight:800;text-decoration:none}
-
-.group-section{margin-bottom:16px}
-
-.loading{text-align:center;padding:48px 20px;color:#9B7B6E;font-size:14px}
 
 .auth-gate{text-align:center;padding:60px 24px}
 .auth-gate .em{font-size:56px;margin-bottom:14px}
@@ -64,7 +44,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow:h
   <a class="app-back-btn" href="home.html" aria-label="Back">&#x2039;</a>
   <div class="hs-brand">
     <svg width="30" height="19" viewBox="0 0 220 130" fill="none"><path d="M34 82 C62 52 101 79 132 43 C155 16 179 11 195 17" stroke="#FF6B35" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 83 C44 109 88 111 124 60 C98 82 65 91 35 83Z" fill="#FF6B35"/></svg>
-    <div class="w">Chef<span>Says</span></div>
+    <div class="w" id="appbar-title">Chef<span>Says</span></div>
   </div>
   <a class="hs-hbtn" href="profile.html" aria-label="Profile">
     <div class="ic">👤</div>
@@ -73,7 +53,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;overflow:h
 </div>
 
 <div class="scr" id="main-scr">
-  <div class="loading" id="loading-state">Loading your chats…</div>
+  <div class="loading" id="loading-state">Loading…</div>
 </div>
 
 <script>
@@ -87,6 +67,21 @@ try{
 }catch(e){}
 
 var _searchTerm='';
+// Read filter from sessionStorage (set by profile.html) OR URL param as fallback
+var _filterSaved=false;
+try{
+  if(sessionStorage.getItem('cs_chat_filter')==='saved'){
+    _filterSaved=true;
+    sessionStorage.removeItem('cs_chat_filter');
+  }
+}catch(e){}
+if(!_filterSaved) _filterSaved=new URLSearchParams(window.location.search).get('filter')==='saved';
+
+if(_filterSaved){
+  document.title='Saved Recipes – ChefSays';
+  var t=document.getElementById('appbar-title');
+  if(t) t.innerHTML='Saved <span>Recipes</span>';
+}
 
 function dateLabel(d){
   var now=new Date(),day=new Date(d);
@@ -98,70 +93,91 @@ function dateLabel(d){
   return 'older';
 }
 
-function mealIcon(type,cuisine){
-  var t=(type||'').toLowerCase();
-  if(t.includes('breakfast')) return '🌅';
-  if(t.includes('brunch')) return '🥂';
-  if(t.includes('lunch')) return '☀️';
-  if(t.includes('dinner')) return '🌙';
-  if(t.includes('dessert')) return '🍰';
-  if(t.includes('drink')) return '🍹';
-  if(t.includes('photo')) return '📷';
-  if(t.includes('tired')) return '😴';
-  if(t.includes('copycat')) return '🔴';
-  if(t.includes('build')) return '🔨';
-  return '💬';
-}
 
-function formatDate(iso){
-  var d=new Date(iso);
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
-}
-
-function stripHtml(s){
-  return (s||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+function convoIcon(type){
+  return type==='recipe'?'🍳':(type==='drink'?'🍹':(type==='chef_version'?'👨‍🍳':'💬'));
 }
 
 function render(){
   var scr=document.getElementById('main-scr');
   var term=_searchTerm.toLowerCase();
   var filtered=_convos.filter(function(c){
+    if(_filterSaved && !(c.saved_recipes&&c.saved_recipes.length)) return false;
     if(!term) return true;
     return (c.question||'').toLowerCase().includes(term)||(c.response||'').toLowerCase().includes(term);
   });
 
+  var titleText=_filterSaved?'Saved Recipes':'Chat History';
+  var subText=_filterSaved?'Conversations where you saved a recipe':'Past conversations & recipes you saved';
+  var searchPlaceholder=_filterSaved?'Search saved recipes…':'Search your chats…';
+
+  var banner='<div style="background:linear-gradient(135deg,#FF6B35,#FF9148);border-radius:22px;padding:24px 20px;color:#FFF;margin-bottom:14px">'
+    +'<div style="font-size:11px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Your Kitchen Journal</div>'
+    +'<div style="font-size:22px;font-weight:800;font-family:Georgia,serif;margin-bottom:4px">'+titleText+'</div>'
+    +'<div style="font-size:13px;opacity:.85">'+subText+'</div>'
+    +'</div>';
+  var searchBar='<div class="search-bar"><span class="si">🔍</span><input id="search-inp" type="search" placeholder="'+searchPlaceholder+'" value="'+_searchTerm.replace(/"/g,'&quot;')+'" oninput="onSearch(this.value)"/></div>';
+
   if(!filtered.length){
-    scr.innerHTML='<div class="empty"><div class="em">💬</div><div class="t">'+(term?'No results':'No chats yet')+'</div><div class="s">'+(term?'Try a different search term.':'Start a conversation in ChefSays and it\'ll appear here.')+'</div>'+(term?'':'<a class="cta" href="home.html">Go cook something →</a>')+'</div>';
+    var emptyIco=_filterSaved?'📌':'💬';
+    var emptyTitle=term?'No results':(_filterSaved?'No saved recipes yet':'No chats yet');
+    var emptySub=term?'Try a different search term.':(_filterSaved?'Save a recipe from any chat and it\'ll appear here.':'Start a conversation in ChefSays and it\'ll appear here.');
+    var emptyCta=term?'':('<a class="cta" href="home.html">Go cook something →</a>');
+    scr.innerHTML=banner+searchBar+'<div class="empty"><div class="em">'+emptyIco+'</div><div class="t">'+emptyTitle+'</div><div class="s">'+emptySub+'</div>'+emptyCta+'</div>';
+    if(term){var si=document.getElementById('search-inp');if(si)si.focus();}
     return;
   }
 
   var groups={today:[],yesterday:[],earlier:[],older:[]};
   filtered.forEach(function(c){ groups[dateLabel(c.created_at)].push(c); });
-
   var labelMap={today:'Today',yesterday:'Yesterday',earlier:'Earlier this week',older:'Older'};
-  var html='<div class="intro">Your conversations with ChefSays — tap any to see the full recipe.</div>';
-  html+='<div class="search-bar"><span class="si">🔍</span><input id="search-inp" type="search" placeholder="Search your chats…" value="'+_searchTerm.replace(/"/g,'&quot;')+'" oninput="onSearch(this.value)"/></div>';
 
+  var html=banner+searchBar;
+
+  var firstGroup=true;
   ['today','yesterday','earlier','older'].forEach(function(g){
     if(!groups[g].length) return;
-    html+='<div class="group-section"><div class="group-label">'+labelMap[g]+'</div>';
+    var topMargin=firstGroup?'0':'20px';
+    firstGroup=false;
+    html+='<div style="margin-top:'+topMargin+';margin-bottom:10px;display:flex;align-items:center;gap:10px">'
+      +'<div style="flex:1;height:1px;background:#FFE0CC"></div>'
+      +'<div style="font-size:11px;font-weight:800;color:#C4956A;text-transform:uppercase;letter-spacing:1px;white-space:nowrap">'+labelMap[g]+'</div>'
+      +'<div style="flex:1;height:1px;background:#FFE0CC"></div>'
+      +'</div>';
     groups[g].forEach(function(c){
-      var icon=mealIcon(c.type,c.cuisine);
-      var title=c.question?c.question.replace(/"/g,'&quot;').substring(0,60):('Chat from '+formatDate(c.created_at));
-      var preview=stripHtml(c.response).substring(0,80)+(c.response&&c.response.length>80?'…':'');
-      var saved=(c.saved_recipes&&c.saved_recipes.length)?'<span class="saved-badge">📌 '+c.saved_recipes.length+' saved</span>':'';
+      var icon=convoIcon(c.type);
+      var text=((c.question||'').substring(0,60))+((c.question||'').length>60?'…':'');
+      var date=new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      var saved=Array.isArray(c.saved_recipes)?c.saved_recipes:[];
+      var hasSaved=saved.length>0;
       var convoJson=JSON.stringify(c).replace(/'/g,'&#39;');
-      html+='<div class="chat-item" onclick="openConvo(this)" data-convo=\''+convoJson+'\'>';
-      html+='<div class="chat-icon">'+icon+'</div>';
-      html+='<div class="chat-body"><div class="chat-title">'+title+'</div><div class="chat-preview">'+preview+'</div></div>';
-      html+='<div class="chat-meta">'+saved+'<div class="chat-date">'+formatDate(c.created_at)+'</div><div class="chat-arrow">›</div></div>';
+
+      html+='<div style="margin-bottom:10px">';
+      html+='<button style="display:flex;align-items:center;gap:10px;width:100%;background:#FFF;border:1.5px solid #FFE0CC;border-radius:'+(hasSaved?'12px 12px 0 0':'12px')+';padding:12px 14px;text-align:left;cursor:pointer" onclick="openConvo(this)" data-convo=\''+convoJson+'\'>';
+      html+='<span style="font-size:20px;flex-shrink:0">'+icon+'</span>';
+      html+='<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#2D1810;line-height:1.4">'+text+'</div>';
+      if(hasSaved) html+='<div style="font-size:11px;color:#22C55E;font-weight:600;margin-top:2px">📌 '+saved.length+' recipe'+(saved.length>1?'s':'')+' saved</div>';
+      html+='</div>';
+      html+='<span style="font-size:11px;color:#C4956A;flex-shrink:0">'+date+'</span>';
+      html+='</button>';
+
+      if(hasSaved){
+        html+='<div style="border:1.5px solid #22C55E;border-top:none;border-radius:0 0 12px 12px;overflow:hidden">';
+        saved.forEach(function(recipe,idx){
+          var isLast=idx===saved.length-1;
+          html+='<button style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;background:#F0FDF4;border:none;'+(isLast?'':'border-bottom:1px solid #DCFCE7;')+'text-align:left;cursor:pointer" onclick="openConvo(this)" data-convo=\''+convoJson+'\'>';
+          html+='<span style="font-size:14px;flex-shrink:0">📌</span>';
+          html+='<div style="flex:1;min-width:0;font-size:13px;font-weight:600;color:#166534">'+(recipe.name||'Recipe')+'</div>';
+          html+='<span style="font-size:12px;font-weight:700;color:#22C55E;flex-shrink:0">View →</span>';
+          html+='</button>';
+        });
+        html+='</div>';
+      }
       html+='</div>';
     });
-    html+='</div>';
   });
 
   scr.innerHTML=html;
-  // Re-focus search if it was active
   if(term){var si=document.getElementById('search-inp');if(si)si.focus();}
 }
 
@@ -179,7 +195,14 @@ async function loadChats(){
       body:JSON.stringify({action:'get_history',token:_token,data:{type:'conversation'}})
     });
     var d=await resp.json();
-    _convos=d.conversations||[];
+    _convos=(d.conversations||[]).map(function(c){
+      // Normalise saved_recipes — DB may return a JSON string instead of array
+      if(typeof c.saved_recipes==='string'){
+        try{c.saved_recipes=JSON.parse(c.saved_recipes);}catch(e){c.saved_recipes=[];}
+      }
+      if(!Array.isArray(c.saved_recipes)) c.saved_recipes=[];
+      return c;
+    });
     render();
   }catch(e){
     scr.innerHTML='<div class="empty"><div class="em">⚠️</div><div class="t">Could not load chats</div><div class="s">'+e.message+'</div></div>';

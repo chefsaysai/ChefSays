@@ -223,6 +223,16 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
     }
 
+    if (action === 'update_profile') {
+      const { first_name, last_name } = data;
+      const { error } = await supabaseAdmin
+        .from('profiles')
+        .update({ first_name: first_name||'', last_name: last_name||'' })
+        .eq('id', user.id);
+      if (error) return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+      return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
+    }
+
     if (action === 'save_food_profile') {
       const { preferences, ai_context } = data;
       const { error } = await supabaseAdmin

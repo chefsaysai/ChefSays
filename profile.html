@@ -59,6 +59,16 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto}
 .link .lt{font-size:14px;font-weight:600;flex:1;color:#2D1810}
 .link .lar{color:#C4B8AE;font-size:18px}
 
+/* Inline name edit */
+.name-edit-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid #FFF5F0}
+.name-edit-row .k{font-size:13px;color:#9B7B6E}
+.name-edit-right{display:flex;align-items:center;gap:8px}
+.name-val{font-size:14px;font-weight:600;color:#2D1810}
+.name-edit-btn{background:none;border:none;padding:4px;cursor:pointer;font-size:15px;color:#C4956A;line-height:1}
+.name-inp{border:1.5px solid #FF6B35;border-radius:10px;padding:6px 10px;font-size:14px;font-weight:600;color:#2D1810;font-family:inherit;outline:none;width:140px;background:#FFF}
+.name-save-btn{background:#FF6B35;color:#FFF;border:none;border-radius:10px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.name-cancel-btn{background:none;border:1.5px solid #FFE0CC;border-radius:10px;padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;color:#9B7B6E;font-family:inherit}
+
 /* Sign out */
 .signout{margin:4px 20px 40px;text-align:center}
 .signout button{background:none;border:none;color:#DC2626;font-size:14px;font-weight:700;cursor:pointer;padding:12px;font-family:inherit}
@@ -167,14 +177,19 @@ function render(){
   // Account card
   html+='<div class="card">';
   html+='<div class="card-h"><span class="lbl">Account</span></div>';
-  html+='<div class="row"><span class="k">Name</span><span class="v">'+esc(fullName)+'</span></div>';
+  html+='<div class="name-edit-row" id="name-row">';
+  html+='<span class="k">Name</span>';
+  html+='<div class="name-edit-right">';
+  html+='<span class="name-val" id="name-display">'+esc(fullName)+'</span>';
+  html+='<button class="name-edit-btn" onclick="startEditName()" title="Edit name">✏️</button>';
+  html+='</div></div>';
   html+='<div class="row"><span class="k">Email</span><span class="v">'+esc(email)+'</span></div>';
   if(p.zip_code) html+='<div class="row"><span class="k">ZIP Code</span><span class="v">'+esc(p.zip_code)+'</span></div>';
   html+='</div>';
 
   // Food Profile card
   html+='<div class="card">';
-  html+='<div class="card-h"><span class="lbl">Food Profile</span><button class="edit-btn" onclick="window.location=\'food-profile.html\'">Edit</button></div>';
+  html+='<div class="card-h"><span class="lbl">Food Profile</span><button class="edit-btn" onclick="goToFoodProfile()">Edit</button></div>';
   if(!hasFood){
     html+='<div class="empty-chips">No food profile set yet — tap Edit to add your preferences.</div>';
   } else {
@@ -199,7 +214,7 @@ function render(){
   // Your ChefSays card
   html+='<div class="card">';
   html+='<div class="card-h"><span class="lbl">Your ChefSays</span></div>';
-  html+='<div class="link" onclick="window.location=\'home.html?page=bkm\'"><div class="li" style="background:#FFF4EF">📌</div><div class="lt">My Saved Recipes</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="try{sessionStorage.setItem(\'cs_chat_filter\',\'saved\');}catch(e){}window.location=\'my-chats.html\'"><div class="li" style="background:#FFF4EF">📌</div><div class="lt">My Saved Recipes</div><div class="lar">›</div></div>';
   html+='<div class="link" onclick="window.location=\'my-chats.html\'"><div class="li" style="background:#F0FDFA">💬</div><div class="lt">Chat & Recipe History</div><div class="lar">›</div></div>';
   html+='<div class="link" onclick="window.location=\'home.html?page=sav\'"><div class="li" style="background:#F0FDF4">💰</div><div class="lt">My Savings</div><div class="lar">›</div></div>';
   html+='<div class="link"><div class="li" style="background:#FFF7ED">🔥</div><div class="lt">Streak & Milestones</div><div class="lar">›</div></div>';
@@ -210,13 +225,84 @@ function render(){
   html+='<div class="card-h"><span class="lbl">Settings</span></div>';
   html+='<div class="link"><div class="li" style="background:#F5F3FF">🔔</div><div class="lt">Notifications</div><div class="lar">›</div></div>';
   html+='<div class="link"><div class="li" style="background:#EFF6FF">🔒</div><div class="lt">Privacy & Terms</div><div class="lar">›</div></div>';
-  html+='<div class="link" onclick="window.open(\'mailto:hello@chefsays.app\')"><div class="li" style="background:#FEF2F2">❓</div><div class="lt">Help & Support</div><div class="lar">›</div></div>';
+  html+='<div class="link" onclick="openSupport()"><div class="li" style="background:#FEF2F2">❓</div><div class="lt">Help & Support</div><div class="lar">›</div></div>';
   html+='</div>';
 
   // Sign out
   html+='<div class="signout"><button onclick="doSignOut()">Sign Out</button></div>';
 
   document.getElementById('main-scr').innerHTML=html;
+}
+
+function goToFoodProfile(){
+  window.location.href='food-profile.html?update=1';
+}
+
+function openSupport(){
+  var a=document.createElement('a');
+  a.href='mailto:support@chefsays.ai';
+  a.target='_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function startEditName(){
+  var row=document.getElementById('name-row');
+  if(!row) return;
+  var current=document.getElementById('name-display');
+  var currentName=current?current.textContent:'';
+  row.querySelector('.name-edit-right').innerHTML=
+    '<input class="name-inp" id="name-inp" value="'+esc(currentName)+'" maxlength="60" autocomplete="off"/>'
+    +'<button class="name-save-btn" onclick="saveName()">Save</button>'
+    +'<button class="name-cancel-btn" onclick="cancelEditName(\''+esc(currentName)+'\')">✕</button>';
+  var inp=document.getElementById('name-inp');
+  if(inp){inp.focus();inp.select();}
+}
+
+function cancelEditName(original){
+  var row=document.getElementById('name-row');
+  if(!row) return;
+  row.querySelector('.name-edit-right').innerHTML=
+    '<span class="name-val" id="name-display">'+esc(original||'')+'</span>'
+    +'<button class="name-edit-btn" onclick="startEditName()" title="Edit name">✏️</button>';
+}
+
+async function saveName(){
+  var inp=document.getElementById('name-inp');
+  if(!inp) return;
+  var val=(inp.value||'').trim();
+  if(!val){inp.focus();return;}
+  inp.disabled=true;
+  var parts=val.split(' ');
+  var firstName=parts[0]||'';
+  var lastName=parts.slice(1).join(' ');
+  try{
+    var resp=await fetch('/.netlify/functions/save-conversation',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'update_profile',token:_token,data:{first_name:firstName,last_name:lastName}})
+    });
+    var d=await resp.json();
+    if(d.ok){
+      if(_profile){_profile.first_name=firstName;_profile.last_name=lastName;}
+      var row=document.getElementById('name-row');
+      if(row) row.querySelector('.name-edit-right').innerHTML=
+        '<span class="name-val" id="name-display">'+esc(val)+'</span>'
+        +'<button class="name-edit-btn" onclick="startEditName()" title="Edit name">✏️</button>';
+      // Also update the avatar display name
+      var nm=document.querySelector('.who .nm');
+      var displayFirst=firstName||val.split(' ')[0];
+      if(nm) nm.textContent='Welcome Chef '+displayFirst;
+      var av=document.querySelector('.avatar');
+      if(av) av.textContent=(val.trim().split(' ').map(function(w){return w[0];}).join('').toUpperCase().substring(0,2));
+    } else {
+      inp.disabled=false;
+      alert('Could not save: '+(d.error||'unknown error'));
+    }
+  }catch(e){
+    inp.disabled=false;
+    alert('Error: '+e.message);
+  }
 }
 
 function showAuthGate(){

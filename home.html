@@ -269,7 +269,7 @@ button{cursor:pointer;border:none;font-family:inherit}
         <div class="hs-tile" onclick="showChatScreen();startDailyDish();">
           <div class="ic">🎯</div><div class="t">Daily Dish</div><div class="s">Play today's game</div>
         </div>
-        <div class="hs-tile" onclick="showSavedScreen()">
+        <div class="hs-tile" onclick="showSavedScreen(true)">
           <div class="ic">📌</div><div class="t">My Saved Recipes</div><div class="s">Everything you've kept</div>
         </div>
       </div>
@@ -1331,6 +1331,7 @@ var _ignorePrefs = false;
 var _prefsExcluded = false;
 var _rerunSearch = null;
 var _pendingLogRecipe = null;
+var _singleRecipeMode = false;
 
 function chatFetch(obj, _isRetry){
   var ctx = getUserContext();
@@ -1494,6 +1495,13 @@ function setMeal(key){
   document.querySelectorAll('.meal-tab').forEach(function(t){t.classList.remove('active');});
   var tab=document.querySelector('.meal-tab[data-meal="'+key+'"]');
   if(tab){tab.classList.add('active');tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+  var greetMap={breakfast:'Good morning',brunch:'Good morning',lunch:'Good afternoon',snack:'Good afternoon',dinner:'Good evening',latenight:'Good night',latenight2:'Good night'};
+  var nameEl=document.getElementById('hs-greeting');
+  if(nameEl){
+    var greet=greetMap[key]||'Hello';
+    var firstName=_userProfile&&_userProfile.full_name?_userProfile.full_name.split(' ')[0]:(_userProfile&&_userProfile.first_name?_userProfile.first_name:'');
+    nameEl.textContent=greet+(firstName?', '+firstName+'!':'!');
+  }
 }
 
 function homeInit(){
@@ -1592,7 +1600,7 @@ function showMealPrepScreen(){
   showPlan('family',document.getElementById('pt-fam'));
 }
 
-function showSavedScreen(){
+function showSavedScreen(filterSaved){
   _setBackBtn(true);
   _setMealBar(false);
   var hs=document.getElementById('home-screen');
@@ -1602,7 +1610,7 @@ function showSavedScreen(){
   });
   var pg=document.getElementById('pg-bkm');
   if(pg) pg.className='page on';
-  renderBookmarks();
+  renderBookmarks(filterSaved);
 }
 
 function heroTap(){
@@ -1890,7 +1898,7 @@ function showFullCard(r,container){
 
   // Header
   var hdr=document.createElement('div');
-  hdr.style.cssText='background:linear-gradient(135deg,'+(isDrink?'#A855F7,#7C3AED':'#FF6B35,#FF8C42')+';padding:16px 18px;border-radius:18px 18px 0 0';
+  hdr.style.cssText='background:linear-gradient(135deg,'+(isDrink?'#A855F7,#7C3AED':'#FF6B35,#FF8C42')+');padding:16px 18px;border-radius:18px 18px 0 0';
   hdr.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;margin-bottom:4px">'+_meal+(_drinkType?' \u00b7 '+_drinkType:(_cuisine?' \u00b7 '+_cuisine:''))+(_drinkBase?' \u00b7 '+_drinkBase:(_time?' \u00b7 '+_time:''))+'</div>'
     +'<div style="font-size:20px;font-weight:800;color:#FFF;font-family:Georgia,serif;margin-bottom:4px">'+name+'</div>'
     +'<div style="font-size:13px;color:rgba(255,255,255,.9)">'+desc+'</div>';
@@ -2356,7 +2364,7 @@ function checkUpcomingReminders(){
   _alarmsBoot=true; // first pass complete; all future calls may ring
 }
 
-function renderBookmarks(){
+function renderBookmarks(filterSaved){
   var list=document.getElementById('bkm-list');
   if(!list) return;
   while(list.firstChild)list.removeChild(list.firstChild);
@@ -2415,7 +2423,17 @@ function renderBookmarks(){
     return;
   }
 
-  _userConversations.forEach(function(convo){
+  var convosToShow=filterSaved
+    ? _userConversations.filter(function(c){return Array.isArray(c.saved_recipes)&&c.saved_recipes.length>0;})
+    : _userConversations;
+  if(filterSaved&&!convosToShow.length){
+    var noSaved=document.createElement('div');
+    noSaved.style.cssText='text-align:center;padding:50px 20px;font-size:13px;color:#C4956A;line-height:1.8';
+    noSaved.innerHTML='<div style="font-size:48px;margin-bottom:12px">📌</div><div style="font-weight:700;font-size:16px;color:#2D1810;margin-bottom:8px">No saved recipes yet</div>Cook something and tap <b>Save Recipe</b> to keep it here.';
+    list.appendChild(noSaved);
+    return;
+  }
+  convosToShow.forEach(function(convo){
     var icon=convo.type==='recipe'?'🍳':(convo.type==='drink'?'🍹':(convo.type==='chef_version'?'👨‍🍳':'💬'));
     var text=convo.question.length>42?convo.question.substring(0,42)+'…':convo.question;
     var date=new Date(convo.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
@@ -3004,16 +3022,14 @@ function showDDResult(wrap, d, g, num, alreadyPlayed){
 
   var savBar=document.createElement('div');
   savBar.style.cssText='background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:18px;padding:16px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center';
-  savBar.innerHTML='<div><div style="font-size:13px;color:rgba(255,255,255,.85);font-weight:700">Make this tonight, pocket</div><div style="font-size:11px;color:rgba(255,255,255,.6)">vs ordering from '+d.restaurant+'</div></div><div style="font-size:34px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+sav+'</div>';
+  savBar.innerHTML='<div><div style="font-size:13px;color:rgba(255,255,255,.85);font-weight:700">Save by making this at home tonight</div><div style="font-size:11px;color:rgba(255,255,255,.6)">vs ordering from '+d.restaurant+'</div></div><div style="font-size:34px;font-weight:900;color:#FFF;letter-spacing:-1px">$'+sav+'</div>';
   wrap.appendChild(savBar);
 
   var recipeBtn=document.createElement('button');
   recipeBtn.style.cssText='display:block;width:100%;background:linear-gradient(135deg,#FF4500,#FF6B35);color:#FFF;border:none;border-radius:16px;padding:15px;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:10px';
   recipeBtn.innerHTML='👨‍🍳 Get the Full Recipe &#x2192;';
   recipeBtn.onclick=function(){
-    var inp=document.getElementById('copycat-input');
-    if(inp)inp.value=d.name+' like '+d.restaurant;
-    submitCopycat();
+    getDailyFullRecipe(d.name, d.restaurant);
   };
   wrap.appendChild(recipeBtn);
 
@@ -3138,6 +3154,39 @@ function startCopycat(){
   progress(1);
 }
 
+function getDailyFullRecipe(dish, restaurant){
+  if(checkLimit()) return;
+  showChatScreen('results');
+  progress(4);
+  var content=document.getElementById('results-content');
+  while(content.firstChild) content.removeChild(content.firstChild);
+  var loading=document.createElement('div');
+  loading.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:16px;padding:24px;text-align:center;margin-bottom:12px';
+  loading.innerHTML='<div style="font-size:28px;margin-bottom:8px">👨‍🍳</div><div style="font-size:15px;font-weight:700;color:#2D1810;margin-bottom:6px">Getting the full recipe…</div><div style="font-size:13px;color:#9B7B6E">Based on today\'s daily dish</div>';
+  content.appendChild(loading);
+  goTop();
+  var msg='Give me a single detailed copycat recipe for "'+dish+' from '+restaurant+'". Return exactly ONE recipe as a JSON object with fields: name, description, homeCost (number), restaurantCost (number), prepTime, ingredients (array of {name,quantity,cost}), steps (array of strings), tip.';
+  chatFetch({messages:[{role:'user',content:msg}]}).then(function(r){return r.json();}).then(function(data){
+    loading.remove();
+    saveConversation(dish, data.text||'', 'chef_version');
+    if(data.error){showError(content,'Having trouble. Try again.');return;}
+    try{
+      var raw=data.text.replace(/```json/g,'').replace(/```/g,'').trim();
+      var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+      var parsed=JSON.parse(s>=0?raw.substring(s,e+1):raw);
+      var recipe=parsed.recipes?parsed.recipes[0]:(parsed.recipe||parsed);
+      _lastRecipes=[recipe];
+      showFullCard(recipe, content);
+    }catch(err){
+      var rm=document.createElement('div');
+      rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:18px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';
+      rm.textContent=(data.text||'').replace(/\*\*/g,'').replace(/\*/g,'');
+      content.appendChild(rm);
+    }
+    goTop();
+  }).catch(function(){loading.remove();showError(content,'Connection error. Please try again.');});
+}
+
 function submitCopycat(){
   var inp = document.getElementById('copycat-input');
   var dish = inp ? inp.value.trim() : '';
@@ -3172,7 +3221,9 @@ function submitCopycat(){
       if(parsed.message){var mm=document.createElement('div');mm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:14px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6';mm.textContent=parsed.message;content.appendChild(mm);}
       var recipes=parsed.recipes||[];
       if(parsed.recipe) recipes=[parsed.recipe];
-      if(recipes.length>0) showRecipeOptions(recipes,content);
+      var single=_singleRecipeMode;
+      _singleRecipeMode=false;
+      if(recipes.length>0) showRecipeOptions(single?[recipes[0]]:recipes,content);
     }catch(err){
       var rm=document.createElement('div');rm.style.cssText='background:#FFF;border:1.5px solid #FFE0CC;border-radius:4px 18px 18px 18px;padding:14px;margin-bottom:12px;font-size:14px;color:#2D1810;line-height:1.6;white-space:pre-wrap';rm.textContent=(data.text||'').replace(/\*\*/g,'').replace(/\*/g,'');content.appendChild(rm);
     }
